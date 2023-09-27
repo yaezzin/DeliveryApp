@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,8 +25,12 @@ SECRET_KEY = "django-insecure-@^8df#mphsu!lk$%g0%tnefxo!4k*5n)7xa%pl4iciw_6-1wiu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "*",
+    "127.0.0.1",
+    '0.0.0.0',
+    "localhost",
+]
 
 # Application definition
 
@@ -37,6 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+INSTALLED_APPS += [
+    "delivery",
 ]
 
 MIDDLEWARE = [
@@ -75,8 +83,11 @@ WSGI_APPLICATION = "delivery_app.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "postgres"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
+        "HOST": os.getenv("DB_HOST", "db"),
     }
 }
 
@@ -121,3 +132,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+NCP_ACCESS_KEY = os.getenv("NCP_ACCESS_KEY", "")
+NCP_SECRET_KEY = os.getenv("NCP_SECRET_KEY", "")
