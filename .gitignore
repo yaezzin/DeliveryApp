@@ -350,6 +350,7 @@ cython_debug/
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.lock.hcl
 
 # Crash log files
 crash.log
