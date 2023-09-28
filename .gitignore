@@ -342,6 +342,7 @@ cython_debug/
 ### Helm ###
 # Chart dependencies
 **/charts/*.tgz
+*-secret.yaml
 
 ### Terraform ###
 # Local .terraform directories
