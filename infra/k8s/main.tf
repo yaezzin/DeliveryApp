@@ -27,7 +27,7 @@ resource "ncloud_vpc" "vpc" {
 resource "ncloud_subnet" "subnet" {
   vpc_no         = ncloud_vpc.vpc.id
   subnet         = cidrsubnet(ncloud_vpc.vpc.ipv4_cidr_block, 8, 2)
-  zone           = "KR-2"
+  zone           = "KR-1"
   network_acl_no = ncloud_vpc.vpc.default_network_acl_no
   subnet_type    = "PUBLIC" // PUBLIC(Public) | PRIVATE(Private)
   name           = "subnet-${local.name}"
@@ -37,7 +37,7 @@ resource "ncloud_subnet" "subnet" {
 resource "ncloud_subnet" "subnet_lb" {
   vpc_no         = ncloud_vpc.vpc.id
   subnet         = cidrsubnet(ncloud_vpc.vpc.ipv4_cidr_block, 8, 3)
-  zone           = "KR-2"
+  zone           = "KR-1"
   network_acl_no = ncloud_vpc.vpc.default_network_acl_no
   subnet_type    = "PRIVATE" // PUBLIC(Public) | PRIVATE(Private)
   name           = "subnet-lb-${local.name}"
@@ -67,7 +67,7 @@ resource "ncloud_nks_cluster" "cluster" {
   subnet_no_list       = [ncloud_subnet.subnet.id]
   public_network       = true
   vpc_no               = ncloud_vpc.vpc.id
-  zone                 = "KR-2"
+  zone                 = "KR-1"
   log {
     audit = true
   }
