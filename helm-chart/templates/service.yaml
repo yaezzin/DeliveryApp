@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "sns.fullname" . }}
+  name: {{ include "del.fullname" . }}
   labels:
-    {{- include "sns.labels" . | nindent 4 }}
+    {{- include "del.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "sns.selectorLabels" . | nindent 4 }}
+    {{- include "del.selectorLabels" . | nindent 4 }}
