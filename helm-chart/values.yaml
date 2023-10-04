@@ -1,5 +1,5 @@
 image:
-  repository: likelion-cr-mh.kr.ncr.ntruss.com/del-app
+  repository: delivery.kr.ncr.ntruss.com/del-app
   pullPolicy: Always
   tag: ""
 

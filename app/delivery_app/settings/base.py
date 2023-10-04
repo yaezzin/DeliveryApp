@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "*",
     "127.0.0.1",
-    '0.0.0.0',
+    "0.0.0.0",
     "localhost",
 ]
 
@@ -41,15 +41,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
 ]
 
 INSTALLED_APPS += [
     "delivery",
-    "customer.apps.CustomerConfig", 
+    "customer.apps.CustomerConfig",
 ]
 
 MIDDLEWARE = [
+    "common.middleware.HealthcheckMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
