@@ -5,7 +5,6 @@ image:
 
 imagePullSecrets:
   - name: ncpsecret
-
 nameOverride: ""
 fullnameOverride: ""
 

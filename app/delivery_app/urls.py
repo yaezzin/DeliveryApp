@@ -27,5 +27,5 @@ urlpatterns = [
     path("sajjang/", SajjangView.as_view(), name='sajjang'), 
     path("delivery_crew/", DeliveryCrewView.as_view(), name='deliverycrew'), 
     path('logout/', LogoutView.as_view(), name='logout'),
-    
+    path("", include('django_prometheus.urls')),
 ]
