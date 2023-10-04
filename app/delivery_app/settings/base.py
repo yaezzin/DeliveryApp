@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "*",
     "127.0.0.1",
-    '0.0.0.0',
+    "0.0.0.0",
     "localhost",
 ]
 
@@ -41,15 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
 ]
 
 INSTALLED_APPS += [
     "account",
-    
 ]
 
 MIDDLEWARE = [
+    "common.middleware.HealthcheckMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -139,4 +138,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 NCP_ACCESS_KEY = os.getenv("NCP_ACCESS_KEY", "")
 NCP_SECRET_KEY = os.getenv("NCP_SECRET_KEY", "")
 
+
 LOGOUT_REDIRECT_URL = '/'
+
