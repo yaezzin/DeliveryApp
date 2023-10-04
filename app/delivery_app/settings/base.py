@@ -44,8 +44,7 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    "delivery",
-    "customer.apps.CustomerConfig",
+    "account",
 ]
 
 MIDDLEWARE = [
@@ -129,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "/var/www/html/static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -137,3 +137,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 NCP_ACCESS_KEY = os.getenv("NCP_ACCESS_KEY", "")
 NCP_SECRET_KEY = os.getenv("NCP_SECRET_KEY", "")
+
+
+LOGOUT_REDIRECT_URL = '/'
+
