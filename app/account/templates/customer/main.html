@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>고객 페이지 입니다.</h1>
+<form action="{% url 'logout' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="signout">
+</form>
+{% endblock content %}
