@@ -27,6 +27,7 @@ services:
       - postgres_db:/var/lib/postgresql/data
 
   prom:
+    container_name: del-prome
     image: prom/prometheus
     ports:
       - "9090:9090"
@@ -37,6 +38,7 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
 
   grafana:
+    container_name: del-grafana
     image: grafana/grafana-oss
     ports:
       - 3000:3000

@@ -125,7 +125,6 @@ class SajjangAddMenuView(TemplateView):
                 unit_price=unit_price,
                 menu_pic=menu_pic,
                 is_available=is_available,
-                store_id=store_id,
             )
             new_menu.save()
             return redirect("sajjang_store_menu", store_id=store_id)
