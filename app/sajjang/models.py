@@ -11,7 +11,7 @@ class Category(models.Model):
 
 class Order(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="user_id")
-    # stores_id = models.ForeignKey(Stores, on_delete=models.CASCADE, verbose_name='stores_id')
+    stores_id = models.ForeignKey(Stores, on_delete=models.CASCADE, verbose_name='stores_id')
     address_id = models.ForeignKey(
         Address, on_delete=models.CASCADE, verbose_name="address_id"
     )
@@ -35,7 +35,7 @@ class Menus(models.Model):
     is_available = models.BooleanField()
 
 
-class Store(models.Model):
+class Stores(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
     address = models.CharField(max_length=128)
