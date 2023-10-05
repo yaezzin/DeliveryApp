@@ -46,6 +46,10 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     "account",
+    "sajang", 
+    "delivery_crew", 
+
+
 ]
 
 MIDDLEWARE = [
