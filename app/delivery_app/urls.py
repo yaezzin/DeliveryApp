@@ -17,16 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LogoutView
-from account.views import SigninView, SignupView, CustomerView, SajjangView, DeliveryCrewView
+from account.views import (
+    SigninView,
+    SignupView,
+    CustomerView,
+    SajjangView,
+    DeliveryCrewView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", SigninView.as_view(), name='signin'), 
-    path("signup/", SignupView.as_view(), name='signup'), 
-    path("customer/", CustomerView.as_view(), name='customer'), 
-    path("sajjang/", SajjangView.as_view(), name='sajjang'), 
-    path("delivery_crew/", DeliveryCrewView.as_view(), name='deliverycrew'), 
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path("", include('django_prometheus.urls')),
-
+    path("", SigninView.as_view(), name="signin"),
+    path("signup/", SignupView.as_view(), name="signup"),
+    path("customer/", CustomerView.as_view(), name="customer"),
+    path("sajjang/", include("sajjang.urls"), name="sajjang"),
+    path("delivery_crew/", DeliveryCrewView.as_view(), name="deliverycrew"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("", include("django_prometheus.urls")),
 ]

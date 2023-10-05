@@ -19,6 +19,9 @@ class Order(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     paid_status = models.BooleanField(default=False, verbose_name="paid_status")
     delivery_status = models.BooleanField(default=False, verbose_name="delivery_status")
+    is_sajjang_accepted = models.BooleanField(
+        default=False, verbose_name="is_sajjang_accepted"
+    )
     receipt = models.CharField(max_length=100, verbose_name="receipt")
 
 
