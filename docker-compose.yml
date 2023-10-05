@@ -35,6 +35,14 @@ services:
     command:
       - "--web.console.templates=/etc/prometheus/consoles/"
       - "--config.file=/etc/prometheus/prometheus.yml"
+  
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=lion
+      - GF_SECURITY_ADMIN_PASSWORD=tiger1234
 
 volumes:
   postgres_db:
