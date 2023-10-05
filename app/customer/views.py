@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+
 # Create your views here.
+
 
 class CustomerHomeView(TemplateView):
     def get(self, request):
@@ -9,12 +11,14 @@ class CustomerHomeView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerSearchCategoryView(TemplateView):
     def get(self, request, category_id):
         pass
 
     def post(self, request):
         pass
+
 
 class CustomerAddressView(TemplateView):
     def get(self, request):
@@ -23,6 +27,7 @@ class CustomerAddressView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerAddressAddView(TemplateView):
     def get(self, request):
         pass
@@ -30,9 +35,11 @@ class CustomerAddressAddView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerAddressDetailView(TemplateView):
     def get(self, request, address_id):
         pass
+
 
 class CustomerAddressEditView(TemplateView):
     def get(self, request, address_id):
@@ -41,9 +48,11 @@ class CustomerAddressEditView(TemplateView):
     def post(self, request, address_id):
         pass
 
+
 class CustomerAddressDeleteView(TemplateView):
     def post(self, request, address_id):
-        pass    
+        pass
+
 
 class CustomerCartView(TemplateView):
     def get(self, request):
@@ -52,6 +61,7 @@ class CustomerCartView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerOrderView(TemplateView):
     def get(self, request):
         pass
@@ -59,17 +69,19 @@ class CustomerOrderView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerOrderCreateView(TemplateView):
     def post(self, request, id):
         pass
 
-    
+
 class CustomerStoreView(TemplateView):
     def get(self, request):
         pass
 
     def post(self, request):
         pass
+
 
 class CustomerStoreDetailView(TemplateView):
     def get(self, request, stores_id):
@@ -88,12 +100,14 @@ class CustomerMenuDetailView(TemplateView):
     def post(self, request, stores_id, menus_id):
         pass
 
+
 class CustomerCategoryView(TemplateView):
     def get(self, request):
         pass
 
     def post(self, request):
         pass
+
 
 class CustomerCategoryDetailView(TemplateView):
     def get(self, request, category_id):
@@ -115,10 +129,10 @@ class CustomerPaymentView(TemplateView):
     def post(self, request):
         pass
 
+
 class CustomerPayCompletedView(TemplateView):
     def get(self, request):
         pass
 
     def post(self, request):
         pass
-

@@ -23,15 +23,17 @@
 - [x] Env Set Up (inc. Coding Convention & git alignment)
 - [x] Init Docker, Docker compose
 - [ ] 1st Draft User Fucntion
-- [ ] 1st Draft Store Function
+- [ ] 1st Draft Customer Fucntion
+- [ ] 1st Draft Sajjang Function
+- [ ] 1st Draft Delivery_crew Function
 - [ ] 1st Draft Cart Funcition
 - [ ] 1st DraftPayment Function
 - [x] Init CI, CD
 - [x] Init Helm Chart
 - [x] Init IaC (Terraform) nKs
-- [ ] Init argoCD auto Sync
-- [ ] Init Prometheus
-- [ ] Init Grafana
+- [x] Init argoCD auto Sync
+- [x] Init Prometheus
+- [x] Init Grafana
 
 # Discussion
 

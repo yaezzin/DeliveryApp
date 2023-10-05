@@ -14,7 +14,7 @@ services:
       - ./.envs/local/.db
     ports:
       - "8002:8000"
-  
+
   db:
     container_name: del-db-test
     image: postgres:15
