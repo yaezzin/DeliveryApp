@@ -6,7 +6,4 @@ import account.views as account
 
 app_name = "account"
 
-urlpatterns = [
-
-]
-
+urlpatterns = []
