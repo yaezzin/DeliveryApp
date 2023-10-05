@@ -29,9 +29,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", SigninView.as_view(), name="signin"),
     path("signup/", SignupView.as_view(), name="signup"),
-    path("customer/", CustomerView.as_view(), name="customer"),
+    path("customer/", include("customer.urls"), name="customer"),
     path("sajjang/", include("sajjang.urls"), name="sajjang"),
-    path("delivery_crew/", DeliveryCrewView.as_view(), name="deliverycrew"),
+    path("delivery_crew/", include("delivery_crew.urls"), name="delivery_crew"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("", include("django_prometheus.urls")),
 ]
