@@ -12,7 +12,7 @@ from decimal import Decimal
 
 
 class CustomerHomeView(TemplateView):
-    template_name = "home.html"
+    template_name = "/app/customer/templates/home.html"
 
     def get(self, request):
         category_query = request.GET.get("category", None)
@@ -31,7 +31,7 @@ class CustomerHomeView(TemplateView):
 
 # 미완성
 class CustomerSearchCategoryView(TemplateView):
-    template_name = "category/category.html"
+    template_name = "/app/customer/templates/category/category.html"
 
     def get(self, request, category_id):
         category = Category.objects.get(id=category_id)
@@ -39,7 +39,7 @@ class CustomerSearchCategoryView(TemplateView):
 
 
 class CustomerAddressView(TemplateView):
-    template_name = "address/search.html"
+    template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
         addresses = Address.objects.all()
@@ -48,7 +48,7 @@ class CustomerAddressView(TemplateView):
 
 
 class CustomerAddressAddView(TemplateView):
-    template_name = "address/add.html"
+    template_name = "/app/customer/templates/address/add.html"
 
     def get(self, request, category_id):
         addresses = Address.objects.all()
@@ -73,7 +73,7 @@ class CustomerAddressAddView(TemplateView):
 
 
 class CustomerAddressDetailView(TemplateView):
-    template_name = "address/detail.html"
+    template_name = "/app/customer/templates/address/detail.html"
 
     def get(self, request, address_id):
         address = get_object_or_404(Address, id=address_id)
@@ -82,7 +82,7 @@ class CustomerAddressDetailView(TemplateView):
 
 
 class CustomerAddressEditView(TemplateView):
-    template_name = "address/edit.html"
+    template_name = "/app/customer/templates/address/edit.html"
 
     def get(self, request, address_id):
         address = get_object_or_404(Address, id=address_id)
@@ -131,15 +131,16 @@ class CustomerOrderCreateView(TemplateView):
 
 # /customer/store/
 class CustomerStoreView(TemplateView):
-    def get(self, request):
-        pass
+    template_name = '/app/customer/templates/store/search.html'
 
-    def post(self, request):
-        pass
+    def get(self, request):
+        stores = Stores.objects.filter(status=True)
+        context = {"stores" : stores}
+        return render(request, self.template_name, context)
 
 # /customer/store/<int:store_id>
 class CustomerStoreDetailView(TemplateView):
-    template_name = 'store/detail.html'
+    template_name = '/app/customer/templates/store/detail.html'
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
@@ -148,7 +149,7 @@ class CustomerStoreDetailView(TemplateView):
 
 # /customer/store/<int:store_id>/menu/
 class CustomerStoreMenuView(TemplateView):
-    template_name = 'store/menu/list.html'
+    template_name = '/app/customer/templates/store/menu/list.html'
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
@@ -158,7 +159,7 @@ class CustomerStoreMenuView(TemplateView):
 
 # /customer/store/<int:stores_id>/menu/{menus_id}
 class CustomerMenuDetailView(TemplateView):
-    template_name = 'store/menu/detail.html'
+    template_name = '/app/customer/templates/store/menu/detail.html'
 
     def get(self, request, store_id, menu_id):
         menu = get_object_or_404(Menus, id=menu_id)
@@ -189,7 +190,7 @@ class CustomerMenuDetailView(TemplateView):
 
 # customer/category/
 class CustomerCategoryView(TemplateView):
-    template_name = "category/category.html"
+    template_name = "/app/customer/templates/category/category.html"
     
     def get(self, request):
         categories = Category.objects.all()
@@ -198,7 +199,7 @@ class CustomerCategoryView(TemplateView):
 
 # customer/category/<int:category_id>
 class CustomerCategoryDetailView(TemplateView):
-    template_name = "category/category.html"
+    template_name = "/app/customer/templates/category/category.html"
     
     def get(self, request, category_id):
         category = Category.objects.filter(id=category_id)
