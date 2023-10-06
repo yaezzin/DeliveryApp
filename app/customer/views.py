@@ -110,8 +110,12 @@ class CustomerMenuDetailView(TemplateView):
 
 
 class CustomerCategoryView(TemplateView):
+    template_name = "category/category.html"
+    
     def get(self, request):
-        pass
+        categories = Category.objects.all()
+        context = {"categories": categories}
+        return render(request, self.template_name, context)
 
     def post(self, request):
         pass
