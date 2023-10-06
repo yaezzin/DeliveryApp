@@ -128,11 +128,12 @@ class CustomerOrderCreateView(TemplateView):
 
 # /customer/store/
 class CustomerStoreView(TemplateView):
-    def get(self, request):
-        pass
+    template_name = 'store/search.html'
 
-    def post(self, request):
-        pass
+    def get(self, request):
+        stores = Stores.objects.filter(status=True)
+        context = {"stores" : stores}
+        return render(request, self.template_name, context)
 
 # /customer/store/<int:store_id>
 class CustomerStoreDetailView(TemplateView):
