@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+{% block content %}
+
+    <a href="{% url 'delivery_crew:accept' delivery_id=delivery.id %}">배달 수락</a>
+    {% for order in orders %}
+        <h3>주문번호: {{ order.id }}</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" value="배달 수락">
+        </form>
+    {% endfor %}
+
+    <h2>알람 - 미처리된 배달</h2>
+    <ul id="alert-list">
+        
+    </ul>
+
+  <script>
+    function loadAlerts() {
+      $.ajax({
+        url: "{% url 'delivery_crew:alarm' user_id=user.pk %}",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          $("#alert-list").html(data.html);
+        },
+        error: function () {
+          console.log("알람을 불러오는 중 오류가 발생했습니다.");
+        },
+      });
+    }
+
+    $(document).ready(function () {
+      loadAlerts();
+      setInterval(loadAlerts, 300000);
+    });
+  </script>
+
+{% endblock content %}
+</body>
+</html>
