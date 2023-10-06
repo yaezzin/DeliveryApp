@@ -199,6 +199,8 @@ class CustomerCategoryDetailView(TemplateView):
     
     def get(self, request, category_id):
         category = Category.objects.filter(id=category_id)
+        stores = Stores.objects.filter(category_id=category_id)
+        context = {"category": category, "stores": stores}
         return render(request, self.template_name, context)
 
 
