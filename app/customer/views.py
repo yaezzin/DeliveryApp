@@ -1,6 +1,8 @@
 from multiprocessing import context
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
+from django.http import JsonResponse
+from .models import Cart
 from sajjang.models import Category, Stores, Menus
 # Create your views here.
 
@@ -97,8 +99,7 @@ class CustomerStoreDetailView(TemplateView):
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
-        context = {"store": store}
-        
+        context = {"store": store}      
         return render(request, self.template_name, context)
 
 # /customer/store/<int:store_id>/menu/
@@ -113,10 +114,14 @@ class CustomerStoreMenuView(TemplateView):
 
 # /customer/store/<int:stores_id>/menu/{menus_id}
 class CustomerMenuDetailView(TemplateView):
-    def get(self, request, stores_id, menus_id):
-        pass
+    template_name = 'store/menu/detail.html'
 
-    def post(self, request, stores_id, menus_id):
+    def get(self, request, store_id, menu_id):
+        menu = get_object_or_404(Menus, id=menu_id)
+        context = {"menu": menu}
+        return render(request, self.template_name, context)
+
+    def post(self, request, store_id, menu_id):
         pass
 
 # customer/category/
