@@ -91,20 +91,25 @@ class CustomerStoreView(TemplateView):
     def post(self, request):
         pass
 
-# /customer/store/<int:stores_id>
+# /customer/store/<int:store_id>
 class CustomerStoreDetailView(TemplateView):
     template_name = 'store/detail.html'
 
-    def get(self, request, stores_id):
-        store = get_object_or_404(Stores, id=stores_id)
+    def get(self, request, store_id):
+        store = get_object_or_404(Stores, id=store_id)
         context = {"store": store}
         
         return render(request, self.template_name, context)
 
-# /customer/store/<int:stores_id>/menu/
+# /customer/store/<int:store_id>/menu/
 class CustomerStoreMenuView(TemplateView):
-    def get(self, request, stores_id):
-        pass
+    template_name = 'store/menu/list.html'
+
+    def get(self, request, store_id):
+        store = get_object_or_404(Stores, id=store_id)
+        menus = Menus.objects.filter(store_id=store_id)
+        context = {"store": store, "menus": menus}
+        return render(request, self.template_name, context)
 
 # /customer/store/<int:stores_id>/menu/{menus_id}
 class CustomerMenuDetailView(TemplateView):
