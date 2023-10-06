@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     "account",
+    "customer", 
     "sajjang", 
     "delivery_crew", 
 

@@ -1,12 +1,20 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
+from sajjang.models import Category, Stores
 # Create your views here.
 
 
 class CustomerHomeView(TemplateView):
     def get(self, request):
-        pass
+        category_query = request.GET.get('category', None)
+        categories = Category.objects.all()
+        if category_query:
+            stores = Stores.objects.filter(category_id=category_query)
+        else:
+            stores = Stores.objects.all()
+    
+        return render(request, template_name='home.html', context={'categories':categories, 
+                                                                    'stores':stores})
 
     def post(self, request):
         pass
