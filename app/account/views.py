@@ -33,7 +33,7 @@ class SigninView(TemplateView):
                 login(request, user)
                 users_group = Group.objects.get(user=user).name
                 print(users_group)
-                return redirect(f'/{users_group}')
+                return redirect(f'/{users_group}/home')
 
         return redirect('/')
 
