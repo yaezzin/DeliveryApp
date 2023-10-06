@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart
@@ -199,7 +199,8 @@ class CustomerCategoryDetailView(TemplateView):
     
     def get(self, request, category_id):
         category = Category.objects.filter(id=category_id)
-        context = {"category": category}
+        stores = Stores.objects.filter(category_id=category_id)
+        context = {"category": category, "stores": stores}
         return render(request, self.template_name, context)
 
 
