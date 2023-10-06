@@ -83,7 +83,7 @@ class CustomerOrderCreateView(TemplateView):
     def post(self, request, id):
         pass
 
-
+# /customer/store/
 class CustomerStoreView(TemplateView):
     def get(self, request):
         pass
@@ -91,17 +91,17 @@ class CustomerStoreView(TemplateView):
     def post(self, request):
         pass
 
-
+# /customer/store/<int:stores_id>
 class CustomerStoreDetailView(TemplateView):
     def get(self, request, stores_id):
         pass
 
-
+# /customer/store/<int:stores_id>/menu/
 class CustomerStoreMenuView(TemplateView):
     def get(self, request, stores_id):
         pass
 
-
+# /customer/store/<int:stores_id>/menu/{menus_id}
 class CustomerMenuDetailView(TemplateView):
     def get(self, request, stores_id, menus_id):
         pass
