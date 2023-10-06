@@ -122,7 +122,26 @@ class CustomerMenuDetailView(TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
-        pass
+        try:
+            quantity = request.POST.get('quantity')
+            unit_price = request.POST.get('unit_price')
+            
+            store = get_object_or_404(Stores, id=store_id)
+            menu = get_object_or_404(Menus, id=menu_id)
+
+            cart_item = Cart(
+                user_id=request.user.pk,
+                stores_id=store,
+                menus_id=menu,
+                order_id=None,
+                quantity=quantity,
+                unit_price=unit_price
+            )
+            cart_item.save()
+            return redirect("store_menu", store_id=store_id)
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
 
 # customer/category/
 class CustomerCategoryView(TemplateView):
