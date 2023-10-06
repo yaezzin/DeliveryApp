@@ -2,9 +2,12 @@ from django.contrib.auth.models import User
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart
-from sajjang.models import Category, Stores, Menus, Address
+from sajjang.models import Category, Stores, Menus, Address, Order
 from django.views.generic import TemplateView
 from django.http import JsonResponse
+import stripe, os
+from decimal import Decimal
+
 # Create your views here.
 
 
@@ -216,6 +219,68 @@ class CustomerPaymentView(TemplateView):
     def post(self, request):
         pass
 
+
+class CustomerCategoryDetailView(TemplateView):
+    def get(self, request, category_id):
+        pass
+
+    def post(self, request, category_id):
+        pass
+
+
+class CustomerOrderDetailView(TemplateView):
+    def get(self, request, order_id):
+        template_name = 'orders/detail.html'
+        context = {}
+        order = Order.objects.filter(id=order_id)
+        context['order'] = order
+        context['order_id'] = order_id
+
+        return render(request, template_name=template_name, context=context)
+
+
+class CustomerPaymentView(TemplateView):
+    
+    def get(self, request, order_id):
+        template_name = 'payment/process.html'
+        context = {}
+        context['order'] = Order.objects.filter(id=order_id)
+        return render(request, template_name=template_name, context=context)
+
+    def post(self, request, order_id):
+        STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "publishable_key")
+        STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")        
+        STRIPE_API_VERSION = os.getenv("STRIPE_API_VERSION", 'api_version')
+
+
+        stripe.api_key = STRIPE_SECRET_KEY
+        stripe.api_version = STRIPE_API_VERSION
+
+        success_url = request.build_absolute_uri('/customer/pay_complete')
+        cancel_url = request.build_absolute_uri('/customer/pay_cancle')
+
+        session_data = {
+            'mode': 'payment',
+            'client_reference_id': 1,
+            'success_url': success_url,
+            'cancel_url': cancel_url,
+            'line_items': []
+        }
+
+        
+        session_data['line_items'].append({
+            'price_data': {
+                'unit_amount': int(15 * Decimal(100)),
+                'currency': 'usd',
+                'product_data': {
+                    'name': '후라이드',
+                }
+            },
+            'quantity': 2,
+        })
+
+        checkout_session = stripe.checkout.Session.create(**session_data)
+        return redirect(checkout_session.url, code=303)
 
 class CustomerPayCompletedView(TemplateView):
     def get(self, request):
