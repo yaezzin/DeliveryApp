@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from sajjang.models import Category, Stores
@@ -108,7 +109,7 @@ class CustomerMenuDetailView(TemplateView):
     def post(self, request, stores_id, menus_id):
         pass
 
-
+# customer/category/
 class CustomerCategoryView(TemplateView):
     template_name = "category/category.html"
     
@@ -117,16 +118,14 @@ class CustomerCategoryView(TemplateView):
         context = {"categories": categories}
         return render(request, self.template_name, context)
 
-    def post(self, request):
-        pass
-
-
+# customer/category/<int:category_id>
 class CustomerCategoryDetailView(TemplateView):
+    template_name = "category/category.html"
+    
     def get(self, request, category_id):
-        pass
-
-    def post(self, request, category_id):
-        pass
+        category = Category.objects.filter(id=category_id)
+        context = {"category": category}
+        return render(request, self.template_name, context)
 
 
 class CustomerOrderDetailView(TemplateView):
