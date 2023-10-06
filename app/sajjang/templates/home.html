@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Sajjang Home{% endblock title %}
+{% block content %}
+<h1>Sajjang Home</h1>
+    <div>
+        <a href="#">{{ user.id }}</a>
+        <a href="#">Logout</a>
+    </div>
+    <div>
+        <a href="#">가게 등록</a>
+    </div>
+    <div>
+        <a href="#">주문 목록</a>
+    </div>
+    <div>
+        <!-- {% for store in stores %}
+        <tr>
+            <td>
+                <a href="{{ store.get_absolute_url }}">
+                    <img src="{% if store.image %}{{ store.image.url }}{% endif %}">
+                </a>
+                <td>{{ product.name }}</td>
+            </td>
+        </tr> -->
+    </div>
+{% endblock content %}
