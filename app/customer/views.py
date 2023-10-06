@@ -1,7 +1,7 @@
 from multiprocessing import context
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
-from sajjang.models import Category, Stores
+from sajjang.models import Category, Stores, Menus
 # Create your views here.
 
 
@@ -93,8 +93,13 @@ class CustomerStoreView(TemplateView):
 
 # /customer/store/<int:stores_id>
 class CustomerStoreDetailView(TemplateView):
+    template_name = 'store/detail.html'
+
     def get(self, request, stores_id):
-        pass
+        store = get_object_or_404(Stores, id=stores_id)
+        context = {"store": store}
+        
+        return render(request, self.template_name, context)
 
 # /customer/store/<int:stores_id>/menu/
 class CustomerStoreMenuView(TemplateView):
