@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <div><a href="{% url 'customer_home' %}"><</a></div>
+    <p>My Address</p>
+</div>
+
+<div>
+    {% for address in addresse %}
+    <div>
+        <p>{{ address_name }}</p>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
