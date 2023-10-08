@@ -2,12 +2,12 @@
 
 {% block content %}
 <div>
-    <div><a href="{% url 'customer_home' %}"><</a></div>
+    <div><a href="{% url 'customer_home' %}">customer home</a></div>
     <p>My Address</p>
 </div>
 
 <div>
-    {% for address in addresse %}
+    {% for address in addresses %}
     <div>
         <p>{{ address_name }}</p>
 
