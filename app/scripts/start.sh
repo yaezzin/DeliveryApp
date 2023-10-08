@@ -2,7 +2,7 @@
 
 echo start server
 
-python3 manage.py collectstatic --no-input
-python3 manage.py makemigrations
-python3 manage.py migrate
+python manage.py collectstatic --no-input
+python manage.py makemigrations
+python manage.py migrate
 gunicorn delivery_app.wsgi:application --config delivery_app/gunicorn_config.py
