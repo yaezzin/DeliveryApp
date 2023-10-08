@@ -46,11 +46,9 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     "account",
-    "customer", 
-    "sajjang", 
-    "delivery_crew", 
-
-
+    "customer",
+    "sajjang",
+    "delivery_crew",
 ]
 
 MIDDLEWARE = [
@@ -97,6 +95,7 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER", "postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
 
@@ -147,5 +146,4 @@ NCP_ACCESS_KEY = os.getenv("NCP_ACCESS_KEY", "")
 NCP_SECRET_KEY = os.getenv("NCP_SECRET_KEY", "")
 
 
-LOGOUT_REDIRECT_URL = '/'
-
+LOGOUT_REDIRECT_URL = "/"
