@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex flex-row justify-content-between">
+        <h3>Address Edit Page</h3>
+        <div>
+            <a href="{% url 'customer:customer_address_detail' address.id %}" class="btn btn-primary">Address Detail</a>
+        </div>
+    </div>
+    <form method="post" action="{% url 'customer:customer_address_add' %}" class="my-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="address_name">Address Name:</label>
+            <input class="form-control" type="text" name="address_name" id="address_name" value={{ address.address_name}}>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="address">Address:</label>
+            <input class="form-control" type="text" name="address" id="address" value={{ address.address }}>
+        </div>
+        <div class="mb-3">
+            <label class="form-check-label" for="is_default">Is Default:</label>
+            <input class="form-check-input" type="checkbox" name="is_default" id="is_default" {% if address.is_default %} checked{% endif %}>
+        </div>
+        <div class="d-grid justify-content-end">
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </div>
+    </form>
+{% endblock %}
