@@ -35,24 +35,26 @@
             </form>
         </div>
     </nav>
-    <div class="my-2">
-        <p class="mb-1">카테고리</p>
-        <ul class="border p-3 text-center">
-            {% for category in categories %}
-                <li>{{ category.name }}</li>
-            {% empty %}
-                <p class="mb-0">등록된 카테고리가 없습니다.</p>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="my-2">
-        <p class="mb-1">식당</p>
-        <ul class="border p-3 text-center">
-            {% for store in stores %}
-                <li>{{ store.name }}</li>
-            {% empty %}
-                <p class="mb-0">등록된 식당이 없습니다.</p>
-            {% endfor %}
-        </ul>
+    <div class="my-4">
+        <div>
+            <h5 class="mb-1">카테고리</h5>
+            <ul class="list-group text-center">
+                {% for category in categories %}
+                    <li class="list-group-item">{{ category.name }}</li>
+                {% empty %}
+                    <p class="mb-0">등록된 카테고리가 없습니다.</p>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="mt-4">
+            <h5 class="mb-1">식당</h5>
+            <ul class="list-group text-center">
+                {% for store in stores %}
+                    <li class="list-group-item">{{ store.name }}</li>
+                {% empty %}
+                    <p class="mb-0">등록된 식당이 없습니다.</p>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock content %}
