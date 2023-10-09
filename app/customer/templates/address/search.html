@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>
-    <div><a href="{% url 'customer_home' %}">customer home</a></div>
-    <p>My Address</p>
-</div>
-
-<div>
-    {% for address in addresses %}
-    <div>
-        <p>{{ address_name }}</p>
-
+    <div class="d-flex flex-row justify-content-between">
+        <h3>My Address</h3>
+        <div>
+            <a class="btn btn-primary" href="{% url 'customer:customer_address_add' %}">주소 추가하기</a>
+            <a class="btn btn-primary" href="{% url 'customer:customer_home' %}">홈으로</a>
+        </div>
     </div>
-    {% endfor %}
-</div>
+    <div>
+        {% for address in addresses %}
+            <ul class="list-group my-2">
+                <li class="list-group-item">{{ address.address_name }}</li>
+                <li class="list-group-item">{{ address.address}}</li>
+            </ul>
+        {% empty %}
+            <p>There is no addresses</p>
+        {% endfor %}
+    </div>
 {% endblock content %}
