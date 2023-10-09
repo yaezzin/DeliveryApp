@@ -21,3 +21,6 @@ class Cart(models.Model):
     )
     quantity = models.IntegerField()
     create_time = models.DateTimeField(auto_now_add=True)
+
+    def get_total_price(self):
+        return self.quantity * self.menu_id.unit_price
