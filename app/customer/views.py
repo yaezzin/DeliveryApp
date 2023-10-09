@@ -50,10 +50,10 @@ class CustomerAddressView(TemplateView):
 class CustomerAddressAddView(TemplateView):
     template_name = "/app/customer/templates/address/add.html"
 
-    def get(self, request, category_id):
-        addresses = Address.objects.all()
-        context = {"addresses": addresses}
-        return render(request, self.template_name, context)
+    # def get(self, request, category_id):
+    #     addresses = Address.objects.all()
+    #     context = {"addresses": addresses}
+    #     return render(request, self.template_name, context)
 
     def post(self, request):
         try:
