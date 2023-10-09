@@ -11,7 +11,7 @@ def is_sajjang(user):
 
 # /sajjang/home
 class SajjangHomeView(TemplateView):
-    template_name = "templates/home.html"
+    template_name = "/app/sajjang/templates/home.html"
 
     def get(self, request):
         stores = Stores.objects.filter(user_id=request.user)
@@ -21,7 +21,7 @@ class SajjangHomeView(TemplateView):
 
 # /sajjang/store/add
 class SajjangStoreAddView(TemplateView):
-    template_name = "template/stores/add.html"
+    template_name = "/app/sajjang/template/stores/add.html"
 
     def get(self, request):
         categories = Category.objects.all()
@@ -51,7 +51,7 @@ class SajjangStoreAddView(TemplateView):
 
 # sajjang/store/<int:store_id>
 class SajjangStoreDetailView(TemplateView):
-    template_name = "templates/stores/store/detail.html"
+    template_name = "/app/sajjang/templates/stores/store/detail.html"
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
@@ -69,7 +69,7 @@ class SajjangStoreDetailView(TemplateView):
 
 # sajjang/store/<int:store_id>/edit
 class SajjangStoreEditView(TemplateView):
-    template_name = "templates/stores/store/edit.html"
+    template_name = "/app/sajjang/templates/stores/store/edit.html"
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
@@ -93,7 +93,7 @@ class SajjangStoreEditView(TemplateView):
 
 # sajjang/store/<int:store_id>/menu
 class SajjangStoreMenuView(TemplateView):
-    template_name = "templates/stores/store/menu/list.html"
+    template_name = "/app/sajjang/templates/stores/store/menu/list.html"
 
     def get(self, request, store_id):
         menus = Menus.objects.filter(store_id=store_id)
@@ -103,7 +103,7 @@ class SajjangStoreMenuView(TemplateView):
 
 # sajjang/store/<int:store_id>/menu/add
 class SajjangAddMenuView(TemplateView):
-    template_name = "templates/stores/store/menu/add.html"
+    template_name = "/app/sajjang/templates/stores/store/menu/add.html"
 
     def get(self, request, store_id):
         categories = Category.objects.all()
@@ -134,7 +134,7 @@ class SajjangAddMenuView(TemplateView):
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>
 class SajjangStoreMenuDetailView(TemplateView):
-    template_name = "templates/stores/store/menu/detail.html"
+    template_name = "/app/sajjang/templates/stores/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
         menu = get_object_or_404(Menus, id=menu_id)
@@ -152,7 +152,7 @@ class SajjangStoreMenuDetailView(TemplateView):
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>/edit
 class SajjangEditMenuView(TemplateView):
-    template_name = "templates/stores/store/menu/edit.html"
+    template_name = "/app/sajjang/templates/stores/store/menu/edit.html"
 
     def get(self, request, store_id, menu_id):
         menu = get_object_or_404(Menus, id=menu_id)
@@ -178,7 +178,7 @@ class SajjangEditMenuView(TemplateView):
 
 # sajjang/store/<int:store_id>/order
 class SajjangOrdersView(TemplateView):
-    template_name = "templates/stores/orders/list.html"
+    template_name = "/app/sajjang/templates/stores/orders/list.html"
 
     def get(self, request, store_id):
         orders = Order.objects.filter(store_id=store_id)
@@ -188,7 +188,7 @@ class SajjangOrdersView(TemplateView):
 
 # sajjang/store/<int:store_id>/order/<int:order_id>
 class SajjangOrderDetailView(TemplateView):
-    template_name = "templates/stores/orders/detail.html"
+    template_name = "/app/sajjang/templates/stores/orders/detail.html"
 
     def get(self, request, store_id, order_id):
         order = get_object_or_404(Order, id=order_id)
@@ -198,7 +198,7 @@ class SajjangOrderDetailView(TemplateView):
 
 # sajjang/order/<int:order_id>/confirm
 class SajjangOrderConfirmView(TemplateView):
-    template_name = "templates/stores/orders/confirm.html"
+    template_name = "/app/sajjang/templates/stores/orders/confirm.html"
 
     def get(self, request, store_id, order_id):
         order = get_object_or_404(
