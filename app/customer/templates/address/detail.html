@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex flex-row justify-content-between">
+        <h3>Address Detail Page</h3>
+        <div>
+            <a href="{% url 'customer:customer_address' %}" class="btn btn-primary">Address</a>
+        </div>
+    </div>
+    <div>
+        <ul class="list-group my-4">
+            <li class="list-group-item">{{ address.address_name }}</li>
+            <li class="list-group-item">{{ address.address }}</li>
+        </ul>
+        <div class="d-grid gap-2 d-flex justify-content-end">
+            <a class="btn btn-primary" href="{% url 'customer:customer_address_edit' address.id %}">Edit</a>
+            <a class="btn btn-primary" href="{% url 'customer:customer_address_delete' address.id %}">Delete</a>
+        </div>
+    </div>
+{% endblock %}
