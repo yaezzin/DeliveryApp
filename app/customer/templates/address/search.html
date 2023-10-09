@@ -10,10 +10,12 @@
     </div>
     <div>
         {% for address in addresses %}
-            <ul class="list-group my-2">
-                <li class="list-group-item">{{ address.address_name }}</li>
-                <li class="list-group-item">{{ address.address}}</li>
-            </ul>
+            <div onclick="location.href='{% url 'customer:customer_address_detail' address.id %}'" style="cursor: pointer;">
+                <ul class="list-group my-2">
+                    <li class="list-group-item">{{ address.address_name }}</li>
+                    <li class="list-group-item">{{ address.address}}</li>
+                </ul>
+            </div>
         {% empty %}
             <p>There is no addresses</p>
         {% endfor %}
