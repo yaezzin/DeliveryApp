@@ -14,9 +14,9 @@ class DeliveryCrewHomeView(TemplateView):
     template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request):
-        orders = Order.objects.filter(is_sajjang_accepted=True).exclude(
-            crew_rejected_order=request.user.id
-        )
+        orders = Order.objects.filter(
+            is_sajjang_accepted=True, delivery_status=None
+        ).exclude(crew_rejected_order=request.user.id)
         context = {"orders": orders}
         return render(request, self.template_name, context)
 
