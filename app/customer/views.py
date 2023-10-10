@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 from django.contrib.auth.models import User
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
@@ -41,28 +42,31 @@ class CustomerAddressView(TemplateView):
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
-
+# customer/address/add
 class CustomerAddressAddView(TemplateView):
     template_name = "/app/customer/templates/address/add.html"
 
-    def get(self, request, category_id):
-        addresses = Address.objects.all()
+    def get(self, request):
+        addresses = Address.objects.filter(customer_id=request.user.pk)
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
     def post(self, request):
         try:
-            user_id = User.object.get(id=user_id)
+            user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            is_default = request.POST["is_default"]
+            is_default_str = request.POST["is_default"] 
+            is_default = bool(strtobool(is_default_str))
+
             new_address = Address(
+                customer_id=user,
                 address_name=address_name,
                 address=address,
                 is_default=is_default,
             )
             new_address.save()
-            return redirect("customer_address")
+            return redirect("customer:customer_address")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
