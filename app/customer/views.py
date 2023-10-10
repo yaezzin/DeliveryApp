@@ -32,12 +32,12 @@ class CustomerHomeView(TemplateView):
             context={"categories": categories, "stores": stores},
         )
 
-
+# customer/address/
 class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
-        addresses = Address.objects.all()
+        addresses = Address.objects.filter(customer_id=request.user.pk)
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
