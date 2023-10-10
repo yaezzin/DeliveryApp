@@ -225,16 +225,41 @@ class SajjangOrderConfirmView(TemplateView):
             Order,
             id=order_id,
             store_id=store_id,
+            paid_status=True,
             is_sajjang_accepted=None,
         )
         context = {"order": order}
         return render(request, self.template_name, context)
 
+
+# sajjang/order/<int:order_id>/confirm/accept
+class SajjangOrderAcceptView(TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
             order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
-            order.save()
+            if request.POST["is_sajjang_accepted"] == "True":
+                order.is_sajjang_accepted = True
+                order.save()
+            else:
+                raise Exception("wrong value")
+            return redirect("sajjang_store_order")
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
+# sajjang/order/<int:order_id>/confirm/reject
+class SajjangOrderRejectView(TemplateView):
+    def post(self, request, store_id, order_id):
+        try:
+            order = get_object_or_404(Order, id=order_id)
+            order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
+            if request.POST["is_sajjang_accepted"] == "False":
+                order.is_sajjang_accepted = False
+                order.save()
+            else:
+                raise Exception("wrong value")
+            # is_sajjang_accepted 가 False 가 되므로 환불 처리 진행해야함
             return redirect("sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
