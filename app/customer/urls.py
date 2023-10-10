@@ -26,11 +26,6 @@ app_name = "customer"
 
 urlpatterns = [
     path("home/", CustomerHomeView.as_view(), name="customer_home"),
-    # path(
-    #     "home?category=<int:category_id>/",
-    #     CustomerSearchCategoryView.as_view(),
-    #     name="search_category",
-    # ),
     path("address/", CustomerAddressView.as_view(), name="customer_address"),
     path("address/add/", CustomerAddressAddView.as_view(), name="customer_address_add"),
     path(

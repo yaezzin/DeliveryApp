@@ -10,7 +10,7 @@ from decimal import Decimal
 
 # Create your views here.
 
-
+# customer/home/
 class CustomerHomeView(TemplateView):
     template_name = "/app/customer/templates/home.html"
 
@@ -31,15 +31,6 @@ class CustomerHomeView(TemplateView):
             template_name="home.html",
             context={"categories": categories, "stores": stores},
         )
-
-
-# 미완성
-class CustomerSearchCategoryView(TemplateView):
-    template_name = "/app/customer/templates/category/category.html"
-
-    def get(self, request, category_id):
-        category = Category.objects.get(id=category_id)
-        stores = Stores.objects.get(id=category_id)
 
 
 class CustomerAddressView(TemplateView):
