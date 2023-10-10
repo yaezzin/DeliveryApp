@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import Address
+from delivery_crew.models import RejectedOrder
 
 
 # Create your models here.
@@ -47,6 +48,9 @@ class Order(models.Model):
     )
     delivery_status = models.BooleanField(
         null=True, default=None, verbose_name="delivery_status"
+    )
+    crew_rejected_order = models.ManyToManyField(
+        User, through=RejectedOrder, verbose_name="crew_rejected_order"
     )
     is_sajjang_accepted = models.BooleanField(
         null=True, default=None, verbose_name="is_sajjang_accepted"
