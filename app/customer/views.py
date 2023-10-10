@@ -54,7 +54,16 @@ class CustomerAddressAddView(TemplateView):
             user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            is_default = bool(strtobool(request.POST["is_default"] ))
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    is_default = True
+                else:
+                    is_default = False
+            
+            except Exception as e:
+                is_default = False
+            
 
             new_address = Address(
                 customer_id=user,
@@ -71,7 +80,7 @@ class CustomerAddressAddView(TemplateView):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
-
+# /customer/address/<int:address_id>
 class CustomerAddressDetailView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
 
@@ -80,7 +89,7 @@ class CustomerAddressDetailView(TemplateView):
         context = {"address": address}
         return render(request, self.template_name, context)
 
-
+# /customer/address/<int:address_id>/edit
 class CustomerAddressEditView(TemplateView):
     template_name = "/app/customer/templates/address/edit.html"
 
@@ -94,9 +103,19 @@ class CustomerAddressEditView(TemplateView):
             address = get_object_or_404(Address, id=address_id)
             address.address_name = request.POST["address_name"]
             address.address = request.POST["address"]
-            address.is_default = request.POST["is_default"]
-            address.save()
-            return redirect("customer_address_detail", address_id=address_id)
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    address.set_is_default()
+                else:
+                    address.is_default = False
+                    address.save()
+            
+            except Exception as e:
+                address.is_default = False
+                address.save()
+            
+            return redirect("customer:customer_address_detail", address_id=address_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
