@@ -3,7 +3,7 @@
 {% block content %}
     <div class="d-flex flex-row justify-content-between">
         {% if request.user.username %}
-            <p class="mb-0">{{ request.user.username }}</p>
+            <p class="mb-0 align-self-center">{{ request.user.username }}</p>
         {% else %}
             <p class="mb-0 align-self-center">username을 불러올 수 없습니다.</p>
         {% endif %}

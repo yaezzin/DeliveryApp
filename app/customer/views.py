@@ -3,7 +3,7 @@ from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart
 from sajjang.models import Category, Stores, Menus, Address, Order
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.http import JsonResponse
 import stripe, os
 from decimal import Decimal
@@ -11,7 +11,7 @@ from decimal import Decimal
 # Create your views here.
 
 
-class CustomerHomeView(TemplateView):
+class CustomerHomeView(View):
     template_name = "/app/customer/templates/home.html"
 
     def get(self, request):
@@ -130,7 +130,6 @@ class CustomerCartView(TemplateView):
                 }
             )
 
-        print(context)
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -146,8 +145,36 @@ class CustomerOrderView(TemplateView):
 
 
 class CustomerOrderCreateView(TemplateView):
-    def post(self, request, id):
-        pass
+    template_name = "/app/customer/templates/orders/create.html"
+
+    def get(self, request):
+        user_carts = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+        stores = user_carts.distinct().values_list("store_id")
+        context = {"stores": []}
+        for store in stores:
+            store_name = Stores.objects.filter(id=store[0]).first().name
+
+            context["stores"].append(
+                {
+                    "store_name": store_name,
+                    "carts": user_carts.filter(store_id=store[0]),
+                }
+            )
+
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
+            "is_default"
+        )
+        print(addresses)
+        context["addresses"] = addresses
+
+        total_price = 0
+        for carts in context["stores"]:
+            for menus in carts["carts"]:
+                total_price += menus.get_total_price()
+
+        context["total_price"] = total_price
+
+        return render(request, self.template_name, context)
 
 
 # /customer/store/
@@ -258,15 +285,17 @@ class CustomerOrderDetailView(TemplateView):
 
 
 class CustomerPaymentView(TemplateView):
-    def get(self, request, order_id):
-        template_name = "payment/process.html"
-        context = {}
-        context["order"] = Order.objects.filter(id=order_id)
-        return render(request, template_name=template_name, context=context)
+    # def get(self, request):
+    #     template_name = "payment/process.html"
+    #     context = {}
+    #     context["order"] = Order.objects.filter(id=order_id)
+    #     return render(request, template_name=template_name, context=context)
 
-    def post(self, request, order_id):
+    def post(self, request):
         STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "publishable_key")
         STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")
+
+        print(STRIPE_SECRET_KEY)
         STRIPE_API_VERSION = os.getenv("STRIPE_API_VERSION", "api_version")
 
         stripe.api_key = STRIPE_SECRET_KEY
@@ -277,32 +306,40 @@ class CustomerPaymentView(TemplateView):
 
         session_data = {
             "mode": "payment",
-            "client_reference_id": 1,
+            "client_reference_id": request.user.pk,
             "success_url": success_url,
             "cancel_url": cancel_url,
             "line_items": [],
         }
 
-        session_data["line_items"].append(
-            {
-                "price_data": {
-                    "unit_amount": int(15 * Decimal(100)),
-                    "currency": "usd",
-                    "product_data": {
-                        "name": "후라이드",
+        orders = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+        for order in orders:
+            session_data["line_items"].append(
+                {
+                    "price_data": {
+                        "unit_amount": order.menu_id.unit_price,
+                        "currency": "krw",
+                        "product_data": {
+                            "name": order.menu_id.name,
+                        },
                     },
-                },
-                "quantity": 2,
-            }
-        )
+                    "quantity": order.quantity,
+                }
+            )
 
         checkout_session = stripe.checkout.Session.create(**session_data)
         return redirect(checkout_session.url, code=303)
 
 
 class CustomerPayCompletedView(TemplateView):
-    def get(self, request):
-        pass
+    template_name = "/app/customer/templates/payment/complete.html"
 
-    def post(self, request):
-        pass
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class CustomerPayCancledView(TemplateView):
+    template_name = "/app/customer/templates/payment/cancle.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

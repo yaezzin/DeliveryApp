@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3>Menu Add Page</h3>
+    <form method="post" action="{% url 'sajjang:sajjang_add_menu' %}" class="my-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="menu_name">Menu Name:</label>
+            <input class="form-control" type="text" name="menu_name" id="menu_name">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="menu_unit_price">Unit Price:</label>
+            <input class="form-control" type="text" name="unit_price" id="unit_price">
+        </div>
+        <div class="mb-3">
+            <label class="form-check-label" for="is_available">Is Available:</label>
+            <input class="form-check-input" type="checkbox" name="is_available" id="is_available">
+        </div>
+        <div class="mb-3">
+            <label class="input-group-text" for="menu_pic">Picture</label>
+            <input type="file" class="form-control" name="menu_pic" id="menu_pic">
+        </div>
+        <div class="d-grid justify-content-end">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+{% endblock %}

@@ -11,12 +11,18 @@
         {{ menus.unit_price }}
     </div>
     <div>
-        주문 가능 여부 {% if menus.is_available %}이용가능{% else %}이용불가능{% endif %}
+        주문 가능 여부 
+        {% if menus.is_available %}
+            이용가능
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="장바구니에 넣기">
+            </form>            
+        {% else %}
+            이용불가능
+        {% endif %}
     </div>
     <div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="장바구니에 넣기">
-        </form>
+
     </div>
 {% endblock content %}

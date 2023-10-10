@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex flex-row justify-content-between">
+        <h3>Menu Detail Page</h3>
+        <div>
+            <a href="{% url 'sajjang_store_menu_detail' %}" class="btn btn-primary">Menu</a>
+        </div>
+    </div>
+    <div>
+        <ul class="list-group my-4">
+            <li class="list-group-item">{{ menus.name }}</li>
+            <li class="list-group-item">{{ menus.unit_price }}</li>
+            <li class="list-group-item">{{ menus.is_available }}</li>
+        </ul>
+        <div class="d-grid gap-2 d-flex justify-content-end">
+            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_edit' menus.id %}">Edit</a>
+            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_delete' menus.id %}">Delete</a>
+        </div>
+    </div>
+{% endblock %}
