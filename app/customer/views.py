@@ -38,7 +38,7 @@ class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
-        addresses = Address.objects.filter(customer_id=request.user.pk)
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
@@ -56,8 +56,7 @@ class CustomerAddressAddView(TemplateView):
             user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            is_default_str = request.POST["is_default"] 
-            is_default = bool(strtobool(is_default_str))
+            is_default = bool(strtobool(request.POST["is_default"] ))
 
             new_address = Address(
                 customer_id=user,
@@ -66,6 +65,10 @@ class CustomerAddressAddView(TemplateView):
                 is_default=is_default,
             )
             new_address.save()
+
+            if is_default:
+                new_address.set_is_default()
+                
             return redirect("customer:customer_address")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
