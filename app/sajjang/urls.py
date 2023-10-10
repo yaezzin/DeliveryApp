@@ -1,17 +1,5 @@
 from django.urls import path
-from .views import (
-    SajjangAddMenuView,
-    SajjangHomeView,
-    SajjangOrdersView,
-    SajjangStoreAddView,
-    SajjangStoreDetailView,
-    SajjangStoreEditView,
-    SajjangStoreMenuDetailView,
-    SajjangEditMenuView,
-    SajjangStoreMenuView,
-    SajjangOrderDetailView,
-    SajjangOrderConfirmView,
-)
+from .views import *
 
 
 urlpatterns = [
