@@ -14,3 +14,10 @@ class Address(models.Model):
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+
+    def set_is_default(self):
+        Address.objects.filter(customer_id=self.customer_id).update(is_default=False)
+        self.is_default = True
+        self.save()
+
+    

@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 from django.contrib.auth.models import User
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
@@ -32,50 +33,54 @@ class CustomerHomeView(View):
             context={"categories": categories, "stores": stores},
         )
 
-
-# 미완성
-class CustomerSearchCategoryView(TemplateView):
-    template_name = "/app/customer/templates/category/category.html"
-
-    def get(self, request, category_id):
-        category = Category.objects.get(id=category_id)
-        stores = Stores.objects.get(id=category_id)
-
-
+# customer/address/
 class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
-        addresses = Address.objects.all()
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
-
+# customer/address/add
 class CustomerAddressAddView(TemplateView):
     template_name = "/app/customer/templates/address/add.html"
 
-    def get(self, request, category_id):
-        addresses = Address.objects.all()
-        context = {"addresses": addresses}
-        return render(request, self.template_name, context)
+    def get(self, request):
+        return render(request, self.template_name)
 
     def post(self, request):
         try:
-            user_id = User.object.get(id=user_id)
+            user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            is_default = request.POST["is_default"]
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    is_default = True
+                else:
+                    is_default = False
+            
+            except Exception as e:
+                is_default = False
+            
+
             new_address = Address(
+                customer_id=user,
                 address_name=address_name,
                 address=address,
                 is_default=is_default,
             )
             new_address.save()
-            return redirect("customer_address")
+
+            if is_default:
+                new_address.set_is_default()
+                
+            return redirect("customer:customer_address")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
-
+# /customer/address/<int:address_id>
 class CustomerAddressDetailView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
 
@@ -84,7 +89,7 @@ class CustomerAddressDetailView(TemplateView):
         context = {"address": address}
         return render(request, self.template_name, context)
 
-
+# /customer/address/<int:address_id>/edit
 class CustomerAddressEditView(TemplateView):
     template_name = "/app/customer/templates/address/edit.html"
 
@@ -98,9 +103,19 @@ class CustomerAddressEditView(TemplateView):
             address = get_object_or_404(Address, id=address_id)
             address.address_name = request.POST["address_name"]
             address.address = request.POST["address"]
-            address.is_default = request.POST["is_default"]
-            address.save()
-            return redirect("customer_address_detail", address_id=address_id)
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    address.set_is_default()
+                else:
+                    address.is_default = False
+                    address.save()
+            
+            except Exception as e:
+                address.is_default = False
+                address.save()
+            
+            return redirect("customer:customer_address_detail", address_id=address_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
