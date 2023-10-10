@@ -21,7 +21,7 @@ class SajjangHomeView(TemplateView):
 
 # /sajjang/store/add
 class SajjangStoreAddView(TemplateView):
-    template_name = "/app/sajjang/template/stores/add.html"
+    template_name = "/app/sajjang/templates/stores/add.html"
 
     def get(self, request):
         categories = Category.objects.all()
@@ -30,10 +30,15 @@ class SajjangStoreAddView(TemplateView):
 
     def post(self, request):
         try:
-            name = request.POST["name"]
-            address = request.POST["address"]
+            name = request.POST["store_name"]
+            address = request.POST["store_address"]
             store_pic = request.POST["store_pic"]
             status = request.POST["status"]
+            if status == "true":
+                status = True
+            else:
+                status = False
+
             category = Category.objects.get(id=request.POST["category"])
             new_store = Stores(
                 name=name,
