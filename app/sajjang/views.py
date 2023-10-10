@@ -36,9 +36,9 @@ class SajjangStoreAddView(TemplateView):
             status = request.POST["status"]
             category = Category.objects.get(id=request.POST["category"])
             new_store = Stores(
+                user_id=request.user.id,
                 name=name,
                 address=address,
-                user_id=request.user,
                 store_pic=store_pic,
                 status=status,
                 category_id=category,
@@ -68,6 +68,7 @@ class SajjangStoreDetailView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/edit
+# sajjang/store/<int:store_id>/delete
 class SajjangStoreEditView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/edit.html"
 
