@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 from .models import Stores, Menus, Category, Order
-from account.views import SajjangPermissionRequiredMixin
+from account.models import User
+from customer.models import Cart
 
 
 def is_sajjang(user):
@@ -205,7 +206,13 @@ class SajjangOrderDetailView(TemplateView):
 
     def get(self, request, store_id, order_id):
         order = get_object_or_404(Order, id=order_id)
-        context = {"order": order}
+        cart_in_order = Cart.objects.filter(id=order_id)
+        menu_in_cart = Menus.objects.filter(id=cart_in_order.menu_id)
+        context = {
+            "order": order,
+            "cart_in_order": cart_in_order,
+            "menu_in_cart": menu_in_cart,
+        }
         return render(request, self.template_name, context)
 
 
@@ -231,8 +238,3 @@ class SajjangOrderConfirmView(TemplateView):
             return redirect("sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
-
-
-def check_new_order(request):
-    store_id = request.data.store_id
-    new_orders = Order.objects.filter()

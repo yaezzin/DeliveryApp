@@ -62,7 +62,7 @@ urlpatterns += [
     path(
         "store/<int:store_id>/order/<int:order_id>",
         SajjangOrderDetailView.as_view(),
-        name="sajjang_order",
+        name="sajjang_order_detail",
     ),
     path(
         "order/<int:order_id>/confirm",
