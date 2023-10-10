@@ -37,7 +37,7 @@ class SajjangStoreAddView(TemplateView):
             address = request.POST["address"]
             store_pic = request.POST["store_pic"]
             status = request.POST["status"]
-            category = request.POST["category"]
+            category = Category.objects.get(id=request.POST["category"])
 
             new_store = Stores(
                 user_id=request.user.id,
@@ -126,6 +126,7 @@ class SajjangAddMenuView(TemplateView):
             unit_price = request.POST["unit_price"]
             menu_pic = request.POST["menu_pic"]
             is_available = request.POST["is_available"]
+
             new_menu = Menus(
                 store_id=store_id,
                 category_id=category_id,
@@ -134,6 +135,7 @@ class SajjangAddMenuView(TemplateView):
                 menu_pic=menu_pic,
                 is_available=is_available,
             )
+
             new_menu.save()
             return redirect("sajjang_store_menu", store_id=store_id)
         except Exception as e:
@@ -149,17 +151,9 @@ class SajjangStoreMenuDetailView(TemplateView):
         context = {"menu": menu}
         return render(request, self.template_name, context)
 
-    def post(self, request, store_id, menu_id):
-        try:
-            menu = get_object_or_404(Menus, id=menu_id)
-            menu.delete()
-            return redirect("sajjang_store_menu", store_id=store_id)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>/edit
-class SajjangEditMenuView(TemplateView):
+class SajjangMenuEditView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/edit.html"
 
     def get(self, request, store_id, menu_id):
@@ -180,6 +174,17 @@ class SajjangEditMenuView(TemplateView):
             return redirect(
                 "sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
             )
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
+# sajjang/store/<int:store_id>/menu/<int:menu_id>/delete
+class SajjangMenuDeleteView(TemplateView):
+    def post(self, request, store_id, menu_id):
+        try:
+            menu = get_object_or_404(Menus, id=menu_id)
+            menu.delete()
+            return redirect("sajjang_store_menu", store_id=store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 

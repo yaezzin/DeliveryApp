@@ -42,8 +42,13 @@ urlpatterns += [
     ),
     path(
         "store/<int:store_id>/menu/<int:menu_id>/edit",
-        SajjangEditMenuView.as_view(),
+        SajjangMenuEditView.as_view(),
         name="sajjang_store_menu_edit",
+    ),
+    path(
+        "store/<int:store_id>/menu/<int:menu_id>/delete",
+        SajjangMenuDeleteView.as_view(),
+        name="sajjang_store_menu_delete",
     ),
 ]
 
