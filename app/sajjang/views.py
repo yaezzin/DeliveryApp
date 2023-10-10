@@ -14,7 +14,7 @@ class SajjangHomeView(TemplateView):
     template_name = "/app/sajjang/templates/home.html"
 
     def get(self, request):
-        stores = Stores.objects.filter(user_id=request.user)
+        stores = Stores.objects.filter(user_id=request.user.id)
         context = {"stores": stores}
         return render(request, self.template_name, context)
 
@@ -25,7 +25,10 @@ class SajjangStoreAddView(TemplateView):
 
     def get(self, request):
         categories = Category.objects.all()
-        context = {"categories": categories}
+        context = {
+            "categories": categories,
+            "user": request.user.id,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -34,16 +37,18 @@ class SajjangStoreAddView(TemplateView):
             address = request.POST["address"]
             store_pic = request.POST["store_pic"]
             status = request.POST["status"]
-            category = Category.objects.get(id=request.POST["category"])
+            category = request.POST["category"]
+
             new_store = Stores(
                 user_id=request.user.id,
                 name=name,
                 address=address,
                 store_pic=store_pic,
-                status=status,
                 category_id=category,
+                status=status,
             )
             new_store.save()
+
             return redirect("sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -58,17 +63,8 @@ class SajjangStoreDetailView(TemplateView):
         context = {"store": store}
         return render(request, self.template_name, context)
 
-    def post(self, request, store_id):
-        try:
-            store = get_object_or_404(Stores, id=store_id)
-            store.delete()
-            return redirect("sajjang_home")
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-
 
 # sajjang/store/<int:store_id>/edit
-# sajjang/store/<int:store_id>/delete
 class SajjangStoreEditView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/edit.html"
 
@@ -88,6 +84,17 @@ class SajjangStoreEditView(TemplateView):
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
             return redirect("sajjang_store_detail", store_id=store_id)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
+# sajjang/store/<int:store_id>/delete
+class SajjangStoreDeleteView(TemplateView):
+    def post(self, request, store_id):
+        try:
+            store = get_object_or_404(Stores, id=store_id)
+            store.delete()
+            return redirect("sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 

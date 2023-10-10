@@ -1,19 +1,8 @@
 from django.urls import path
-from .views import (
-    SajjangAddMenuView,
-    SajjangHomeView,
-    SajjangOrdersView,
-    SajjangStoreAddView,
-    SajjangStoreDetailView,
-    SajjangStoreEditView,
-    SajjangStoreMenuDetailView,
-    SajjangEditMenuView,
-    SajjangStoreMenuView,
-    SajjangOrderDetailView,
-    SajjangOrderConfirmView,
-)
+from .views import *
 
 
+# realted to Main & Store
 urlpatterns = [
     path("home", SajjangHomeView.as_view(), name="sajjang_home"),
     path("store/add", SajjangStoreAddView.as_view(), name="sajjang_store_add"),
@@ -27,6 +16,15 @@ urlpatterns = [
         SajjangStoreEditView.as_view(),
         name="sajjang_store_edit",
     ),
+    path(
+        "store/<int:store_id>/delete",
+        SajjangStoreDeleteView.as_view(),
+        name="sajjang_stores_delete",
+    ),
+]
+
+# related to Menu
+urlpatterns += [
     path(
         "store/<int:store_id>/menu",
         SajjangStoreMenuView.as_view(),
@@ -47,6 +45,10 @@ urlpatterns = [
         SajjangEditMenuView.as_view(),
         name="sajjang_store_menu_edit",
     ),
+]
+
+# related to Order
+urlpatterns += [
     path(
         "store/<int:store_id>/order",
         SajjangOrdersView.as_view(),
