@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import Address
+from delivery_crew.models import RejectedOrder
 
 
 # Create your models here.
@@ -17,6 +18,8 @@ class Stores(models.Model):
     store_pic = models.ImageField(blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
 
 class Menus(models.Model):
@@ -30,9 +33,21 @@ class Menus(models.Model):
     unit_price = models.IntegerField()
     menu_pic = models.ImageField(blank=True)
     is_available = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
 
 class Order(models.Model):
+    ORDER_STATUS_CHOICES = [
+        ("created", "Created"),
+        ("paid", "Paid"),
+        ("sajjang_accepted", "Sajjang Accepted"),
+        ("sajjang_rejected", "Sajjang Rejected"),
+        ("crew_accepted", "Crew Accepted"),
+        ("delivery_in_progress", "Delivery In Progress"),
+        ("delivered", "Delivered"),
+    ]
+
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="user_id")
     store_id = models.ForeignKey(
         Stores, on_delete=models.CASCADE, verbose_name="store_id"
@@ -41,16 +56,26 @@ class Order(models.Model):
         Address, on_delete=models.CASCADE, verbose_name="address_id"
     )
     total_price = models.IntegerField(verbose_name="total_price")
-    create_time = models.DateTimeField(auto_now_add=True)
+    # order_status = models.CharField(
+    #     max_length=20,
+    #     choices=ORDER_STATUS_CHOICES,
+    #     default="created",
+    #     verbose_name="order_status",
+    # )
     paid_status = models.BooleanField(
         null=True, default=None, verbose_name="paid_status"
-    )
-    delivery_status = models.BooleanField(
-        null=True, default=None, verbose_name="delivery_status"
-    )
-    is_sajjang_accepted = models.BooleanField(
-        null=True, default=None, verbose_name="is_sajjang_accepted"
     )
     receipt = models.CharField(
         default=None, null=True, max_length=100, verbose_name="receipt"
     )
+    is_sajjang_accepted = models.BooleanField(
+        null=True, default=None, verbose_name="is_sajjang_accepted"
+    )
+    crew_rejected_order = models.ManyToManyField(
+        User, through=RejectedOrder, blank=True, verbose_name="crew_rejected_order"
+    )
+    delivery_status = models.BooleanField(
+        null=True, default=None, verbose_name="delivery_status"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)

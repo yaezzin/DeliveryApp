@@ -309,6 +309,7 @@ class CustomerPaymentView(TemplateView):
     def post(self, request):
         STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "publishable_key")
         STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")
+
         print(STRIPE_SECRET_KEY)
         STRIPE_API_VERSION = os.getenv("STRIPE_API_VERSION", "api_version")
 
