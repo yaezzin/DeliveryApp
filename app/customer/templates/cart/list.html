@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Cart</h1>
+    <div>
+        {% for store in carts %}
+            <div class="border mt-4">
+                <h3>{{ store.store_name }}</h3>
+                {% for cart_in_store in store.carts %}
+                    <div class="border">
+                        <button>X</button>
+                        <img src={% static 'images/img_onerror.jpeg' %}>
+                        <p>{{ cart_in_store.menu_id.name }}</p>
+                        <p>{{ cart_in_store.quantity }}</p><button>+</button><button>-</button>
+                        <p>{{ cart_in_store.get_total_price }}￦</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+        {% endfor %}
+    </div>
+    <a>주문하기</a>
+
+
+{% endblock content %}

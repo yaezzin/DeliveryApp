@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>{{ store.name }}</p>
+    <p>{{ store.address }}</p>
+    <p>{{ store.store_pic }}</p>
+    {% if store.status %}
+        <p>이용 가능</p>
+    {% else %}
+        <p>준비중</p>
+    {% endif %}
+    <p><a href="{% url 'customer:store_menu' store_id=store.id %}">메뉴 전체 보기</a></p>
+{% endblock content %}

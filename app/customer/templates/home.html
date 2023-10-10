@@ -29,8 +29,8 @@
     </div>
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" action="" role="search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -40,7 +40,7 @@
             <h5 class="mb-1">카테고리</h5>
             <ul class="list-group text-center">
                 {% for category in categories %}
-                    <li class="list-group-item">{{ category.name }}</li>
+                    <li class="list-group-item"><a href="{% url 'customer:customer_home' %}?category={{ category.id }}">{{ category.name }}</a></li>
                 {% empty %}
                     <p class="mb-0">등록된 카테고리가 없습니다.</p>
                 {% endfor %}
@@ -50,7 +50,7 @@
             <h5 class="mb-1">식당</h5>
             <ul class="list-group text-center">
                 {% for store in stores %}
-                    <li class="list-group-item">{{ store.name }}</li>
+                    <li class="list-group-item"><a href="{% url 'customer:store_detail' store_id=store.id %}">{{ store.name }}</a></li>
                 {% empty %}
                     <p class="mb-0">등록된 식당이 없습니다.</p>
                 {% endfor %}

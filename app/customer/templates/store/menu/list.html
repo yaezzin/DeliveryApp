@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div>
+        <div>
+            <p>{{ store.name }}</p>
+        </div>
+        <div>
+            {% for menu in menus %}
+                <img src="{% static 'img/img_onerror.jpeg' %}">
+                <p><a href="{% url 'customer:customer_menu_detail' store_id=store.id menu_id=menu.id %}">{{ menu.name }}</a></p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
