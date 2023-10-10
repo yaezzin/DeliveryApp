@@ -50,7 +50,7 @@ class Order(models.Model):
         null=True, default=None, verbose_name="delivery_status"
     )
     crew_rejected_order = models.ManyToManyField(
-        User, through=RejectedOrder, verbose_name="crew_rejected_order"
+        User, through=RejectedOrder, blank=True, verbose_name="crew_rejected_order"
     )
     is_sajjang_accepted = models.BooleanField(
         null=True, default=None, verbose_name="is_sajjang_accepted"
