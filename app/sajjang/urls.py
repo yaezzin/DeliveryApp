@@ -19,7 +19,7 @@ urlpatterns = [
     path(
         "store/<int:store_id>/delete",
         SajjangStoreDeleteView.as_view(),
-        name="sajjang_stores_delete",
+        name="sajjang_store_delete",
     ),
 ]
 
