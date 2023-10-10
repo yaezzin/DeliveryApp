@@ -12,3 +12,8 @@ class Address(models.Model):
     address_name = models.CharField(max_length=100, verbose_name="address_name")
     address = models.CharField(max_length=255, verbose_name="address")
     is_default = models.BooleanField(default=False)
+
+    def set_is_default(self):
+        Address.objects.filter(customer_id=self.customer_id).update(is_default=False)
+        self.is_default = True
+        self.save()
