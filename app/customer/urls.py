@@ -1,25 +1,5 @@
 from django.urls import path
-from .views import (
-    CustomerHomeView,
-    CustomerSearchCategoryView,
-    CustomerAddressView,
-    CustomerAddressAddView,
-    CustomerAddressDetailView,
-    CustomerAddressEditView,
-    CustomerAddressDeleteView,
-    CustomerCartView,
-    CustomerOrderView,
-    CustomerOrderCreateView,
-    CustomerStoreView,
-    CustomerStoreDetailView,
-    CustomerStoreMenuView,
-    CustomerMenuDetailView,
-    CustomerCategoryView,
-    CustomerCategoryDetailView,
-    CustomerOrderDetailView,
-    CustomerPaymentView,
-    CustomerPayCompletedView,
-)
+from .views import *
 
 
 app_name = "customer"
@@ -51,7 +31,7 @@ urlpatterns = [
     path("cart/", CustomerCartView.as_view(), name="customer_cart"),
     path("orders/", CustomerOrderView.as_view(), name="customer_orders"),
     path(
-        "<int:customer_id>/order_create/",
+        "order/create/",
         CustomerOrderCreateView.as_view(),
         name="customer_order_create",
     ),
@@ -84,4 +64,5 @@ urlpatterns = [
         CustomerPayCompletedView.as_view(),
         name="customer_pay_complete",
     ),
+    path("pay_cancle/", CustomerPayCancledView.as_view(), name="customer_pay_cancle"),
 ]

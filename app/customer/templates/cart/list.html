@@ -20,7 +20,7 @@
             
         {% endfor %}
     </div>
-    <a>주문하기</a>
+    <a href="{% url 'customer:customer_order_create' %}">주문하기</a>
 
 
 {% endblock content %}

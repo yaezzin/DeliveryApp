@@ -1,26 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Sajjang Home{% endblock title %}
+{% block title %} Sajjang Home {% endblock title %}
 {% block content %}
-<h1>Sajjang Home</h1>
-    <div>
-        <a href="#">{{ user.id }}</a>
-        <a href="#">Logout</a>
+    <div class="d-flex flex-row justify-content-between">
+        {% if request.user.username %}
+            <p class="mb-0 align-self-center">{{ request.user.username }}</p>
+        {% else %}
+            <p class="mb-0 align-self-center">username을 불러올 수 없습니다.</p>
+        {% endif %}
+        <div>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="로그아웃">
+            </form>
+        </div>
     </div>
+
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang_store_add' %}'" style="cursor: pointer;">가게 등록</div>
+
     <div>
-        <a href="#">가게 등록</a>
-    </div>
-    <div>
-        <a href="#">주문 목록</a>
-    </div>
-    <div>
-        <!-- {% for store in stores %}
-        <tr>
-            <td>
-                <a href="{{ store.get_absolute_url }}">
-                    <img src="{% if store.image %}{{ store.image.url }}{% endif %}">
-                </a>
-                <td>{{ product.name }}</td>
-            </td>
-        </tr> -->
+        <h4>가게 리스트</h4>
+        {% for store in stores %}
+            <div class="border my-2 py-2 d-flex flex-row" onclick="location.href='{% url 'sajjang_store_detail' store.id %}'" style="cursor: pointer;">
+                <div>
+                    {% if store.store_pic %}
+                        <img src="..." class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
+                    {% else %}
+                        <img src="..." class="rounded float-start mx-3 bg-secondary" alt="No img" style="width: 50px; height:50px;">
+                    {% endif %}
+                </div>
+                <p class="mb-0 align-self-center">{{ store.name }}</p>
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}
