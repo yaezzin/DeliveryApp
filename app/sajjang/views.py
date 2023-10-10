@@ -21,7 +21,7 @@ class SajjangHomeView(TemplateView):
 
 # /sajjang/store/add
 class SajjangStoreAddView(TemplateView):
-    template_name = "/app/sajjang/template/stores/add.html"
+    template_name = "/app/sajjang/templates/stores/add.html"
 
     def get(self, request):
         categories = Category.objects.all()
