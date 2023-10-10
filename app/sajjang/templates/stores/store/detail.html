@@ -1,3 +1,21 @@
+{% extends 'base.html' %}
 {% block content %}
-    <p>가게 상세 페이지입니다!</p>
+    <div class="my-2" style="width:100px; height:100px;">
+        {% if store.store_pic %}
+            <img src="..." class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
+        {% else %}
+            <img src="..." class="rounded float-start bg-secondary" alt="No img" style="width:100px; height:100px;">
+        {% endif %}
+    </div>
+    <div>
+        <p>가게 이름: {{ store.name }}</p>
+        <p>가게 주소: {{ store.address }}</p>
+        <p>{% if store.status == False %} 영업 준비중 {% else %} 영업 중 {% endif %}</p>
+    </div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang_store_menu' store.id %}'" style="cursor: pointer;">메뉴 전체보기</div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang_store_order' store.id %}'" style="cursor: pointer;">주문 전체보기</div>
+    <div class="d-grid gap-2 d-flex justify-content-end">
+        <a class="btn btn-primary" href="{% url 'sajjang_store_edit' store.id %}">Edit</a>
+        <a class="btn btn-primary" href="#">Delete</a>
+    </div>
 {% endblock%}
