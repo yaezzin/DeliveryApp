@@ -3,9 +3,10 @@
     <div class="d-flex flex-row justify-content-between">
         <p>가게 이름: {{ store.name }}</p>
         <div>
-            <a class="btn btn-primary" href="{% url 'sajjang_add_menu' store.id %}">메뉴 등록하러 가기</a>
+            <a class="btn btn-primary" href="{% url 'sajjang_store_detail' store.id %}">가게 상세페이지</a>
         </div>
     </div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang_add_menu' store.id %}'" style="cursor: pointer;">메뉴 등록하러 가기</div>
     <div>
         {% for menu in menus %}
             <div class="border my-2 py-2 d-flex flex-row" onclick="location.href='{% url 'sajjang_store_menu_detail' store.id menu.id %}'" style="cursor: pointer;">
