@@ -110,8 +110,9 @@ class SajjangStoreMenuView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/list.html"
 
     def get(self, request, store_id):
+        store = get_object_or_404(Stores, id=store_id)
         menus = Menus.objects.filter(store_id=store_id)
-        context = {"menus": menus}
+        context = {"store": store, "menus": menus}
         return render(request, self.template_name, context)
 
 
@@ -120,8 +121,9 @@ class SajjangAddMenuView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/add.html"
 
     def get(self, request, store_id):
+        store = get_object_or_404(Stores, id=store_id)
         categories = Category.objects.all()
-        context = {"categories": categories}
+        context = {"store": store, "categories": categories}
         return render(request, self.template_name, context)
 
     def post(self, request, store_id):
@@ -153,8 +155,9 @@ class SajjangStoreMenuDetailView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
+        store = get_object_or_404(Stores, id=store_id)
         menu = get_object_or_404(Menus, id=menu_id)
-        context = {"menu": menu}
+        context = {"store": store, "menu": menu}
         return render(request, self.template_name, context)
 
 

@@ -3,7 +3,7 @@
     <div class="d-flex flex-row justify-content-between">
         <h3>Menu Detail Page</h3>
         <div>
-            <a href="{% url 'sajjang_store_menu_detail' %}" class="btn btn-primary">Menu</a>
+            <a href="{% url 'sajjang_store_menu' store.id %}" class="btn btn-primary">Menu</a>
         </div>
     </div>
     <div>
@@ -13,8 +13,8 @@
             <li class="list-group-item">{{ menus.is_available }}</li>
         </ul>
         <div class="d-grid gap-2 d-flex justify-content-end">
-            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_edit' menus.id %}">Edit</a>
-            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_delete' menus.id %}">Delete</a>
+            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_edit' store.id menu.id %}">Edit</a>
+            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_delete' store.id menu.id %}">Delete</a>
         </div>
     </div>
 {% endblock %}
