@@ -6,7 +6,7 @@
             <a href="{% url 'customer:customer_address_detail' address.id %}" class="btn btn-primary">Address Detail</a>
         </div>
     </div>
-    <form method="post" action="{% url 'customer:customer_address_add' %}" class="my-3">
+    <form method="post" action="" class="my-3">
         {% csrf_token %}
         <div class="mb-3">
             <label class="form-label" for="address_name">Address Name:</label>

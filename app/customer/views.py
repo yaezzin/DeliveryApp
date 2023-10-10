@@ -1,9 +1,10 @@
+from distutils.util import strtobool
 from django.contrib.auth.models import User
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart
 from sajjang.models import Category, Stores, Menus, Address, Order
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.http import JsonResponse
 import stripe, os
 from decimal import Decimal
@@ -11,7 +12,7 @@ from decimal import Decimal
 # Create your views here.
 
 
-class CustomerHomeView(TemplateView):
+class CustomerHomeView(View):
     template_name = "/app/customer/templates/home.html"
 
     def get(self, request):
@@ -22,7 +23,7 @@ class CustomerHomeView(TemplateView):
         else:
             stores = Stores.objects.all()
 
-        search_query = request.GET.get('search', None)
+        search_query = request.GET.get("search", None)
         if search_query:
             stores = Stores.objects.filter(name__contains=search_query)
 
@@ -32,50 +33,54 @@ class CustomerHomeView(TemplateView):
             context={"categories": categories, "stores": stores},
         )
 
-
-# 미완성
-class CustomerSearchCategoryView(TemplateView):
-    template_name = "/app/customer/templates/category/category.html"
-
-    def get(self, request, category_id):
-        category = Category.objects.get(id=category_id)
-        stores = Stores.objects.get(id=category_id)
-
-
+# customer/address/
 class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
-        addresses = Address.objects.all()
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
-
+# customer/address/add
 class CustomerAddressAddView(TemplateView):
     template_name = "/app/customer/templates/address/add.html"
 
-    def get(self, request, category_id):
-        addresses = Address.objects.all()
-        context = {"addresses": addresses}
-        return render(request, self.template_name, context)
+    def get(self, request):
+        return render(request, self.template_name)
 
     def post(self, request):
         try:
-            user_id = User.object.get(id=user_id)
+            user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            is_default = request.POST["is_default"]
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    is_default = True
+                else:
+                    is_default = False
+            
+            except Exception as e:
+                is_default = False
+            
+
             new_address = Address(
+                customer_id=user,
                 address_name=address_name,
                 address=address,
                 is_default=is_default,
             )
             new_address.save()
-            return redirect("customer_address")
+
+            if is_default:
+                new_address.set_is_default()
+                
+            return redirect("customer:customer_address")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
-
+# /customer/address/<int:address_id>
 class CustomerAddressDetailView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
 
@@ -84,7 +89,7 @@ class CustomerAddressDetailView(TemplateView):
         context = {"address": address}
         return render(request, self.template_name, context)
 
-
+# /customer/address/<int:address_id>/edit
 class CustomerAddressEditView(TemplateView):
     template_name = "/app/customer/templates/address/edit.html"
 
@@ -98,9 +103,19 @@ class CustomerAddressEditView(TemplateView):
             address = get_object_or_404(Address, id=address_id)
             address.address_name = request.POST["address_name"]
             address.address = request.POST["address"]
-            address.is_default = request.POST["is_default"]
-            address.save()
-            return redirect("customer_address_detail", address_id=address_id)
+            try:
+                is_default = request.POST["is_default"]
+                if is_default == "on":
+                    address.set_is_default()
+                else:
+                    address.is_default = False
+                    address.save()
+            
+            except Exception as e:
+                address.is_default = False
+                address.save()
+            
+            return redirect("customer:customer_address_detail", address_id=address_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -115,18 +130,21 @@ class CustomerAddressDeleteView(TemplateView):
 
 class CustomerCartView(TemplateView):
     template_name = "/app/customer/templates/cart/list.html"
+
     def get(self, request):
         user_carts = Cart.objects.filter(user_id=request.user.pk, order_id=None)
-        stores = user_carts.distinct().values_list('store_id')
-        context = {'carts':[]}
+        stores = user_carts.distinct().values_list("store_id")
+        context = {"carts": []}
         for store in stores:
             store_name = Stores.objects.filter(id=store[0]).first().name
-            
-            context['carts'].append({'store_name':store_name, 
-                                     'carts':user_carts.filter(store_id=store[0])}
-                                     )
-        
-        print(context)
+
+            context["carts"].append(
+                {
+                    "store_name": store_name,
+                    "carts": user_carts.filter(store_id=store[0]),
+                }
+            )
+
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -142,30 +160,61 @@ class CustomerOrderView(TemplateView):
 
 
 class CustomerOrderCreateView(TemplateView):
-    def post(self, request, id):
-        pass
+    template_name = "/app/customer/templates/orders/create.html"
+
+    def get(self, request):
+        user_carts = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+        stores = user_carts.distinct().values_list("store_id")
+        context = {"stores": []}
+        for store in stores:
+            store_name = Stores.objects.filter(id=store[0]).first().name
+
+            context["stores"].append(
+                {
+                    "store_name": store_name,
+                    "carts": user_carts.filter(store_id=store[0]),
+                }
+            )
+
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
+            "is_default"
+        )
+        print(addresses)
+        context["addresses"] = addresses
+
+        total_price = 0
+        for carts in context["stores"]:
+            for menus in carts["carts"]:
+                total_price += menus.get_total_price()
+
+        context["total_price"] = total_price
+
+        return render(request, self.template_name, context)
+
 
 # /customer/store/
 class CustomerStoreView(TemplateView):
-    template_name = '/app/customer/templates/store/search.html'
+    template_name = "/app/customer/templates/store/search.html"
 
     def get(self, request):
         stores = Stores.objects.filter(status=True)
-        context = {"stores" : stores}
+        context = {"stores": stores}
         return render(request, self.template_name, context)
+
 
 # /customer/store/<int:store_id>
 class CustomerStoreDetailView(TemplateView):
-    template_name = '/app/customer/templates/store/detail.html'
+    template_name = "/app/customer/templates/store/detail.html"
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
-        context = {"store": store}      
+        context = {"store": store}
         return render(request, self.template_name, context)
+
 
 # /customer/store/<int:store_id>/menu/
 class CustomerStoreMenuView(TemplateView):
-    template_name = '/app/customer/templates/store/menu/list.html'
+    template_name = "/app/customer/templates/store/menu/list.html"
 
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
@@ -173,20 +222,21 @@ class CustomerStoreMenuView(TemplateView):
         context = {"store": store, "menus": menus}
         return render(request, self.template_name, context)
 
+
 # /customer/store/<int:stores_id>/menu/{menus_id}
 class CustomerMenuDetailView(TemplateView):
-    template_name = '/app/customer/templates/store/menu/detail.html'
+    template_name = "/app/customer/templates/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
         menus = get_object_or_404(Menus, id=menu_id)
-        
+
         context = {"menus": menus}
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
         try:
-            quantity = request.POST.get('quantity', 1)
-            
+            quantity = request.POST.get("quantity", 1)
+
             store = get_object_or_404(Stores, id=store_id)
             menu = get_object_or_404(Menus, id=menu_id)
 
@@ -195,27 +245,29 @@ class CustomerMenuDetailView(TemplateView):
                 store_id=store,
                 menu_id=menu,
                 order_id=None,
-                quantity=quantity
+                quantity=quantity,
             )
             cart_item.save()
             return redirect("customer:store_menu", store_id=store_id)
-        
+
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
+
 
 # customer/category/
 class CustomerCategoryView(TemplateView):
     template_name = "/app/customer/templates/category/category.html"
-    
+
     def get(self, request):
         categories = Category.objects.all()
         context = {"categories": categories}
         return render(request, self.template_name, context)
 
+
 # customer/category/<int:category_id>
 class CustomerCategoryDetailView(TemplateView):
     template_name = "/app/customer/templates/category/category.html"
-    
+
     def get(self, request, category_id):
         category = Category.objects.filter(id=category_id)
         stores = Stores.objects.filter(category_id=category_id)
@@ -238,61 +290,71 @@ class CustomerCategoryDetailView(TemplateView):
 
 class CustomerOrderDetailView(TemplateView):
     def get(self, request, order_id):
-        template_name = 'orders/detail.html'
+        template_name = "orders/detail.html"
         context = {}
         order = Order.objects.filter(id=order_id)
-        context['order'] = order
-        context['order_id'] = order_id
+        context["order"] = order
+        context["order_id"] = order_id
 
         return render(request, template_name=template_name, context=context)
 
 
 class CustomerPaymentView(TemplateView):
-    
-    def get(self, request, order_id):
-        template_name = 'payment/process.html'
-        context = {}
-        context['order'] = Order.objects.filter(id=order_id)
-        return render(request, template_name=template_name, context=context)
+    # def get(self, request):
+    #     template_name = "payment/process.html"
+    #     context = {}
+    #     context["order"] = Order.objects.filter(id=order_id)
+    #     return render(request, template_name=template_name, context=context)
 
-    def post(self, request, order_id):
+    def post(self, request):
         STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "publishable_key")
-        STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")        
-        STRIPE_API_VERSION = os.getenv("STRIPE_API_VERSION", 'api_version')
+        STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")
 
+        print(STRIPE_SECRET_KEY)
+        STRIPE_API_VERSION = os.getenv("STRIPE_API_VERSION", "api_version")
 
         stripe.api_key = STRIPE_SECRET_KEY
         stripe.api_version = STRIPE_API_VERSION
 
-        success_url = request.build_absolute_uri('/customer/pay_complete')
-        cancel_url = request.build_absolute_uri('/customer/pay_cancle')
+        success_url = request.build_absolute_uri("/customer/pay_complete")
+        cancel_url = request.build_absolute_uri("/customer/pay_cancle")
 
         session_data = {
-            'mode': 'payment',
-            'client_reference_id': 1,
-            'success_url': success_url,
-            'cancel_url': cancel_url,
-            'line_items': []
+            "mode": "payment",
+            "client_reference_id": request.user.pk,
+            "success_url": success_url,
+            "cancel_url": cancel_url,
+            "line_items": [],
         }
 
-        
-        session_data['line_items'].append({
-            'price_data': {
-                'unit_amount': int(15 * Decimal(100)),
-                'currency': 'usd',
-                'product_data': {
-                    'name': '후라이드',
+        orders = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+        for order in orders:
+            session_data["line_items"].append(
+                {
+                    "price_data": {
+                        "unit_amount": order.menu_id.unit_price,
+                        "currency": "krw",
+                        "product_data": {
+                            "name": order.menu_id.name,
+                        },
+                    },
+                    "quantity": order.quantity,
                 }
-            },
-            'quantity': 2,
-        })
+            )
 
         checkout_session = stripe.checkout.Session.create(**session_data)
         return redirect(checkout_session.url, code=303)
 
-class CustomerPayCompletedView(TemplateView):
-    def get(self, request):
-        pass
 
-    def post(self, request):
-        pass
+class CustomerPayCompletedView(TemplateView):
+    template_name = "/app/customer/templates/payment/complete.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class CustomerPayCancledView(TemplateView):
+    template_name = "/app/customer/templates/payment/cancle.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

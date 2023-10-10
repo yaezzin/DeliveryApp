@@ -1,36 +1,10 @@
 from django.urls import path
-from .views import (
-    CustomerHomeView,
-    CustomerSearchCategoryView,
-    CustomerAddressView,
-    CustomerAddressAddView,
-    CustomerAddressDetailView,
-    CustomerAddressEditView,
-    CustomerAddressDeleteView,
-    CustomerCartView,
-    CustomerOrderView,
-    CustomerOrderCreateView,
-    CustomerStoreView,
-    CustomerStoreDetailView,
-    CustomerStoreMenuView,
-    CustomerMenuDetailView,
-    CustomerCategoryView,
-    CustomerCategoryDetailView,
-    CustomerOrderDetailView,
-    CustomerPaymentView,
-    CustomerPayCompletedView,
-)
-
+from customer.views import *
 
 app_name = "customer"
 
 urlpatterns = [
     path("home/", CustomerHomeView.as_view(), name="customer_home"),
-    # path(
-    #     "home?category=<int:category_id>/",
-    #     CustomerSearchCategoryView.as_view(),
-    #     name="search_category",
-    # ),
     path("address/", CustomerAddressView.as_view(), name="customer_address"),
     path("address/add/", CustomerAddressAddView.as_view(), name="customer_address_add"),
     path(
@@ -51,7 +25,7 @@ urlpatterns = [
     path("cart/", CustomerCartView.as_view(), name="customer_cart"),
     path("orders/", CustomerOrderView.as_view(), name="customer_orders"),
     path(
-        "<int:customer_id>/order_create/",
+        "order/create/",
         CustomerOrderCreateView.as_view(),
         name="customer_order_create",
     ),
@@ -84,4 +58,5 @@ urlpatterns = [
         CustomerPayCompletedView.as_view(),
         name="customer_pay_complete",
     ),
+    path("pay_cancle/", CustomerPayCancledView.as_view(), name="customer_pay_cancle"),
 ]

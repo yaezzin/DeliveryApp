@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 from .models import Stores, Menus, Category, Order
-from account.views import SajjangPermissionRequiredMixin
+from account.models import User
+from customer.models import Cart
 
 
 def is_sajjang(user):
@@ -14,7 +15,7 @@ class SajjangHomeView(TemplateView):
     template_name = "/app/sajjang/templates/home.html"
 
     def get(self, request):
-        stores = Stores.objects.filter(user_id=request.user)
+        stores = Stores.objects.filter(user_id=request.user.id)
         context = {"stores": stores}
         return render(request, self.template_name, context)
 
@@ -25,25 +26,35 @@ class SajjangStoreAddView(TemplateView):
 
     def get(self, request):
         categories = Category.objects.all()
-        context = {"categories": categories}
+        context = {
+            "categories": categories,
+            "user": request.user.id,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request):
         try:
-            name = request.POST["name"]
-            address = request.POST["address"]
+            name = request.POST["store_name"]
+            address = request.POST["store_address"]
             store_pic = request.POST["store_pic"]
             status = request.POST["status"]
+            if status == "true":
+                status = True
+            else:
+                status = False
+
             category = Category.objects.get(id=request.POST["category"])
+
             new_store = Stores(
+                user_id=request.user.id,
                 name=name,
                 address=address,
-                user_id=request.user,
                 store_pic=store_pic,
-                status=status,
                 category_id=category,
+                status=status,
             )
             new_store.save()
+
             return redirect("sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -57,14 +68,6 @@ class SajjangStoreDetailView(TemplateView):
         store = get_object_or_404(Stores, id=store_id)
         context = {"store": store}
         return render(request, self.template_name, context)
-
-    def post(self, request, store_id):
-        try:
-            store = get_object_or_404(Stores, id=store_id)
-            store.delete()
-            return redirect("sajjang_home")
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
 
 
 # sajjang/store/<int:store_id>/edit
@@ -87,6 +90,17 @@ class SajjangStoreEditView(TemplateView):
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
             return redirect("sajjang_store_detail", store_id=store_id)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
+# sajjang/store/<int:store_id>/delete
+class SajjangStoreDeleteView(TemplateView):
+    def post(self, request, store_id):
+        try:
+            store = get_object_or_404(Stores, id=store_id)
+            store.delete()
+            return redirect("sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -118,6 +132,7 @@ class SajjangAddMenuView(TemplateView):
             unit_price = request.POST["unit_price"]
             menu_pic = request.POST["menu_pic"]
             is_available = request.POST["is_available"]
+
             new_menu = Menus(
                 store_id=store_id,
                 category_id=category_id,
@@ -126,6 +141,7 @@ class SajjangAddMenuView(TemplateView):
                 menu_pic=menu_pic,
                 is_available=is_available,
             )
+
             new_menu.save()
             return redirect("sajjang_store_menu", store_id=store_id)
         except Exception as e:
@@ -141,17 +157,9 @@ class SajjangStoreMenuDetailView(TemplateView):
         context = {"menu": menu}
         return render(request, self.template_name, context)
 
-    def post(self, request, store_id, menu_id):
-        try:
-            menu = get_object_or_404(Menus, id=menu_id)
-            menu.delete()
-            return redirect("sajjang_store_menu", store_id=store_id)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>/edit
-class SajjangEditMenuView(TemplateView):
+class SajjangMenuEditView(TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/edit.html"
 
     def get(self, request, store_id, menu_id):
@@ -176,6 +184,17 @@ class SajjangEditMenuView(TemplateView):
             return JsonResponse({"error": str(e)}, status=400)
 
 
+# sajjang/store/<int:store_id>/menu/<int:menu_id>/delete
+class SajjangMenuDeleteView(TemplateView):
+    def post(self, request, store_id, menu_id):
+        try:
+            menu = get_object_or_404(Menus, id=menu_id)
+            menu.delete()
+            return redirect("sajjang_store_menu", store_id=store_id)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
 # sajjang/store/<int:store_id>/order
 class SajjangOrdersView(TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/list.html"
@@ -192,7 +211,13 @@ class SajjangOrderDetailView(TemplateView):
 
     def get(self, request, store_id, order_id):
         order = get_object_or_404(Order, id=order_id)
-        context = {"order": order}
+        cart_in_order = Cart.objects.filter(id=order_id)
+        menu_in_cart = Menus.objects.filter(id=cart_in_order.menu_id)
+        context = {
+            "order": order,
+            "cart_in_order": cart_in_order,
+            "menu_in_cart": menu_in_cart,
+        }
         return render(request, self.template_name, context)
 
 
@@ -205,21 +230,41 @@ class SajjangOrderConfirmView(TemplateView):
             Order,
             id=order_id,
             store_id=store_id,
+            paid_status=True,
             is_sajjang_accepted=None,
         )
         context = {"order": order}
         return render(request, self.template_name, context)
 
+
+# sajjang/order/<int:order_id>/confirm/accept
+class SajjangOrderAcceptView(TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
             order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
-            order.save()
+            if request.POST["is_sajjang_accepted"] == "True":
+                order.is_sajjang_accepted = True
+                order.save()
+            else:
+                raise Exception("wrong value")
             return redirect("sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
 
-def check_new_order(request):
-    store_id = request.data.store_id
-    new_orders = Order.objects.filter()
+# sajjang/order/<int:order_id>/confirm/reject
+class SajjangOrderRejectView(TemplateView):
+    def post(self, request, store_id, order_id):
+        try:
+            order = get_object_or_404(Order, id=order_id)
+            order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
+            if request.POST["is_sajjang_accepted"] == "False":
+                order.is_sajjang_accepted = False
+                order.save()
+            else:
+                raise Exception("wrong value")
+            # is_sajjang_accepted 가 False 가 되므로 환불 처리 진행해야함
+            return redirect("sajjang_store_order")
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
