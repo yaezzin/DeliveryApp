@@ -9,7 +9,7 @@
     <a href="{% url 'customer:customer_order_detail' order_id=order.id %}">
         <div>
             <p>#{{ order.id }}</p>
-            <p>{{ order.create_time }}</p>
+            <p>{{ order.created_at }}</p>
             <p>{{ order.address_id_id }}</p>
             <p>$ {{ order.total_price }}</p>
             

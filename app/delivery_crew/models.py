@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from sajjang.models import Order
 
 
 class DeliveryLocation(models.Model):
@@ -10,26 +9,4 @@ class DeliveryLocation(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
-
-
-class DeliveryHistory(models.Model):
-    delivery_crew_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="delivery_crew"
-    )
-    order_id = models.ForeignKey(
-        Order, on_delete=models.CASCADE, verbose_name="order_id"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
-
-
-class RejectedOrder(models.Model):
-    delivery_crew_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="delivery_crew"
-    )
-    order_id = models.ForeignKey(
-        Order, on_delete=models.CASCADE, verbose_name="order_id"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)

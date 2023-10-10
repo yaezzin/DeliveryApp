@@ -66,13 +66,16 @@ class Command(BaseCommand):
                     address_name=fake.user_name(),
                     address=fake.address(),
                     is_default=False,
+                    created_at=timezone.now(),
                 )
+
             # default = True
             Address.objects.create(
                 customer_id=user,
                 address_name=fake.user_name(),
                 address=fake.address(),
                 is_default=True,
+                created_at=timezone.now(),
             )
 
         categories = ["Pizza", "Burger", "Chicken", "Korean", "Japanese", "Indian"]
@@ -90,8 +93,10 @@ class Command(BaseCommand):
                     user_id=user,
                     name=fake.company(),
                     address=fake.address(),
+                    store_pic=fake.image_url(),
                     category_id=choice(category_objects),
                     status=choice([True, False]),
+                    created_at=timezone.now(),
                 )
 
         store_objects = Stores.objects.all()
@@ -150,7 +155,9 @@ class Command(BaseCommand):
                     category_id=choice(category_objects),
                     name=choice(menu_names),
                     unit_price=rounded_price,
+                    menu_pic=fake.image_url(),
                     is_available=True,
+                    created_at=timezone.now(),
                 )
 
         # 고객 유저의 카트 생성
@@ -174,7 +181,7 @@ class Command(BaseCommand):
                         menu_id=selected_menu,
                         order_id=None,
                         quantity=randint(1, 10),
-                        create_time=timezone.now(),
+                        created_at=timezone.now(),
                     )
 
         # 유저의 카트 정보를 기반으로 오더 생성
@@ -202,11 +209,11 @@ class Command(BaseCommand):
                     store_id=selected_store,
                     address_id=selected_address,
                     total_price=total_price,
-                    create_time=timezone.now(),
                     paid_status=None,
-                    delivery_status=None,
-                    is_sajjang_accepted=None,
                     receipt=None,
+                    is_sajjang_accepted=None,
+                    delivery_status=None,
+                    created_at=timezone.now(),
                 )
 
                 # 만들어진 오더의 정보를 카트 정보에 업데이트

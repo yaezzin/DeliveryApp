@@ -21,7 +21,7 @@ class Cart(models.Model):
     )
     quantity = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def get_total_price(self):
         return self.quantity * self.menu_id.unit_price

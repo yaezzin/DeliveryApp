@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import Address
-from delivery_crew.models import RejectedOrder
 
 
 # Create your models here.
@@ -19,7 +18,7 @@ class Stores(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Menus(models.Model):
@@ -34,7 +33,7 @@ class Menus(models.Model):
     menu_pic = models.ImageField(blank=True)
     is_available = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Order(models.Model):
@@ -48,7 +47,12 @@ class Order(models.Model):
         ("delivered", "Delivered"),
     ]
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="user_id")
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="user_id",
+        related_name="customer_id",
+    )
     store_id = models.ForeignKey(
         Stores, on_delete=models.CASCADE, verbose_name="store_id"
     )
@@ -72,10 +76,36 @@ class Order(models.Model):
         null=True, default=None, verbose_name="is_sajjang_accepted"
     )
     crew_rejected_order = models.ManyToManyField(
-        User, through=RejectedOrder, blank=True, verbose_name="crew_rejected_order"
+        User,
+        through="RejectedOrder",
+        blank=True,
+        verbose_name="crew_rejected_order",
+        related_name="reject_crew_id",
     )
     delivery_status = models.BooleanField(
         null=True, default=None, verbose_name="delivery_status"
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class DeliveryHistory(models.Model):
+    delivery_crew_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="delivery_crew"
+    )
+    order_id = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="order_id"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class RejectedOrder(models.Model):
+    delivery_crew_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="delivery_crew"
+    )
+    order_id = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="order_id"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
