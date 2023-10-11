@@ -154,14 +154,17 @@ class CustomerCartView(TemplateView):
         return render(request, self.template_name, context)
 
 
+# /customer/orders
 class CustomerOrderView(TemplateView):
+    template_name = "/app/customer/templates/orders/list.html"
+
     def get(self, request):
-        pass
+        orders = Order.objects.filter(user_id=request.user.pk)
+        context = {"orders": orders}
+        return render(request, self.template_name, context)
 
-    def post(self, request):
-        pass
 
-
+# /customer/<int:customer_id>/order_create
 class CustomerOrderCreateView(TemplateView):
     template_name = "/app/customer/templates/orders/create.html"
 
