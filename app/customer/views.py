@@ -280,28 +280,14 @@ class CustomerCategoryDetailView(TemplateView):
         return render(request, self.template_name, context)
 
 
+# /customer/order/<int:order_id>
 class CustomerOrderDetailView(TemplateView):
+    template_name = "/app/customer/templates/orders/detail.html"
+
     def get(self, request, order_id):
-        pass
-
-
-class CustomerCategoryDetailView(TemplateView):
-    def get(self, request, category_id):
-        pass
-
-    def post(self, request, category_id):
-        pass
-
-
-class CustomerOrderDetailView(TemplateView):
-    def get(self, request, order_id):
-        template_name = "orders/detail.html"
-        context = {}
-        order = Order.objects.filter(id=order_id)
-        context["order"] = order
-        context["order_id"] = order_id
-
-        return render(request, template_name=template_name, context=context)
+        carts = Cart.objects.filter(order_id=order_id)
+        context = {"carts" : carts}
+        return render(request, self.template_name, context)
 
 
 class CustomerPaymentView(TemplateView):
