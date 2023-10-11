@@ -208,6 +208,8 @@ class CustomerOrderCreateView(TemplateView):
     template_name = "/app/customer/templates/orders/create.html"
 
     def get(self, request, store_id):
+        request.session['store_id'] = store_id
+
         # 주문 할 메뉴 가져오기
         user_carts = Cart.objects.filter(
             user_id=request.user.pk, order_id=None, store_id=store_id
@@ -225,6 +227,7 @@ class CustomerOrderCreateView(TemplateView):
                     ),
                 }
             )
+
 
         # 주소 목록 가져오기
         addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
@@ -390,6 +393,8 @@ class CustomerPaymentView(TemplateView):
     #     return render(request, template_name=template_name, context=context)
 
     def post(self, request):
+        request.session['address_id'] = int(request.POST['address_id'])
+
         STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "publishable_key")
         STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "secret_key")
 
@@ -433,7 +438,29 @@ class CustomerPayCompletedView(TemplateView):
     template_name = "/app/customer/templates/payment/complete.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        store_id_session = request.session.get('store_id', None)
+        address_id_session = request.session.get('address_id', None)
+        
+        store_id = get_object_or_404(Stores, id=store_id_session)
+        address_id = get_object_or_404(Address, id=address_id_session)
+        carts = Cart.objects.filter(user_id=request.user, store_id=store_id, order_id=None)
+        
+        total_price = 0
+        for cart in carts:
+            menu = get_object_or_404(Menus, id=cart.menu_id.pk)
+            total_price += menu.unit_price * cart.quantity
+        
+        order = Order(
+            user_id=request.user,  
+            store_id=store_id,
+            address_id=address_id,
+            total_price=total_price, 
+        )
+        order.save() 
+        carts.update(order_id=order.pk)
+        
+        context = {"order_id": order.pk}
+        return render(request, self.template_name, context)
 
 
 class CustomerPayCancledView(TemplateView):
