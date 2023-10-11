@@ -15,12 +15,12 @@
         </div>
     </div>
 
-    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang_store_add' %}'" style="cursor: pointer;">가게 등록</div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang:sajjang_store_add' %}'" style="cursor: pointer;">가게 등록</div>
 
     <div>
         <h4>가게 리스트</h4>
         {% for store in stores %}
-            <div class="border my-2 py-2 d-flex flex-row" onclick="location.href='{% url 'sajjang_store_detail' store.id %}'" style="cursor: pointer;">
+            <div class="border my-2 py-2 d-flex flex-row" onclick="location.href='{% url 'sajjang:sajjang_store_detail' store.id %}'" style="cursor: pointer;">
                 <div>
                     {% if store.store_pic %}
                         <img src="..." class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
