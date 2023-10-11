@@ -2,10 +2,12 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView
 from django.template.loader import render_to_string
+from django.db.models import Subquery
+
 from sajjang.models import DeliveryHistory, RejectedOrder
+from sajjang.models import Order, Stores
+from django.contrib.auth.models import User
 
-
-from sajjang.models import Order
 
 # Create your views here.
 
@@ -17,7 +19,8 @@ class DeliveryCrewHomeView(TemplateView):
         orders = Order.objects.filter(
             is_sajjang_accepted=True, delivery_status=None
         ).exclude(crew_rejected_order=request.user.id)
-        context = {"orders": orders}
+        stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
+        context = {"orders": orders, "stores": stores}
         return render(request, self.template_name, context)
 
 
@@ -25,8 +28,9 @@ class DeliveryCrewDeliveryHistory(TemplateView):
     template_name = "/app/delivery_crew/templates/history.html"
 
     def get(self, request):
-        order_history = DeliveryHistory.objects.filter(user_id=request.user.id)
-        context = {"orders": order_history}
+        order_history = DeliveryHistory.objects.filter(delivery_crew_id=request.user.id)
+        print(order_history)
+        context = {"order_histories": order_history}
         return render(request, self.template_name, context)
 
 
@@ -34,30 +38,32 @@ class DeliveryCrewAcceptView(TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def post(self, request, order_id):
-        delivery = get_object_or_404(Order, pk=order_id)
+        delivery = get_object_or_404(Order, id=order_id)
+        delivery_crew = get_object_or_404(User, id=request.user.id)
         new_order_history = DeliveryHistory.objects.create(
-            user_id=request.user.id, order_id=delivery.pk
+            delivery_crew_id=delivery_crew, order_id=delivery
         )
         delivery.delivery_status = True
         delivery.save()
         new_order_history.save()
 
-        return redirect("deliverycrew_home")
+        return redirect("delivery_crew:delivery_crew_home")
 
 
 class DeliveryCrewDenyView(TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def post(self, request, order_id):
-        delivery_order = get_object_or_404(Order, pk=order_id)
+        delivery_order = get_object_or_404(Order, id=order_id)
+        delivery_crew = get_object_or_404(User, id=request.user.id)
 
         reject = RejectedOrder.objects.create(
-            delivery_crew_id=request.user.id, order_id=delivery_order.pk
+            delivery_crew_id=delivery_crew, order_id=delivery_order
         )
 
         reject.save()
 
-        return redirect("deliverycrew_home")
+        return redirect("delivery_crew:delivery_crew_home")
 
 
 class DeliveryCrewAlarmView(TemplateView):

@@ -1,50 +1,58 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends "del_crew_base.html" %}
+{% load static %}
+
 {% block content %}
+    <h1>Welcome, {{ user.username }}<h1>
 
-    <a href="{% url 'delivery_crew:accept' delivery_id=delivery.id %}">배달 수락</a>
-    {% for order in orders %}
-        <h3>주문번호: {{ order.id }}</h3>
-        <form method="post">
-            {% csrf_token %}
-            <input type="submit" value="배달 수락">
-        </form>
-    {% endfor %}
+    <form action="{% url 'logout' %}" method="post" class="mt-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary">Log Out</button>
+    </form>
 
-    <h2>알람 - 미처리된 배달</h2>
-    <ul id="alert-list">
+    <a class="btn btn-primary mt-3" href="{% url 'delivery_crew:delivery_crew_history' %}">View My Accepted Deliveries</a>
+
+    <h2>Pending Delivery Orders</h2>
+    <div id="current-time"></div>
+    <div class="row">
+        {% for order in orders %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order ID: {{ order.id }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Store: {{ order.store_id.name }}</h6>
+                        <p class="card-text price">Total Price: {{ order.total_price }}</p>
+                        <p class="card-text">{{ order.created_at | timesince }} ago</p>
+                        <div class="d-flex justify-content-between">
+                            <form action="{% url 'delivery_crew:delivery_crew_accept' order.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form action="{% url 'delivery_crew:delivery_crew_deny' order.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <button type="submit" class="btn btn-danger">Deny</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById("current-time").innerText = "Current Time: " + timeString;
+        }
+
+
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+
         
-    </ul>
-
-  <script>
-    function loadAlerts() {
-      $.ajax({
-        url: "{% url 'delivery_crew:alarm' user_id=user.pk %}",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-          $("#alert-list").html(data.html);
-        },
-        error: function () {
-          console.log("알람을 불러오는 중 오류가 발생했습니다.");
-        },
-      });
-    }
-
-    $(document).ready(function () {
-      loadAlerts();
-      setInterval(loadAlerts, 300000);
-    });
-  </script>
+    </script>
 
 {% endblock content %}
-</body>
-</html>
