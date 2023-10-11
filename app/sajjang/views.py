@@ -55,7 +55,7 @@ class SajjangStoreAddView(TemplateView):
             )
             new_store.save()
 
-            return redirect("sajjang_home")
+            return redirect("sajjang:sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -100,7 +100,7 @@ class SajjangStoreEditView(TemplateView):
 
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
-            return redirect("sajjang_store_detail", store_id=store_id)
+            return redirect("sajjang:sajjang_store_detail", store_id=store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -111,7 +111,7 @@ class SajjangStoreDeleteView(TemplateView):
         try:
             store = get_object_or_404(Stores, id=store_id)
             store.delete()
-            return redirect("sajjang_home")
+            return redirect("sajjang:sajjang_home")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -156,7 +156,7 @@ class SajjangAddMenuView(TemplateView):
             )
 
             new_menu.save()
-            return redirect("sajjang_store_menu", store_id=store_id)
+            return redirect("sajjang:sajjang_store_menu", store_id=store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -204,7 +204,7 @@ class SajjangMenuEditView(TemplateView):
 
             menu.save()
             return redirect(
-                "sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
+                "sajjang:sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
             )
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -216,7 +216,7 @@ class SajjangMenuDeleteView(TemplateView):
         try:
             menu = get_object_or_404(Menus, id=menu_id)
             menu.delete()
-            return redirect("sajjang_store_menu", store_id=store_id)
+            return redirect("sajjang:sajjang_store_menu", store_id=store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -275,7 +275,7 @@ class SajjangOrderAcceptView(TemplateView):
                 order.save()
             else:
                 raise Exception("wrong value")
-            return redirect("sajjang_store_order")
+            return redirect("sajjang:sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -292,6 +292,6 @@ class SajjangOrderRejectView(TemplateView):
             else:
                 raise Exception("wrong value")
             # is_sajjang_accepted 가 False 가 되므로 환불 처리 진행해야함
-            return redirect("sajjang_store_order")
+            return redirect("sajjang:sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
