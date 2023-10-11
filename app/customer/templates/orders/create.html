@@ -1,39 +1,140 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block content %}
-    <h1>Cart</h1>
+    <h1>주문 작성</h1>
     <div>
-        {% for store in stores %}
-            <div class="border mt-4">
-                <h3>{{ store.store_name }}</h3>
+        {% for store in carts %}
+            <div class="mt-4">
+                <h3>{{ store.store_name.name }}</h3>
                 {% for cart_in_store in store.carts %}
-                    <div class="border">
-                        <button>X</button>
-                        <img src={% static 'images/img_onerror.jpeg' %}>
-                        <p>{{ cart_in_store.menu_id.name }}</p>
-                        <p>{{ cart_in_store.quantity }}</p><button>+</button><button>-</button>
-                        <p>{{ cart_in_store.get_total_price }}￦</p>
+                    <div class="border" id="cart_{{ cart_in_store.id }}">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <img src={% static 'images/img_onerror.jpeg' %}>
+                                <h4>{{ cart_in_store.menu_id.name }}</h4>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <div class="border">
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-secondary mt-2 me-2" onclick="delete_button_click({{ cart_in_store.id }})">X</button>
+                                    </div>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col text-center">
+                                            <text>수량</text>
+                                        </div>
+                                        <div class="col text-center">
+                                            <text id="quantity_{{ cart_in_store.id }}">{{ cart_in_store.quantity }}<p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn btn-secondary" onclick="quantity_up_click({{ cart_in_store.id }})">+</button>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-secondary" onclick="quantity_down_click({{ cart_in_store.id }})">-</button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 text-center">
+                                        <text id="total_price_{{ cart_in_store.id }}">{{ cart_in_store.get_total_price|intcomma }}원</text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
+                <a class="btn btn-primary" href="{% url 'customer:customer_order_create' store_id=store.store_name.pk %}">주문하기</a>
             </div>
             
         {% endfor %}
+        <div>
+            <p id="pay_price">총 가격 : {{ total_price|intcomma }}원</p>
+        </div>
+        <div>
+            <label>
+            <select name='select_address'>
+                {% for address in addresses %}
+                    <option value="{{ address.id }}">{{ address.address }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <form action="{% url 'customer:customer_payment' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="결제하기">
+        </form>
+    
     </div>
-    <div>
-        <p>총 가격 : {{ total_price }}</p>
-    </div>
-    <div>
-        <label>
-        <select name='select_address'>
-            {% for address in addresses %}
-                <option value="{{ address.id }}">{{ address.address }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <form action="{% url 'customer:customer_payment' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="결제하기">
-    </form>
+    <script>
+
+        function numberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        async function delete_button_click(cart_id){
+            const form = new FormData();
+            form.append('mode', 'delete');
+            form.append('cart_id', cart_id);
+            
+            fetch("", {
+                method: "POST",
+                body: form
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                if (data['Success'] === true){
+                    document.getElementById('cart_'+cart_id).remove();
+                    document.getElementById("pay_price").innerHTML = numberWithCommas(data['pay_price'])+'원';
+                }
+            });
+        }
+
+        async function quantity_up_click(cart_id){
+            const form = new FormData();
+            form.append('mode', 'quantity_up');
+            form.append('cart_id', cart_id);
+            
+            fetch("", {
+                method: "POST",
+                body: form
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                if (data['Success'] === true){
+                    document.getElementById('quantity_'+cart_id).innerHTML = data["quantity"];
+                    document.getElementById('total_price_'+cart_id).innerHTML = numberWithCommas(data["total_price"])+'원';
+                    document.getElementById("pay_price").innerHTML = numberWithCommas(data['pay_price'])+'원';
+
+                }
+            });            
+        }
+
+        async function quantity_down_click(cart_id){
+            const form = new FormData();
+            form.append('mode', 'quantity_down');
+            form.append('cart_id', cart_id);
+            
+            fetch("", {
+                method: "POST",
+                body: form
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                if (data['Success'] === true){
+                    document.getElementById('quantity_'+cart_id).innerHTML = data["quantity"];
+                    document.getElementById('total_price_'+cart_id).innerHTML = numberWithCommas(data["total_price"])+'원';
+                    document.getElementById("pay_price").innerHTML = numberWithCommas(data['pay_price'])+'원';
+
+                }
+            });            
+        }        
+
+    </script>
 
 
 {% endblock content %}

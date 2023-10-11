@@ -6,7 +6,7 @@
     <div>
         {% for store in carts %}
             <div class="mt-4">
-                <h3>{{ store.store_name }}</h3>
+                <h3>{{ store.store_name.name }}</h3>
                 {% for cart_in_store in store.carts %}
                     <div class="border" id="cart_{{ cart_in_store.id }}">
                         <div class="d-flex justify-content-between">
@@ -43,11 +43,11 @@
                         </div>
                     </div>
                 {% endfor %}
+                <a class="btn btn-primary" href="{% url 'customer:customer_order_create' store_id=store.store_name.pk %}">주문하기</a>
             </div>
             
         {% endfor %}
     </div>
-    <a href="{% url 'customer:customer_order_create' %}">주문하기</a>
     <script>
 
         function numberWithCommas(number) {

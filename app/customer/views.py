@@ -38,7 +38,9 @@ class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
 
     def get(self, request):
-        addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
+        addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
+            "-is_default"
+        )
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
 
@@ -61,10 +63,9 @@ class CustomerAddressAddView(TemplateView):
                     is_default = True
                 else:
                     is_default = False
-            
+
             except Exception as e:
                 is_default = False
-            
 
             new_address = Address(
                 customer_id=user,
@@ -76,7 +77,7 @@ class CustomerAddressAddView(TemplateView):
 
             if is_default:
                 new_address.set_is_default()
-                
+
             return redirect("customer:customer_address")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -113,11 +114,11 @@ class CustomerAddressEditView(TemplateView):
                 else:
                     address.is_default = False
                     address.save()
-            
+
             except Exception as e:
                 address.is_default = False
                 address.save()
-            
+
             return redirect("customer:customer_address_detail", address_id=address_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -143,13 +144,12 @@ class CustomerCartView(TemplateView):
         stores = user_carts.distinct().values_list("store_id")
         context = {"carts": []}
         for store in stores:
-            store_name = Stores.objects.filter(id=store[0]).first().name
-
+            store_name = Stores.objects.filter(id=store[0]).first()
             context["carts"].append(
                 {
                     "store_name": store_name,
                     "carts": user_carts.filter(store_id=store[0]).order_by(
-                        "-create_time"
+                        "-created_at"
                     ),
                 }
             )
@@ -191,6 +191,7 @@ class CustomerCartView(TemplateView):
 
         return JsonResponse({"Success": True})
 
+
 # /customer/orders
 class CustomerOrderView(TemplateView):
     template_name = "/app/customer/templates/orders/list.html"
@@ -201,38 +202,92 @@ class CustomerOrderView(TemplateView):
         return render(request, self.template_name, context)
 
 
-# /customer/<int:customer_id>/order_create
+# /customer/order_create/<int:store_id>
+@method_decorator(csrf_exempt, "dispatch")
 class CustomerOrderCreateView(TemplateView):
     template_name = "/app/customer/templates/orders/create.html"
 
-    def get(self, request):
-        user_carts = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+    def get(self, request, store_id):
+        # 주문 할 메뉴 가져오기
+        user_carts = Cart.objects.filter(
+            user_id=request.user.pk, order_id=None, store_id=store_id
+        )
         stores = user_carts.distinct().values_list("store_id")
-        context = {"stores": []}
+        context = {"carts": []}
         for store in stores:
-            store_name = Stores.objects.filter(id=store[0]).first().name
+            store_name = Stores.objects.filter(id=store[0]).first()
 
-            context["stores"].append(
+            context["carts"].append(
                 {
                     "store_name": store_name,
-                    "carts": user_carts.filter(store_id=store[0]),
+                    "carts": user_carts.filter(store_id=store[0]).order_by(
+                        "-created_at"
+                    ),
                 }
             )
 
+        # 주소 목록 가져오기
         addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
             "is_default"
         )
-        print(addresses)
         context["addresses"] = addresses
 
+        # 최종 결제 가격 표시
         total_price = 0
-        for carts in context["stores"]:
+        for carts in context["carts"]:
             for menus in carts["carts"]:
                 total_price += menus.get_total_price()
 
         context["total_price"] = total_price
 
         return render(request, self.template_name, context)
+
+    def post(self, request, store_id):
+        print("dddddd")
+
+        def get_pay_price():
+            carts = Cart.objects.filter(customer_id=request.user.pk, store_id=store_id)
+            pay_price = 0
+            for cart in carts:
+                pay_price += cart.get_total_price()
+            return pay_price
+
+        try:
+            cart = get_object_or_404(Cart, id=request.POST["cart_id"])
+        except:
+            return JsonResponse({"error": "no cart_id"})
+
+        if request.POST["mode"] == "delete":
+            cart.delete()
+            return JsonResponse({"Success": True, "pay_price": get_pay_price()})
+        elif request.POST["mode"] == "quantity_up":
+            cart.quantity += 1
+            cart.save()
+            return JsonResponse(
+                {
+                    "Success": True,
+                    "quantity": cart.quantity,
+                    "total_price": cart.get_total_price(),
+                    "pay_price": get_pay_price(),
+                }
+            )
+        elif request.POST["mode"] == "quantity_down":
+            cart.quantity -= 1
+            if cart.quantity <= 0:
+                cart.quantity = 1
+            cart.save()
+            return JsonResponse(
+                {
+                    "Success": True,
+                    "quantity": cart.quantity,
+                    "total_price": cart.get_total_price(),
+                    "pay_price": get_pay_price(),
+                }
+            )
+        elif request.POST["mode"] == "quantity_set":
+            pass
+
+        return JsonResponse({"Success": True})
 
 
 # /customer/store/
@@ -323,7 +378,7 @@ class CustomerOrderDetailView(TemplateView):
 
     def get(self, request, order_id):
         carts = Cart.objects.filter(order_id=order_id)
-        context = {"carts" : carts}
+        context = {"carts": carts}
         return render(request, self.template_name, context)
 
 
