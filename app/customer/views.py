@@ -119,13 +119,14 @@ class CustomerAddressEditView(TemplateView):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
-
+# /customer/address/<int:address_id>/delete
 class CustomerAddressDeleteView(TemplateView):
+    template_name = "/app/customer/templates/address/detail.html"
+
     def post(self, request, address_id):
         delete_address = Address.objects.get(id=address_id)
         delete_address.delete()
-
-        return redirect("customer_address")
+        return redirect("customer:customer_address")
 
 
 class CustomerCartView(TemplateView):
@@ -228,9 +229,8 @@ class CustomerMenuDetailView(TemplateView):
     template_name = "/app/customer/templates/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
-        menus = get_object_or_404(Menus, id=menu_id)
-
-        context = {"menus": menus}
+        menu = get_object_or_404(Menus, id=menu_id)
+        context = {"menus": menu}
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
