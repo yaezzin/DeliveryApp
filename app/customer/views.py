@@ -11,9 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 
-# Create your views here.
-
-
 class CustomerHomeView(TemplateView):
     template_name = "/app/customer/templates/home.html"
 
@@ -35,6 +32,7 @@ class CustomerHomeView(TemplateView):
             context={"categories": categories, "stores": stores},
         )
 
+
 # customer/address/
 class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
@@ -43,6 +41,7 @@ class CustomerAddressView(TemplateView):
         addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
+
 
 # customer/address/add
 class CustomerAddressAddView(TemplateView):
@@ -82,6 +81,7 @@ class CustomerAddressAddView(TemplateView):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
+
 # /customer/address/<int:address_id>
 class CustomerAddressDetailView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
@@ -90,6 +90,7 @@ class CustomerAddressDetailView(TemplateView):
         address = get_object_or_404(Address, id=address_id)
         context = {"address": address}
         return render(request, self.template_name, context)
+
 
 # /customer/address/<int:address_id>/edit
 class CustomerAddressEditView(TemplateView):
@@ -122,14 +123,17 @@ class CustomerAddressEditView(TemplateView):
             return JsonResponse({"error": str(e)}, status=400)
 
 
+# /customer/address/<int:address_id>/delete
 class CustomerAddressDeleteView(TemplateView):
+    template_name = "/app/customer/templates/address/detail.html"
+
     def post(self, request, address_id):
         delete_address = Address.objects.get(id=address_id)
         delete_address.delete()
+        return redirect("customer:customer_address")
 
-        return redirect("customer_address")
 
-
+# /customer/cart
 @method_decorator(csrf_exempt, "dispatch")
 class CustomerCartView(TemplateView):
     template_name = "/app/customer/templates/cart/list.html"
@@ -187,15 +191,17 @@ class CustomerCartView(TemplateView):
 
         return JsonResponse({"Success": True})
 
-
+# /customer/orders
 class CustomerOrderView(TemplateView):
+    template_name = "/app/customer/templates/orders/list.html"
+
     def get(self, request):
-        pass
+        orders = Order.objects.filter(user_id=request.user.pk)
+        context = {"orders": orders}
+        return render(request, self.template_name, context)
 
-    def post(self, request):
-        pass
 
-
+# /customer/<int:customer_id>/order_create
 class CustomerOrderCreateView(TemplateView):
     template_name = "/app/customer/templates/orders/create.html"
 
@@ -265,9 +271,8 @@ class CustomerMenuDetailView(TemplateView):
     template_name = "/app/customer/templates/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
-        menus = get_object_or_404(Menus, id=menu_id)
-
-        context = {"menus": menus}
+        menu = get_object_or_404(Menus, id=menu_id)
+        context = {"menus": menu}
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
@@ -312,28 +317,14 @@ class CustomerCategoryDetailView(TemplateView):
         return render(request, self.template_name, context)
 
 
+# /customer/order/<int:order_id>
 class CustomerOrderDetailView(TemplateView):
+    template_name = "/app/customer/templates/orders/detail.html"
+
     def get(self, request, order_id):
-        pass
-
-
-class CustomerCategoryDetailView(TemplateView):
-    def get(self, request, category_id):
-        pass
-
-    def post(self, request, category_id):
-        pass
-
-
-class CustomerOrderDetailView(TemplateView):
-    def get(self, request, order_id):
-        template_name = "orders/detail.html"
-        context = {}
-        order = Order.objects.filter(id=order_id)
-        context["order"] = order
-        context["order_id"] = order_id
-
-        return render(request, template_name=template_name, context=context)
+        carts = Cart.objects.filter(order_id=order_id)
+        context = {"carts" : carts}
+        return render(request, self.template_name, context)
 
 
 class CustomerPaymentView(TemplateView):

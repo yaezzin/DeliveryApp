@@ -13,7 +13,10 @@
         </ul>
         <div class="d-grid gap-2 d-flex justify-content-end">
             <a class="btn btn-primary" href="{% url 'customer:customer_address_edit' address.id %}">Edit</a>
-            <a class="btn btn-primary" href="{% url 'customer:customer_address_delete' address.id %}">Delete</a>
+            <form method="post" action="{% url 'customer:customer_address_delete' address.id %}">
+                {% csrf_token %}
+                <input type="submit" value="delete" class="btn btn-primary">
+            </form>
         </div>
     </div>
 {% endblock %}
