@@ -9,9 +9,8 @@ from django.http import JsonResponse
 import stripe, os
 from decimal import Decimal
 
-# Create your views here.
 
-
+# /customer/home
 class CustomerHomeView(View):
     template_name = "/app/customer/templates/home.html"
 
@@ -33,6 +32,7 @@ class CustomerHomeView(View):
             context={"categories": categories, "stores": stores},
         )
 
+
 # customer/address/
 class CustomerAddressView(TemplateView):
     template_name = "/app/customer/templates/address/search.html"
@@ -41,6 +41,7 @@ class CustomerAddressView(TemplateView):
         addresses = Address.objects.filter(customer_id=request.user.pk).order_by('-is_default')
         context = {"addresses": addresses}
         return render(request, self.template_name, context)
+
 
 # customer/address/add
 class CustomerAddressAddView(TemplateView):
@@ -80,6 +81,7 @@ class CustomerAddressAddView(TemplateView):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
+
 # /customer/address/<int:address_id>
 class CustomerAddressDetailView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
@@ -88,6 +90,7 @@ class CustomerAddressDetailView(TemplateView):
         address = get_object_or_404(Address, id=address_id)
         context = {"address": address}
         return render(request, self.template_name, context)
+
 
 # /customer/address/<int:address_id>/edit
 class CustomerAddressEditView(TemplateView):
@@ -119,6 +122,7 @@ class CustomerAddressEditView(TemplateView):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
+
 # /customer/address/<int:address_id>/delete
 class CustomerAddressDeleteView(TemplateView):
     template_name = "/app/customer/templates/address/detail.html"
@@ -129,6 +133,7 @@ class CustomerAddressDeleteView(TemplateView):
         return redirect("customer:customer_address")
 
 
+# /customer/cart
 class CustomerCartView(TemplateView):
     template_name = "/app/customer/templates/cart/list.html"
 
@@ -147,9 +152,6 @@ class CustomerCartView(TemplateView):
             )
 
         return render(request, self.template_name, context)
-
-    def post(self, request):
-        pass
 
 
 class CustomerOrderView(TemplateView):
