@@ -4,15 +4,17 @@ from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart
 from sajjang.models import Category, Stores, Menus, Address, Order
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
 from django.http import JsonResponse
 import stripe, os
-from decimal import Decimal
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 
 # Create your views here.
 
 
-class CustomerHomeView(View):
+class CustomerHomeView(TemplateView):
     template_name = "/app/customer/templates/home.html"
 
     def get(self, request):
@@ -128,6 +130,7 @@ class CustomerAddressDeleteView(TemplateView):
         return redirect("customer_address")
 
 
+@method_decorator(csrf_exempt, "dispatch")
 class CustomerCartView(TemplateView):
     template_name = "/app/customer/templates/cart/list.html"
 
@@ -141,14 +144,48 @@ class CustomerCartView(TemplateView):
             context["carts"].append(
                 {
                     "store_name": store_name,
-                    "carts": user_carts.filter(store_id=store[0]),
+                    "carts": user_carts.filter(store_id=store[0]).order_by(
+                        "-create_time"
+                    ),
                 }
             )
 
         return render(request, self.template_name, context)
 
-    def post(self, request):
-        pass
+    def post(self, request):  # javascript 비동기 통신으로만 사용됩니다.
+        try:
+            cart = get_object_or_404(Cart, id=request.POST["cart_id"])
+        except:
+            return JsonResponse({"error": "no cart_id"})
+
+        if request.POST["mode"] == "delete":
+            cart.delete()
+        elif request.POST["mode"] == "quantity_up":
+            cart.quantity += 1
+            cart.save()
+            return JsonResponse(
+                {
+                    "Success": True,
+                    "quantity": cart.quantity,
+                    "total_price": cart.get_total_price(),
+                }
+            )
+        elif request.POST["mode"] == "quantity_down":
+            cart.quantity -= 1
+            if cart.quantity <= 0:
+                cart.quantity = 1
+            cart.save()
+            return JsonResponse(
+                {
+                    "Success": True,
+                    "quantity": cart.quantity,
+                    "total_price": cart.get_total_price(),
+                }
+            )
+        elif request.POST["mode"] == "quantity_set":
+            pass
+
+        return JsonResponse({"Success": True})
 
 
 class CustomerOrderView(TemplateView):
