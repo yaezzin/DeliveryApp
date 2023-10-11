@@ -203,8 +203,9 @@ class SajjangOrdersView(TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/list.html"
 
     def get(self, request, store_id):
+        store = Stores.objects.get(id=store_id)
         orders = Order.objects.filter(store_id=store_id)
-        context = {"orders": orders}
+        context = {"store": store, "orders": orders}
         return render(request, self.template_name, context)
 
 
@@ -213,13 +214,13 @@ class SajjangOrderDetailView(TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/detail.html"
 
     def get(self, request, store_id, order_id):
+        store = Stores.objects.get(id=store_id)
         order = get_object_or_404(Order, id=order_id)
-        cart_in_order = Cart.objects.filter(id=order_id)
-        menu_in_cart = Menus.objects.filter(id=cart_in_order.menu_id)
+        cart_in_order = Cart.objects.filter(order_id=order_id)
         context = {
+            "store": store,
             "order": order,
             "cart_in_order": cart_in_order,
-            "menu_in_cart": menu_in_cart,
         }
         return render(request, self.template_name, context)
 
