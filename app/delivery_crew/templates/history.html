@@ -1,0 +1,27 @@
+{% extends "del_crew_base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Delivery History</h1>
+    <div class="row">
+        {% if order_histories %}
+            {% for order in order_histories %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Order ID: {{ order.order_id.id }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Store: {{ order.order_id.store_id.name }}</h6>
+                            <p class="card-text price">Total Price: {{ order.order_id.total_price }}</p>
+                            <p class="card-text">Status: {{ order.order_id.order_status }}</p>
+                            <p class="card-text type24" data-time="{{ order.created_at }}">{{ order.created_at }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+                <p>You have no delivery history</p>
+        {% endif %}
+    </div>
+
+
+{% endblock content %}
