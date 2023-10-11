@@ -12,7 +12,7 @@ class Address(models.Model):
     address_name = models.CharField(max_length=100, verbose_name="address_name")
     address = models.CharField(max_length=255, verbose_name="address")
     is_default = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def set_is_default(self):

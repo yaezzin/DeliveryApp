@@ -20,7 +20,7 @@ class Cart(models.Model):
         default=None,
     )
     quantity = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_total_price(self):
