@@ -467,4 +467,9 @@ class CustomerPayCancledView(TemplateView):
     template_name = "/app/customer/templates/payment/cancle.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        store_id_session = request.session.get('store_id', None)
+        store_id = get_object_or_404(Stores, id=store_id_session)
+        context = {
+            'store_id': store_id.pk,
+        }
+        return render(request, self.template_name, context)
