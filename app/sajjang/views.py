@@ -77,16 +77,27 @@ class SajjangStoreEditView(TemplateView):
     def get(self, request, store_id):
         store = get_object_or_404(Stores, id=store_id)
         categories = Category.objects.all()
-        context = {"store": store, "categories": categories}
+        selected_category = store.category_id
+        context = {
+            "store": store,
+            "categories": categories,
+            "selected_category": selected_category,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, store_id):
         try:
             store = get_object_or_404(Stores, id=store_id)
-            store.name = request.POST["name"]
-            store.address = request.POST["address"]
-            store.store_pic = request.POST["store_pic"]
-            store.status = request.POST["status"]
+            store.name = request.POST.get("name", store.name)
+            store.address = request.POST.get("address", store.address)
+            store.store_pic = request.POST.get("store_pic", store.store_pic)
+            is_checked = request.POST.get("status", "off")
+
+            if is_checked == "on":
+                store.status = True
+            else:
+                store.status = False
+
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
             return redirect("sajjang_store_detail", store_id=store_id)
@@ -168,7 +179,12 @@ class SajjangMenuEditView(TemplateView):
     def get(self, request, store_id, menu_id):
         menu = get_object_or_404(Menus, id=menu_id)
         categories = Category.objects.all()
-        context = {"menu": menu, "categories": categories}
+        selected_category = menu.category_id
+        context = {
+            "menu": menu,
+            "categories": categories,
+            "selected_category": selected_category,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
@@ -178,7 +194,14 @@ class SajjangMenuEditView(TemplateView):
             menu.name = request.POST["name"]
             menu.unit_price = request.POST["unit_price"]
             menu.menu_pic = request.POST["menu_pic"]
-            menu.is_available = request.POST["is_available"]
+
+            is_available = request.POST.get("is_available", "off")
+
+            if is_available == "on":
+                menu.is_available = True
+            else:
+                menu.is_available = False
+
             menu.save()
             return redirect(
                 "sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
