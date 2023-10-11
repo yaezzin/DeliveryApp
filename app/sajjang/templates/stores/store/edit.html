@@ -24,9 +24,9 @@
             <label class="input-group-text" for="category">Category</label>
             <select class="form-select" name="category" id="category">
             <option selected>Choose...</option>
-            {% for category in categories %}
-            <option value="{{ category }}" {% if category == category %}selected{% endif %} >{{ category.name }}</option>
-            {% endfor %}
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == selected_category.id %}selected{% endif %} >{{ category.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="mb-3">
