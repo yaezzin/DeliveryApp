@@ -11,9 +11,18 @@
             <label class="form-label" for="store_address">Address:</label>
             <input class="form-control" type="text" name="store_address" id="store_address">
         </div>
-        <div class="mb-3">
+        <div class="input-group mb-3">
             <label class="input-group-text" for="store_pic">Picture</label>
             <input type="file" class="form-control" name="store_pic" id="store_pic">
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="category">Category</label>
+            <select class="form-select" name= "category" id="category">
+            <option selected>Choose...</option>
+            {% for category in categories %}
+            <option value="{{ category }}" {% if category == category %}selected{% endif %} >{{ category.name }}</option>
+            {% endfor %}
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-check-label" for="status">Is Available:</label>
