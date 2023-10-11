@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="d-flex flex-row justify-content-between">
-        <h3>Menu Detail Page</h3>
-        <div>
-            <a href="{% url 'sajjang_store_menu_detail' %}" class="btn btn-primary">Menu</a>
-        </div>
+    <div class="my-2" style="width:100px; height:100px;">
+        {% if menu.store_pic %}
+            <img src="..." class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
+        {% else %}
+            <img src="..." class="rounded float-start bg-secondary" alt="No img" style="width:100px; height:100px;">
+        {% endif %}
     </div>
     <div>
-        <ul class="list-group my-4">
-            <li class="list-group-item">{{ menus.name }}</li>
-            <li class="list-group-item">{{ menus.unit_price }}</li>
-            <li class="list-group-item">{{ menus.is_available }}</li>
-        </ul>
-        <div class="d-grid gap-2 d-flex justify-content-end">
-            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_edit' menus.id %}">Edit</a>
-            <a class="btn btn-primary" href="{% url 'sajjang_store_menu_delete' menus.id %}">Delete</a>
-        </div>
+        <p>메뉴 이름: {{ menu.name }}</p>
+        <p>메뉴 가격: {{ menu.unit_price }}</p>
+        <p>{% if menu.is_available == False %} 주문 불가능 {% else %} 주문 가능 {% endif %}</p>
+    </div>
+    <div class="d-grid gap-2 d-flex justify-content-end">
+        <a class="btn btn-warning" href="{% url 'sajjang_store_menu_edit' store.id menu.id %}">Edit</a>
+        <a class="btn btn-warning" href="{% url 'sajjang_store_menu_delete' store.id menu.id %}">Delete</a>
+        <a class="btn btn-primary" href="{% url 'sajjang_store_menu' store.id %}">Menu</a>
     </div>
 {% endblock %}
