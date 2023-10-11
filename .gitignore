@@ -1,5 +1,6 @@
 stripe-completion.zsh
 stripe-completion.bash
+.idea
 
 prod/
 # Byte-compiled / optimized / DLL files
