@@ -84,14 +84,11 @@ class CustomerAddressAddView(CustomerRequiredMixin, TemplateView):
             user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
             address = request.POST["address"]
-            try:
-                is_default = request.POST["is_default"]
-                if is_default == "on":
-                    is_default = True
-                else:
-                    is_default = False
+            is_default = request.POST.get("is_default", None)
 
-            except Exception as e:
+            if is_default:
+                is_default = True
+            else:
                 is_default = False
 
             new_address = Address(
