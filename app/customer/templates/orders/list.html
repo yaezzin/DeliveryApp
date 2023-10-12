@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "customer_base.html" %}
 {% load humanize %}
 {% block content %}
+    {{ block.super }}
     <div class="container-fluid">
         {% for order in orders %}
            

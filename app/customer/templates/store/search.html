@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "customer_base.html" %}
 {% load static %}
 {% block content %}
+    {{ block.super }}
     <div class="border p-3 text-center">
         {% for store in stores %}
             <div>

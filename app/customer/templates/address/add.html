@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'customer_base.html' %}
 {% block content %}
+    {{ block.super }}
     <h3>Address Add Page</h3>
     <form method="post" action="{% url 'customer:customer_address_add' %}" class="my-3">
         {% csrf_token %}
