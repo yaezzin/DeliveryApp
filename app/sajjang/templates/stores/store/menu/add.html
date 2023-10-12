@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
 {% block content %}
     <h3>Menu Add Page</h3>
     <form method="post" action="{% url 'sajjang:sajjang_add_menu' store.id %}" class="my-3">

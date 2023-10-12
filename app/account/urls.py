@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
-import account.views as account
+
+from account.views import SigninView, SignupView, HomeView
 
 app_name = "account"
 
-urlpatterns = []
+urlpatterns = [
+    path("signin/", SigninView.as_view(), name="signin"),
+    path("signup/", SignupView.as_view(), name="signup"),
+]
