@@ -7,7 +7,10 @@ from django.contrib.auth import get_user_model
 
 class Address(models.Model):
     customer_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="customer_id"
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="customer_id",
+        db_column="customer_id",
     )
     address_name = models.CharField(max_length=100, verbose_name="address_name")
     address = models.CharField(max_length=255, verbose_name="address")
