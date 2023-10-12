@@ -477,7 +477,7 @@ class CustomerPayCompletedView(CustomerRequiredMixin, TemplateView):
             store_id=store_id,
             address_id=address_id,
             total_price=total_price,
-            paid_status=True,
+            order_status="paid",
             receipt=fake.uuid4(),
         )
         order.save()

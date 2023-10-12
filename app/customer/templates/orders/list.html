@@ -22,12 +22,21 @@
                         총 가격 : {{ order.total_price|intcomma }}원
                     </div>
                     <div>
-                        {% if order.paid_status %}
+                        {% if order.order_status == "paid" %}
                             결제 완료
-                        {% else %}
+                        {% elif order.order_status == "created" %}
                             결제되지 않음
+                        {% elif order.order_status == "sajjang_accepted" %}
+                            조리 중
+                        {% elif order.order_status == "sajjang_rejected" %}
+                            주문 거절 됨
+                        {% elif order.order_status == "crew_accepted" %}
+                            기사님 배정 됨
+                        {% elif order.order_status == "delivery_in_progress" %}
+                            배달 중
+                        {% elif order.order_status == "delivered" %}
+                            배달 완료
                         {% endif %}
-                        
                     </div>
                 </div>
             
