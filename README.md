@@ -4,4 +4,4 @@
 
 # ArgodCD Mornitoring
 
-<img src="static/image/argocdmornitoring.png" >
+<img src="static/images/argocdmornitoring.png" >
