@@ -48,13 +48,13 @@ class Menus(models.Model):
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
-        ("created", "Created"),
-        ("paid", "Paid"),
-        ("sajjang_accepted", "Sajjang Accepted"),
-        ("sajjang_rejected", "Sajjang Rejected"),
-        ("crew_accepted", "Crew Accepted"),
-        ("delivery_in_progress", "Delivery In Progress"),
-        ("delivered", "Delivered"),
+        ("created", "Created"),  # 오더가 처음으로 생성되었을 때
+        ("paid", "Paid"),  # 결제가 완료 되었을 때
+        ("sajjang_accepted", "Sajjang Accepted"),  # 사장이 수락했을 때
+        ("sajjang_rejected", "Sajjang Rejected"),  # 사정이 거절했을 때
+        ("crew_accepted", "Crew Accepted"),  # 배달 크루가 수락했을 때
+        ("delivery_in_progress", "Delivery In Progress"),  # 배달 픽업이 되었을 때
+        ("delivered", "Delivered"),  # 배달이 완료 되었을 때
     ]
 
     user_id = models.ForeignKey(
@@ -74,21 +74,21 @@ class Order(models.Model):
         db_column="address_id",
     )
     total_price = models.IntegerField(verbose_name="total_price")
-    # order_status = models.CharField(
-    #     max_length=20,
-    #     choices=ORDER_STATUS_CHOICES,
-    #     default="created",
-    #     verbose_name="order_status",
-    # )
-    paid_status = models.BooleanField(
-        null=True, default=None, verbose_name="paid_status"
+    order_status = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES,
+        default="created",
+        verbose_name="order_status",
     )
+    # paid_status = models.BooleanField(
+    #     null=True, default=None, verbose_name="paid_status"
+    # )
     receipt = models.CharField(
         default=None, null=True, max_length=100, verbose_name="receipt"
     )
-    is_sajjang_accepted = models.BooleanField(
-        null=True, default=None, verbose_name="is_sajjang_accepted"
-    )
+    # is_sajjang_accepted = models.BooleanField(
+    #     null=True, default=None, verbose_name="is_sajjang_accepted"
+    # )
     crew_rejected_order = models.ManyToManyField(
         User,
         through="RejectedOrder",
@@ -97,11 +97,17 @@ class Order(models.Model):
         related_name="reject_crew_id",
         db_column="crew_rejected_order",
     )
-    delivery_status = models.BooleanField(
-        null=True, default=None, verbose_name="delivery_status"
-    )
+    # delivery_status = models.BooleanField(
+    #     null=True, default=None, verbose_name="delivery_status"
+    # )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class OrderStatusHistory(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    status = models.CharField(max_length=25, choices=Order.ORDER_STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class DeliveryHistory(models.Model):

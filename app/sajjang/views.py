@@ -277,7 +277,7 @@ class SajjangOrderAcceptView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
-            order.is_sajjang_accepted = True
+            order.order_status = "sajjang_accepted"
             order.save()
             return redirect("sajjang:sajjang_store_order", store_id)
         except Exception as e:
@@ -289,7 +289,7 @@ class SajjangOrderRejectView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
-            order.is_sajjang_accepted = False
+            order.order_status = "sajjang_rejected"
             order.save()
             return redirect("sajjang:sajjang_store_order", store_id)
         except Exception as e:
