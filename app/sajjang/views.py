@@ -88,13 +88,7 @@ class SajjangStoreEditView(TemplateView):
             store.name = request.POST.get("name", store.name)
             store.address = request.POST.get("address", store.address)
             store.store_pic = request.POST.get("store_pic", store.store_pic)
-            is_checked = request.POST.get("status", "off")
-
-            if is_checked == "on":
-                store.status = True
-            else:
-                store.status = False
-
+            store.status = request.POST.get("status", False)
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
             return redirect("sajjang:sajjang_store_detail", store_id=store_id)
