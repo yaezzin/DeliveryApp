@@ -50,16 +50,13 @@ class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
             name = request.POST["store_name"]
             address = request.POST["store_address"]
             store_pic = request.POST["store_pic"]
-            status = request.POST["status"]
-            if status == "true":
-                status = True
-            else:
-                status = False
+            status = request.POST.get("status", False)
 
-            category = Category.objects.get(id=request.POST["category"])
+            user = get_object_or_404(User, id=request.user.pk)
+            category = get_object_or_404(Category, id=request.POST["category"])
 
             new_store = Stores(
-                user_id=request.user.id,
+                user_id=user,
                 name=name,
                 address=address,
                 store_pic=store_pic,
@@ -104,13 +101,7 @@ class SajjangStoreEditView(SajjangRequiredMixin, TemplateView):
             store.name = request.POST.get("name", store.name)
             store.address = request.POST.get("address", store.address)
             store.store_pic = request.POST.get("store_pic", store.store_pic)
-            is_checked = request.POST.get("status", "off")
-
-            if is_checked == "on":
-                store.status = True
-            else:
-                store.status = False
-
+            store.status = request.POST.get("status", False)
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
             return redirect("sajjang:sajjang_store_detail", store_id=store_id)
@@ -152,24 +143,23 @@ class SajjangAddMenuView(SajjangRequiredMixin, TemplateView):
 
     def post(self, request, store_id):
         try:
-            store_id = Stores.objects.get(id=store_id)
-            category_id = Category.objects.get(id=request.POST["category"])
-            name = request.POST["name"]
-            unit_price = request.POST["unit_price"]
-            menu_pic = request.POST["menu_pic"]
-            is_available = request.POST["is_available"]
+            store = Stores.objects.get(id=store_id)
+            category= Category.objects.get(id=request.POST["category"])
+            name = request.POST.get("name")
+            unit_price = request.POST.get("unit_price")
+            menu_pic = request.POST.get("menu_pic")
+            is_available = request.POST.get("is_available", False)
 
             new_menu = Menus(
-                store_id=store_id,
-                category_id=category_id,
+                store_id=store,
+                category_id=category,
                 name=name,
                 unit_price=unit_price,
                 menu_pic=menu_pic,
                 is_available=is_available,
             )
-
             new_menu.save()
-            return redirect("sajjang:sajjang_store_menu", store_id=store_id)
+            return redirect("sajjang:sajjang_store_menu", store_id=store.pk)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -207,14 +197,7 @@ class SajjangMenuEditView(SajjangRequiredMixin, TemplateView):
             menu.name = request.POST["name"]
             menu.unit_price = request.POST["unit_price"]
             menu.menu_pic = request.POST["menu_pic"]
-
-            is_available = request.POST.get("is_available", "off")
-
-            if is_available == "on":
-                menu.is_available = True
-            else:
-                menu.is_available = False
-
+            menu.is_available = request.POST.get("is_available", False)
             menu.save()
             return redirect(
                 "sajjang:sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
