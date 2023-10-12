@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+    <div class="container-fluid">
+        {% for order in orders %}
+           
+                <div class="border my-2" onclick="location.href='{% url 'customer:customer_order_detail' order.id %}'">
+                    <div>
+                        주문번호 : #{{ order.id }}
+                    </div>
+                    <div>
+                        가게 이름 : {{ order.store_id.name}}
+                    </div>
+                    <div>
+                        주소 : {{ order.address_id.address}}
+                    </div>
+                    <div>
+                        주문 날짜 : {{ order.created_at }}
+                    </div>
+                    <div>
+                        총 가격 : {{ order.total_price|intcomma }}원
+                    </div>
+                    <div>
+                        {% if order.paid_status %}
+                            결제 완료
+                        {% else %}
+                            결제되지 않음
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            
+        {% endfor %}
+    </div>
+{% endblock content %}
