@@ -184,14 +184,7 @@ class SajjangMenuEditView(TemplateView):
             menu.name = request.POST["name"]
             menu.unit_price = request.POST["unit_price"]
             menu.menu_pic = request.POST["menu_pic"]
-
-            is_available = request.POST.get("is_available", "off")
-
-            if is_available == "on":
-                menu.is_available = True
-            else:
-                menu.is_available = False
-
+            menu.is_available = request.POST.get("is_available", False)
             menu.save()
             return redirect(
                 "sajjang:sajjang_store_menu_detail", store_id=store_id, menu_id=menu_id
