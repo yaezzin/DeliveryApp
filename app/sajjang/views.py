@@ -144,7 +144,7 @@ class SajjangAddMenuView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id):
         try:
             store = Stores.objects.get(id=store_id)
-            category= Category.objects.get(id=request.POST["category"])
+            category = Category.objects.get(id=request.POST["category"])
             name = request.POST.get("name")
             unit_price = request.POST.get("unit_price")
             menu_pic = request.POST.get("menu_pic")
@@ -279,7 +279,7 @@ class SajjangOrderAcceptView(SajjangRequiredMixin, TemplateView):
             order = get_object_or_404(Order, id=order_id)
             order.is_sajjang_accepted = True
             order.save()
-            return redirect("sajjang:sajjang_store_order")
+            return redirect("sajjang:sajjang_store_order", store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -291,6 +291,6 @@ class SajjangOrderRejectView(SajjangRequiredMixin, TemplateView):
             order = get_object_or_404(Order, id=order_id)
             order.is_sajjang_accepted = False
             order.save()
-            return redirect("sajjang:sajjang_store_order")
+            return redirect("sajjang:sajjang_store_order", store_id)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)

@@ -11,6 +11,10 @@ from customer.models import Cart
 from sajjang.models import Category, Stores, Menus, Address, Order
 from common.utils import CustomerRequiredMixin
 
+from faker import Faker
+
+fake = Faker("ko_KR")
+
 
 class CustomerHomeView(CustomerRequiredMixin, TemplateView):
     template_name = "/app/customer/templates/home.html"
@@ -481,6 +485,8 @@ class CustomerPayCompletedView(CustomerRequiredMixin, TemplateView):
             store_id=store_id,
             address_id=address_id,
             total_price=total_price,
+            paid_status=True,
+            receipt=fake.uuid4(),
         )
         order.save()
         carts.update(order_id=order.pk)
