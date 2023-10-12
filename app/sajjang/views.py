@@ -130,24 +130,23 @@ class SajjangAddMenuView(TemplateView):
 
     def post(self, request, store_id):
         try:
-            store_id = Stores.objects.get(id=store_id)
-            category_id = Category.objects.get(id=request.POST["category"])
-            name = request.POST["name"]
-            unit_price = request.POST["unit_price"]
-            menu_pic = request.POST["menu_pic"]
-            is_available = request.POST["is_available"]
+            store = Stores.objects.get(id=store_id)
+            category= Category.objects.get(id=request.POST["category"])
+            name = request.POST.get("name")
+            unit_price = request.POST.get("unit_price")
+            menu_pic = request.POST.get("menu_pic")
+            is_available = request.POST.get("is_available", False)
 
             new_menu = Menus(
-                store_id=store_id,
-                category_id=category_id,
+                store_id=store,
+                category_id=category,
                 name=name,
                 unit_price=unit_price,
                 menu_pic=menu_pic,
                 is_available=is_available,
             )
-
             new_menu.save()
-            return redirect("sajjang:sajjang_store_menu", store_id=store_id)
+            return redirect("sajjang:sajjang_store_menu", store_id=store.pk)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
