@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import JsonResponse
+from django.contrib.auth.models import Group, User
 from .models import Stores, Menus, Category, Order
-from account.models import User
 from customer.models import Cart
+from common.utils import SajjangRequiredMixin
 
 
 def is_sajjang(user):
@@ -11,17 +12,29 @@ def is_sajjang(user):
 
 
 # /sajjang/home
-class SajjangHomeView(TemplateView):
+class SajjangHomeView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/home.html"
 
     def get(self, request):
+        # if request.user.is_authenticated:
+        #     users_group = Group.objects.get(user=request.user).name
+
+        #     if users_group == "sajjang":
+        #         stores = Stores.objects.filter(user_id=request.user.id)
+        #         context = {"stores": stores}
+        #         return render(request, self.template_name, context)
+        #     else:
+        #         return redirect(f"/{users_group}/home")
+        # else:
+        #     return redirect(f"/")
+
         stores = Stores.objects.filter(user_id=request.user.id)
         context = {"stores": stores}
         return render(request, self.template_name, context)
 
 
 # /sajjang/store/add
-class SajjangStoreAddView(TemplateView):
+class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/add.html"
 
     def get(self, request):
@@ -61,7 +74,7 @@ class SajjangStoreAddView(TemplateView):
 
 
 # sajjang/store/<int:store_id>
-class SajjangStoreDetailView(TemplateView):
+class SajjangStoreDetailView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/detail.html"
 
     def get(self, request, store_id):
@@ -71,7 +84,7 @@ class SajjangStoreDetailView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/edit
-class SajjangStoreEditView(TemplateView):
+class SajjangStoreEditView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/edit.html"
 
     def get(self, request, store_id):
@@ -106,7 +119,7 @@ class SajjangStoreEditView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/delete
-class SajjangStoreDeleteView(TemplateView):
+class SajjangStoreDeleteView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id):
         try:
             store = get_object_or_404(Stores, id=store_id)
@@ -117,7 +130,7 @@ class SajjangStoreDeleteView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/menu
-class SajjangStoreMenuView(TemplateView):
+class SajjangStoreMenuView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/list.html"
 
     def get(self, request, store_id):
@@ -128,7 +141,7 @@ class SajjangStoreMenuView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/menu/add
-class SajjangAddMenuView(TemplateView):
+class SajjangAddMenuView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/add.html"
 
     def get(self, request, store_id):
@@ -162,7 +175,7 @@ class SajjangAddMenuView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>
-class SajjangStoreMenuDetailView(TemplateView):
+class SajjangStoreMenuDetailView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
@@ -173,7 +186,7 @@ class SajjangStoreMenuDetailView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>/edit
-class SajjangMenuEditView(TemplateView):
+class SajjangMenuEditView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/store/menu/edit.html"
 
     def get(self, request, store_id, menu_id):
@@ -211,7 +224,7 @@ class SajjangMenuEditView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/menu/<int:menu_id>/delete
-class SajjangMenuDeleteView(TemplateView):
+class SajjangMenuDeleteView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, menu_id):
         try:
             menu = get_object_or_404(Menus, id=menu_id)
@@ -222,7 +235,7 @@ class SajjangMenuDeleteView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/order
-class SajjangOrdersView(TemplateView):
+class SajjangOrdersView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/list.html"
 
     def get(self, request, store_id):
@@ -233,7 +246,7 @@ class SajjangOrdersView(TemplateView):
 
 
 # sajjang/store/<int:store_id>/order/<int:order_id>
-class SajjangOrderDetailView(TemplateView):
+class SajjangOrderDetailView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/detail.html"
 
     def get(self, request, store_id, order_id):
@@ -248,8 +261,8 @@ class SajjangOrderDetailView(TemplateView):
         return render(request, self.template_name, context)
 
 
-# sajjang/order/<int:order_id>/confirm
-class SajjangOrderConfirmView(TemplateView):
+# store/<int:store_id>/order/<int:order_id>/confirm
+class SajjangOrderConfirmView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/confirm.html"
 
     def get(self, request, store_id, order_id):
@@ -264,8 +277,8 @@ class SajjangOrderConfirmView(TemplateView):
         return render(request, self.template_name, context)
 
 
-# sajjang/order/<int:order_id>/confirm/accept
-class SajjangOrderAcceptView(TemplateView):
+# store/<int:store_id>/order/<int:order_id>/confirm/accept
+class SajjangOrderAcceptView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
@@ -280,8 +293,8 @@ class SajjangOrderAcceptView(TemplateView):
             return JsonResponse({"error": str(e)}, status=400)
 
 
-# sajjang/order/<int:order_id>/confirm/reject
-class SajjangOrderRejectView(TemplateView):
+# store/<int:store_id>/order/<int:order_id>/confirm/reject
+class SajjangOrderRejectView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)

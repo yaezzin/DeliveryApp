@@ -1,5 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Sajjang Home {% endblock title %}
+
+{% load static %}
+
+{% block title %}
+    Sajjang Home
+{% endblock title %}
+
 {% block content %}
     <div class="d-flex flex-row justify-content-between">
         {% if request.user.username %}

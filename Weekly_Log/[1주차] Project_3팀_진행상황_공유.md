@@ -11,7 +11,7 @@
 
 # Team Meeting History
 
-[Meeting minute](https://www.notion.so/e3775dbe88524b058529220b0a2aa035?v=c55a0ef54b74481999feaec9019143e3&pvs=4)
+[Meeting minute](https://fire-apartment-b43.notion.site/e3775dbe88524b058529220b0a2aa035?v=c55a0ef54b74481999feaec9019143e3&pvs=4)
 
 # Project Summary for Now
 
@@ -44,7 +44,7 @@
 
 # Github repo
 
-[Team Github](https://github.com/)
+[Team Github](https://github.com/likelion-backend-6th/delivery_app)
 
 Meeting Screenshot
-![팀회의 이미지](/static/image/teamscreenshot.png)
+![팀회의 이미지](/static/images/teamscreenshot.png)

@@ -5,7 +5,7 @@ app_name = "sajjang"
 
 # realted to Main & Store
 urlpatterns = [
-    path("home", SajjangHomeView.as_view(), name="sajjang_home"),
+    path("home/", SajjangHomeView.as_view(), name="sajjang_home"),
     path("store/add", SajjangStoreAddView.as_view(), name="sajjang_store_add"),
     path(
         "store/<int:store_id>",

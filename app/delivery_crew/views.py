@@ -3,19 +3,34 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView
 from django.template.loader import render_to_string
 from django.db.models import Subquery
+from django.contrib.auth.models import Group, User
 
 from sajjang.models import DeliveryHistory, RejectedOrder
 from sajjang.models import Order, Stores
-from django.contrib.auth.models import User
+from common.utils import DeliveryCrewRequiredMixin
 
 
-# Create your views here.
-
-
-class DeliveryCrewHomeView(TemplateView):
+class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request):
+        # if request.user.is_authenticated:
+        #     users_group = Group.objects.get(user=request.user).name
+
+        #     if users_group == "delivery_crew":
+        #         orders = Order.objects.filter(
+        #             is_sajjang_accepted=True, delivery_status=None
+        #         ).exclude(crew_rejected_order=request.user.id)
+        #         stores = Stores.objects.filter(
+        #             id__in=Subquery(orders.values("store_id"))
+        #         )
+        #         context = {"orders": orders, "stores": stores}
+        #         return render(request, self.template_name, context)
+        #     else:
+        #         return redirect(f"/{users_group}/home")
+        # else:
+        #     return render(request, self.template_name)
+
         orders = Order.objects.filter(
             is_sajjang_accepted=True, delivery_status=None
         ).exclude(crew_rejected_order=request.user.id)
@@ -24,7 +39,7 @@ class DeliveryCrewHomeView(TemplateView):
         return render(request, self.template_name, context)
 
 
-class DeliveryCrewDeliveryHistory(TemplateView):
+class DeliveryCrewDeliveryHistory(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/history.html"
 
     def get(self, request):
@@ -34,7 +49,7 @@ class DeliveryCrewDeliveryHistory(TemplateView):
         return render(request, self.template_name, context)
 
 
-class DeliveryCrewAcceptView(TemplateView):
+class DeliveryCrewAcceptView(DeliveryCrewRequiredMixin, TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def post(self, request, order_id):
@@ -50,7 +65,7 @@ class DeliveryCrewAcceptView(TemplateView):
         return redirect("delivery_crew:delivery_crew_home")
 
 
-class DeliveryCrewDenyView(TemplateView):
+class DeliveryCrewDenyView(DeliveryCrewRequiredMixin, TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def post(self, request, order_id):
@@ -66,7 +81,7 @@ class DeliveryCrewDenyView(TemplateView):
         return redirect("delivery_crew:delivery_crew_home")
 
 
-class DeliveryCrewAlarmView(TemplateView):
+class DeliveryCrewAlarmView(DeliveryCrewRequiredMixin, TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request, user_id, **kwargs):
