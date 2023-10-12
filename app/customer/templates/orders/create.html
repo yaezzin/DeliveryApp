@@ -47,18 +47,18 @@
             </div>
             
         {% endfor %}
+        <form action="{% url 'customer:customer_payment' %}" method="POST">
         <div>
             <p id="pay_price">총 가격 : {{ total_price|intcomma }}원</p>
         </div>
         <div>
             <label>
-            <select name='select_address'>
+            <select name='address_id'>
                 {% for address in addresses %}
                     <option value="{{ address.id }}">{{ address.address }}</option>
                 {% endfor %}
             </select>
         </div>
-        <form action="{% url 'customer:customer_payment' %}" method="POST">
             {% csrf_token %}
             <input type="submit" value="결제하기">
         </form>

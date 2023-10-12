@@ -17,7 +17,7 @@ class Stores(models.Model):
     store_pic = models.ImageField(blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
@@ -32,7 +32,7 @@ class Menus(models.Model):
     unit_price = models.IntegerField()
     menu_pic = models.ImageField(blank=True)
     is_available = models.BooleanField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
@@ -85,7 +85,7 @@ class Order(models.Model):
     delivery_status = models.BooleanField(
         null=True, default=None, verbose_name="delivery_status"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
@@ -96,7 +96,7 @@ class DeliveryHistory(models.Model):
     order_id = models.ForeignKey(
         Order, on_delete=models.CASCADE, verbose_name="order_id"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
@@ -107,5 +107,5 @@ class RejectedOrder(models.Model):
     order_id = models.ForeignKey(
         Order, on_delete=models.CASCADE, verbose_name="order_id"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)

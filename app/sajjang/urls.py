@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 
+app_name = "sajjang"
 
 # realted to Main & Store
 urlpatterns = [

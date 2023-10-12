@@ -4,7 +4,7 @@
 {% block content %}
     <p>결제가 취소되었습니다. 결재 정보를 다시 확인해주세요.</p>
 
-    <a href="{% url 'customer:customer_order_create' %}" class="btn btn-dark rounded-pill col-6 mt-3">
+    <a href="{% url 'customer:customer_order_create' store_id=store_id %}" class="btn btn-dark rounded-pill col-6 mt-3">
         돌아가기
     </a>
 
