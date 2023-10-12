@@ -37,16 +37,13 @@ class SajjangStoreAddView(TemplateView):
             name = request.POST["store_name"]
             address = request.POST["store_address"]
             store_pic = request.POST["store_pic"]
-            status = request.POST["status"]
-            if status == "true":
-                status = True
-            else:
-                status = False
+            status = request.POST.get("status", False)
 
-            category = Category.objects.get(id=request.POST["category"])
+            user = get_object_or_404(User, id=request.user.pk)
+            category = get_object_or_404(Category, id=request.POST["category"])
 
             new_store = Stores(
-                user_id=request.user.id,
+                user_id=user,
                 name=name,
                 address=address,
                 store_pic=store_pic,
