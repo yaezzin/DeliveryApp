@@ -13,7 +13,8 @@
         <p>{% if store.status == False %} 영업 준비중 {% else %} 영업 중 {% endif %}</p>
     </div>
     <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang:sajjang_store_menu' store.id %}'" style="cursor: pointer;">메뉴 전체보기</div>
-    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang:sajjang_store_order' store.id %}'" style="cursor: pointer;">주문 전체보기</div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang:sajjang_store_order' store.id %}'" style="cursor: pointer;">수락한 주문 전체보기</div>
+    <div class="d-grid btn btn-info my-4" onclick="location.href='{% url 'sajjang:sajjang_order_confirm' store.id %}'" style="cursor: pointer;">수락하지 않은 주문 전체보기</div>
     <div class="d-grid gap-2 d-flex justify-content-end">
         <a class="btn btn-warning" href="{% url 'sajjang:sajjang_store_edit' store.id %}">Edit</a>
         <form action="{% url 'sajjang:sajjang_store_delete' store.id %}" method="post">

@@ -71,6 +71,11 @@ urlpatterns += [
         name="sajjang_order_confirm",
     ),
     path(
+        "store/<int:store_id>/order/confirm/<int:order_id>",
+        SajjangOrderConfirmDetailView.as_view(),
+        name="sajjang_order_confirm_detail",
+    ),
+    path(
         "store/<int:store_id>/order/confirm/<int:order_id>/accept",
         SajjangOrderAcceptView.as_view(),
         name="sajjang_order_accept",

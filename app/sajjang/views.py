@@ -265,15 +265,27 @@ class SajjangOrderDetailView(SajjangRequiredMixin, TemplateView):
 class SajjangOrderConfirmView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/confirm.html"
 
+    # SajjangOrdersView get 메서드
+    def get(self, request, store_id):
+        store = Stores.objects.get(id=store_id)
+        orders = Order.objects.filter(store_id=store_id)
+        context = {"store": store, "orders": orders}
+        return render(request, self.template_name, context)
+
+
+# sajjang/store/<int:store_id>/order/confirm/<int:order_id>
+class SajjangOrderConfirmDetailView(SajjangRequiredMixin, TemplateView):
+    template_name = "/app/sajjang/templates/stores/orders/confirm_detail.html"
+
     def get(self, request, store_id, order_id):
-        order = get_object_or_404(
-            Order,
-            id=order_id,
-            store_id=store_id,
-            paid_status=True,
-            is_sajjang_accepted=None,
-        )
-        context = {"order": order}
+        store = Stores.objects.get(id=store_id)
+        order = get_object_or_404(Order, id=order_id)
+        cart_in_order = Cart.objects.filter(order_id=order_id)
+        context = {
+            "store": store,
+            "order": order,
+            "cart_in_order": cart_in_order,
+        }
         return render(request, self.template_name, context)
 
 
@@ -282,12 +294,8 @@ class SajjangOrderAcceptView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
-            order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
-            if request.POST["is_sajjang_accepted"] == "True":
-                order.is_sajjang_accepted = True
-                order.save()
-            else:
-                raise Exception("wrong value")
+            order.is_sajjang_accepted = True
+            order.save()
             return redirect("sajjang:sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -298,13 +306,8 @@ class SajjangOrderRejectView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, order_id):
         try:
             order = get_object_or_404(Order, id=order_id)
-            order.is_sajjang_accepted = request.POST["is_sajjang_accepted"]
-            if request.POST["is_sajjang_accepted"] == "False":
-                order.is_sajjang_accepted = False
-                order.save()
-            else:
-                raise Exception("wrong value")
-            # is_sajjang_accepted 가 False 가 되므로 환불 처리 진행해야함
+            order.is_sajjang_accepted = False
+            order.save()
             return redirect("sajjang:sajjang_store_order")
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)

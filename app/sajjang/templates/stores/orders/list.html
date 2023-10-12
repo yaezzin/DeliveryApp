@@ -7,13 +7,13 @@
         </div>
     </div>
     {% for order in orders %}
-        <div class="border rounded my-2 p-3" onclick="location.href='{% url 'sajjang:sajjang_order_detail' store.id order.id %}'" style="cursor: pointer;">
-            <p>order_id: {{ order.id }}</p>
-            <p>customer_address: {{ order.address_id.address }}</p>
-            <p>total_price: {{ order.total_price }}</p>
-            <p class="mb-0">paid_status: {{ order.paid_status }}</p>
-        </div>
-    {% empty %}
-        <p>들어온 주문이 없습니다!</p>
+        {% if order.is_sajjang_accepted == True %}
+            <div class="border rounded my-2 p-3" onclick="location.href='{% url 'sajjang:sajjang_order_detail' store.id order.id %}'" style="cursor: pointer;">
+                <p>order_id: {{ order.id }}</p>
+                <p>customer_address: {{ order.address_id.address }}</p>
+                <p>total_price: {{ order.total_price }}</p>
+                <p class="mb-0">paid_status: {{ order.paid_status }}</p>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock%}
