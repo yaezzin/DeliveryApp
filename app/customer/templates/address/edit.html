@@ -10,11 +10,11 @@
         {% csrf_token %}
         <div class="mb-3">
             <label class="form-label" for="address_name">Address Name:</label>
-            <input class="form-control" type="text" name="address_name" id="address_name" value={{ address.address_name}}>
+            <input class="form-control" type="text" name="address_name" id="address_name" value="{{ address.address_name}}">
         </div>
         <div class="mb-3">
             <label class="form-label" for="address">Address:</label>
-            <input class="form-control" type="text" name="address" id="address" value={{ address.address }}>
+            <input class="form-control" type="text" name="address" id="address" value="{{ address.address }}">
         </div>
         <div class="mb-3">
             <label class="form-check-label" for="is_default">Is Default:</label>
