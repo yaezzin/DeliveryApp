@@ -11,6 +11,16 @@ urlpatterns = [
         name="delivery_crew_history",
     ),
     path(
+        "delivery_history/<int:order_id>/pickup/",
+        DeliveryCrewDeliveryHistoryPickUp.as_view(),
+        name="delivery_crew_pickup",
+    ),
+    path(
+        "delivery_history/<int:order_id>/complete/",
+        DeliveryCrewDeliveryHistoryComplete.as_view(),
+        name="delivery_crew_complete",
+    ),
+    path(
         "<int:order_id>/accept/",
         DeliveryCrewAcceptView.as_view(),
         name="delivery_crew_accept",
