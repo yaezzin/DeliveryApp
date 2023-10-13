@@ -24,10 +24,10 @@
         <div class="input-group mb-3">
             <label class="input-group-text" for="category">Category</label>
             <select class="form-select" name= "category" id="category">
-            <option selected>Choose...</option>
-            {% for category in categories %}
-            <option value="{{ category.id }}" {% if category == category %}selected{% endif %} >{{ category.name }}</option>
-            {% endfor %}
+                <option selected disabled>Choose...</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if category == category %}{% endif %} >{{ category.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="mb-3">
