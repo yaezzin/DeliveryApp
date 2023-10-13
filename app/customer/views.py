@@ -241,20 +241,9 @@ class CustomerOrderCreateView(CustomerRequiredMixin, TemplateView):
         # 주문 할 메뉴 가져오기
         user_carts = Cart.objects.filter(
             user_id=request.user.pk, order_id=None, store_id=store_id
-        )
-        stores = user_carts.distinct().values_list("store_id")
-        context = {"carts": []}
-        for store in stores:
-            store_name = Stores.objects.filter(id=store[0]).first()
-
-            context["carts"].append(
-                {
-                    "store_name": store_name,
-                    "carts": user_carts.filter(store_id=store[0]).order_by(
-                        "-created_at"
-                    ),
-                }
-            )
+        ).order_by("-created_at")
+        store = user_carts.first().store_id
+        context = {"carts": user_carts, "store": store}
 
         # 주소 목록 가져오기
         addresses = Address.objects.filter(customer_id=request.user.pk).order_by(
@@ -263,20 +252,19 @@ class CustomerOrderCreateView(CustomerRequiredMixin, TemplateView):
         context["addresses"] = addresses
 
         # 최종 결제 가격 표시
-        total_price = 0
-        for carts in context["carts"]:
-            for menus in carts["carts"]:
-                total_price += menus.get_total_price()
+        pay_price = 0
+        for cart in user_carts:
+            pay_price += cart.get_total_price()
 
-        context["total_price"] = total_price
+        context["pay_price"] = pay_price
 
         return render(request, self.template_name, context)
 
     def post(self, request, store_id):
-        print("dddddd")
-
         def get_pay_price():
-            carts = Cart.objects.filter(customer_id=request.user.pk, store_id=store_id)
+            carts = Cart.objects.filter(
+                user_id=request.user.pk, store_id=store_id, order_id=None
+            )
             pay_price = 0
             for cart in carts:
                 pay_price += cart.get_total_price()
@@ -443,7 +431,11 @@ class CustomerPaymentView(CustomerRequiredMixin, TemplateView):
             "line_items": [],
         }
 
-        orders = Cart.objects.filter(user_id=request.user.pk, order_id=None)
+        orders = Cart.objects.filter(
+            user_id=request.user.pk,
+            store_id=request.session.get("store_id", None),
+            order_id=None,
+        )
         for order in orders:
             session_data["line_items"].append(
                 {
@@ -485,7 +477,7 @@ class CustomerPayCompletedView(CustomerRequiredMixin, TemplateView):
             store_id=store_id,
             address_id=address_id,
             total_price=total_price,
-            paid_status=True,
+            order_status="paid",
             receipt=fake.uuid4(),
         )
         order.save()

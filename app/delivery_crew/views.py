@@ -19,8 +19,7 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
 
         #     if users_group == "delivery_crew":
         #         orders = Order.objects.filter(
-        #             is_sajjang_accepted=True, delivery_status=None
-        #         ).exclude(crew_rejected_order=request.user.id)
+        #             order_status="sajjang_accepted").exclude(crew_rejected_order=request.user.id)
         #         stores = Stores.objects.filter(
         #             id__in=Subquery(orders.values("store_id"))
         #         )
@@ -31,9 +30,9 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
         # else:
         #     return render(request, self.template_name)
 
-        orders = Order.objects.filter(
-            is_sajjang_accepted=True, delivery_status=None
-        ).exclude(crew_rejected_order=request.user.id)
+        orders = Order.objects.filter(order_status="sajjang_accepted").exclude(
+            crew_rejected_order=request.user.id
+        )
         stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
         context = {"orders": orders, "stores": stores}
         return render(request, self.template_name, context)
@@ -55,10 +54,11 @@ class DeliveryCrewAcceptView(DeliveryCrewRequiredMixin, TemplateView):
     def post(self, request, order_id):
         delivery = get_object_or_404(Order, id=order_id)
         delivery_crew = get_object_or_404(User, id=request.user.id)
+
         new_order_history = DeliveryHistory.objects.create(
             delivery_crew_id=delivery_crew, order_id=delivery
         )
-        delivery.delivery_status = True
+        delivery.order_status = "delivery_accepted"
         delivery.save()
         new_order_history.save()
 
@@ -85,7 +85,7 @@ class DeliveryCrewAlarmView(DeliveryCrewRequiredMixin, TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request, user_id, **kwargs):
-        pending_deliveries = Order.objects.filter(delivery_status=None)
+        pending_deliveries = Order.objects.filter(order_status="sajjang_accepted")
         context = super().get_context_data(**kwargs)
         context["pending_deliveries"] = pending_deliveries
         return context

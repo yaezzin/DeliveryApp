@@ -7,12 +7,12 @@
         </div>
     </div>
     {% for order in orders %}
-        {% if order.is_sajjang_accepted == True %}
+        {% if order.order_status == "sajjang_accepted" %}
             <div class="border rounded my-2 p-3" onclick="location.href='{% url 'sajjang:sajjang_order_detail' store.id order.id %}'" style="cursor: pointer;">
-                <p>order_id: {{ order.id }}</p>
-                <p>customer_address: {{ order.address_id.address }}</p>
-                <p>total_price: {{ order.total_price }}</p>
-                <p class="mb-0">paid_status: {{ order.paid_status }}</p>
+                <p>Order ID: {{ order.id }}</p>
+                <p>Customer Address: {{ order.address_id.address }}</p>
+                <p>Total Price: {{ order.total_price }}</p>
+                <p class="mb-0">Order Status: {{ order.order_status }}</p>
             </div>
         {% endif %}
     {% endfor %}

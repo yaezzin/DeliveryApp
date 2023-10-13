@@ -209,10 +209,7 @@ class Command(BaseCommand):
                     store_id=selected_store,
                     address_id=selected_address,
                     total_price=total_price,
-                    paid_status=None,
                     receipt=None,
-                    is_sajjang_accepted=None,
-                    delivery_status=None,
                     created_at=timezone.now(),
                 )
 
@@ -229,13 +226,14 @@ class Command(BaseCommand):
 
         # 결제 과정을 거쳐서 오더의 정보를 업데이트
         for order in order_objects:
-            payment_success = simple_payment(0.8)
+            payment_success = simple_payment(0.95)
 
-            if payment_success:
-                order.paid_status = True
-                order.receipt = fake.uuid4()
-            else:
-                order.paid_status = False
+            try:
+                if payment_success:
+                    order.order_status = "paid"
+                    order.receipt = fake.uuid4()
+            except Exception as e:
+                print(f"Payment failed: {e}")
 
             order.save()
 
@@ -246,11 +244,11 @@ class Command(BaseCommand):
             return random() < success_rate
 
         for order in order_objects:
-            sajjang_acceptance_success = sajjang_acceptance(0.9)
+            sajjang_acceptance_success = sajjang_acceptance(0.80)
 
             if sajjang_acceptance_success:
-                order.is_sajjang_accepted = True
+                order.order_status = "sajjang_accepted"
             else:
-                order.is_sajjang_accepted = False
+                order.order_status = "sajjang_rejected"
 
             order.save()
