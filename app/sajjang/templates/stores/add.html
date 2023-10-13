@@ -10,12 +10,12 @@
     <form method="post" action="{% url 'sajjang:sajjang_store_add' %}" class="my-3">
         {% csrf_token %}
         <div class="mb-3">
-            <label class="form-label" for="store_name">Store Name:</label>
-            <input class="form-control" type="text" name="store_name" id="store_name">
+            <label class="form-label" for="Store Name">Store Name:</label>
+            <input class="form-control" type="text" name="store_name" id="Store Name" placeholder="가게 이름을 입력해주세요." required>
         </div>
         <div class="mb-3">
-            <label class="form-label" for="store_address">Address:</label>
-            <input class="form-control" type="text" name="store_address" id="store_address">
+            <label class="form-label" for="Address">Address:</label>
+            <input class="form-control" type="text" name="store_address" id="Address" placeholder="가게 주소를 입력해주세요." required>
         </div>
         <div class="input-group mb-3">
             <label class="input-group-text" for="store_pic">Picture</label>
@@ -23,8 +23,8 @@
         </div>
         <div class="input-group mb-3">
             <label class="input-group-text" for="category">Category</label>
-            <select class="form-select" name= "category" id="category">
-                <option selected disabled>Choose...</option>
+            <select class="form-select" name= "category" id="category" required>
+                <option selected disabled value="">Choose...</option>
                 {% for category in categories %}
                 <option value="{{ category.id }}" {% if category == category %}{% endif %} >{{ category.name }}</option>
                 {% endfor %}
