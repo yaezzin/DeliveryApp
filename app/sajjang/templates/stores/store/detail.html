@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'sajjang_base.html' %}
 {% block content %}
+    {{ block.super }}
     <div class="my-2" style="width:100px; height:100px;">
         {% if store.store_pic %}
             <img src="..." class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'sajjang_base.html' %}
 
 {% load static %}
 
@@ -6,6 +6,7 @@
 {% endblock title %}
 
 {% block content %}
+    {{ block.super }}
     <div class="d-flex flex-row justify-content-between">
         <p>가게 이름: {{ store.name }}</p>
         <div>
