@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "sajjang_base.html" %}
 
 {% load static %}
 
@@ -6,6 +6,7 @@
 {% endblock title %}
 
 {% block content %}
+    {{ block.super }}
     <h3>Store Add Page</h3>
     <form method="post" action="{% url 'sajjang:sajjang_store_add' %}" class="my-3">
         {% csrf_token %}

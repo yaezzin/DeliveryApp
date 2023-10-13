@@ -350,18 +350,26 @@ class CustomerMenuDetailView(CustomerRequiredMixin, TemplateView):
 
     def post(self, request, store_id, menu_id):
         try:
-            quantity = request.POST.get("quantity", 1)
+            quantity = int(request.POST.get("quantity", 1))
 
             store = get_object_or_404(Stores, id=store_id)
             menu = get_object_or_404(Menus, id=menu_id)
 
-            cart_item = Cart(
-                user_id=request.user,
-                store_id=store,
-                menu_id=menu,
-                order_id=None,
-                quantity=quantity,
-            )
+            cart_item = Cart.objects.filter(
+                user_id=request.user, store_id=store, order_id=None, menu_id=menu
+            ).last()
+            print(cart_item)
+
+            if cart_item:
+                cart_item.quantity += quantity
+            else:
+                cart_item = Cart(
+                    user_id=request.user,
+                    store_id=store,
+                    menu_id=menu,
+                    order_id=None,
+                    quantity=quantity,
+                )
             cart_item.save()
             return redirect("customer:store_menu", store_id=store_id)
 

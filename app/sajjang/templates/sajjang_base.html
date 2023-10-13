@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            {% if request.user.username %}
+                <p class="mb-0 align-self-center">{{ request.user.username }}</p>
+            {% else %}
+                <p class="mb-0 align-self-center">username을 불러올 수 없습니다.</p>
+            {% endif %}
+        </div>
+        <div>
+            <a class="btn btn-success" href="{% url 'customer:customer_home' %}">Home</a>
+        </div>
+        <div>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="로그아웃">
+            </form>
+        </div>
+    </div>
+{% endblock content %}
