@@ -7,7 +7,7 @@
         {% csrf_token %}
         <div class="mb-3">
             <label class="form-label" for="name">Menu Name:</label>
-            <input class="form-control" type="text" name="name" id="name" placeholder="메뉴 이름을 입력해주세요." required value={{ menu.name }}>
+            <input class="form-control" type="text" name="name" id="name" placeholder="메뉴 이름을 입력해주세요." required value="{{ menu.name }}">
         </div>
         <div class="mb-3">
             <label class="form-label" for="unit_price">Unit Price:</label>
