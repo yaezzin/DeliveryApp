@@ -10,11 +10,11 @@
         {% csrf_token %}
         <div class="mb-3">
             <label class="form-label" for="name">Store Name:</label>
-            <input class="form-control" type="text" name="name" id="store_name" value="{{ store.name }}">
+            <input class="form-control" type="text" name="name" id="store_name" placeholder="가게 이름을 입력해주세요." required value="{{ store.name }}">
         </div>
         <div class="mb-3">
             <label class="form-label" for="address">Address:</label>
-            <input class="form-control" type="text" name="address" id="store_address" value="{{ store.address }}">
+            <input class="form-control" type="text" name="address" id="store_address" placeholder="가게 주소를 입력해주세요." required value="{{ store.address }}">
         </div>
         <div class="mb-3">
             <label class="form-label" for="store_pic">Picture:</label>
@@ -22,10 +22,10 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="category">Category:</label>
-            <select class="form-select" name="category" id="category">
-                <option selected>Choose...</option>
+            <select class="form-select" name="category" id="category" required>
+                <option selected disabled value="">Choose...</option>
                     {% for category in categories %}
-                    <option value="{{ category.id }}" {% if category.id == selected_category.id %}selected{% endif %} >{{ category.name }}</option>
+                    <option value="{{ category.id }}"{% if category.id == selected_category.id %}{% endif %} >{{ category.name }}</option>
                     {% endfor %}
                 </select>
         </div>
