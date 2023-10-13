@@ -16,9 +16,17 @@
                             <p class="card-text">Customer Address: {{ order.order_id.address_id.address }}</p>
                             <p class="card-text type24" data-time="{{ order.created_at }}">{{ order.created_at }}</p>
                             {% if order.order_id.order_status == 'crew_accepted' %}
-                                <button type="button" class="btn btn-success">배정 완료</button>
-                            {% elif order.order_id.order_status == 'delivery_in_progess' %}
-                                <button type="button" class="btn btn-primary">배달 중</button>
+                                <form action="{% url 'delivery_crew:delivery_crew_pickup' order.order_id.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.order_id.id }}">
+                                    <button type="submit" class="btn btn-success">배정 완료</button>
+                                </form>
+                            {% elif order.order_id.order_status == 'delivery_in_progress' %}
+                                <form action="{% url 'delivery_crew:delivery_crew_complete' order.order_id.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.order_id.id }}">
+                                    <button type="submit" class="btn btn-primary">배달 중</button>
+                                </form>
                             {% elif order.order_id.order_status == 'delivered' %}
                                 <button type="button" class="btn btn-secondary" disabled>배달 완료</button>
                             {% endif %}
