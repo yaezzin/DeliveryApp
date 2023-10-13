@@ -58,7 +58,7 @@ class DeliveryCrewAcceptView(DeliveryCrewRequiredMixin, TemplateView):
         new_order_history = DeliveryHistory.objects.create(
             delivery_crew_id=delivery_crew, order_id=delivery
         )
-        delivery.order_status = "delivery_accepted"
+        delivery.order_status = "crew_accepted"
         delivery.save()
         new_order_history.save()
 
