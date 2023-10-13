@@ -60,12 +60,12 @@ class Order(models.Model):
         Address, on_delete=models.CASCADE, verbose_name="address_id"
     )
     total_price = models.IntegerField(verbose_name="total_price")
-    # order_status = models.CharField(
-    #     max_length=20,
-    #     choices=ORDER_STATUS_CHOICES,
-    #     default="created",
-    #     verbose_name="order_status",
-    # )
+    order_status = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES,
+        default="created",
+        verbose_name="order_status",
+    )
     paid_status = models.BooleanField(
         null=True, default=None, verbose_name="paid_status"
     )
