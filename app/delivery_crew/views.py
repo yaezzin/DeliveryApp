@@ -48,6 +48,27 @@ class DeliveryCrewDeliveryHistory(DeliveryCrewRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
+class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView):
+    def post(self, request, order_id):
+        delivery = get_object_or_404(Order, id=order_id)
+        delivery.order_status = "delivery_in_progress"
+        delivery.save()
+        return redirect("delivery_crew:delivery_crew_history")
+
+
+class DeliveryCrewDeliveryHistoryComplete(DeliveryCrewRequiredMixin, TemplateView):
+    def post(self, request, order_id):
+        delivery = get_object_or_404(Order, id=order_id)
+        delivery_crew = get_object_or_404(User, id=request.user.id)
+        complete_order_history = DeliveryHistory.objects.filter(
+            delivery_crew_id=delivery_crew, order_id=delivery
+        )
+        delivery.order_status = "delivered"
+        delivery.save()
+        complete_order_history.delete()
+        return redirect("delivery_crew:delivery_crew_history")
+
+
 class DeliveryCrewAcceptView(DeliveryCrewRequiredMixin, TemplateView):
     # template_name = "/app/delivery_crew/templates/home.html"
 
