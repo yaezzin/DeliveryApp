@@ -23,9 +23,9 @@
         <div class="mb-3">
             <label class="form-label" for="category">Category:</label>
             <select class="form-select" name="category" id="category">
-                <option selected>Choose...</option>
+                <option selected disabled>Choose...</option>
                     {% for category in categories %}
-                    <option value="{{ category.id }}" {% if category.id == selected_category.id %}selected{% endif %} >{{ category.name }}</option>
+                    <option value="{{ category.id }}"{% if category.id == selected_category.id %}{% endif %} >{{ category.name }}</option>
                     {% endfor %}
                 </select>
         </div>
