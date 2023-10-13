@@ -6,6 +6,7 @@
 {% endblock title %}
 
 {% block content %}
+    {{ block.super }}
     <h3>Menu Add Page</h3>
     <form method="post" action="{% url 'sajjang:sajjang_add_menu' store.id %}" class="my-3">
         {% csrf_token %}
