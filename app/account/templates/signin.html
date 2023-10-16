@@ -6,26 +6,27 @@ Login
 {% endblock title %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container p-5">
+    <div class="row justify-content-center p-5">
         <div class="col-md-6">
-            <h2 class="text-center">Login</h2>
-            <form action="" method="POST" class="mt-5">
+            <h2 class="text-center mb-3">Login</h2>
+            <form action="" method="POST" class="mt-4">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                <div class="form-group mb-2">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
                     {{ form.username }}
                 </div>
-                <div class="form-group">
-                    <label for="{{ form.password.id_for_label }}">Password:</label>
+                <div class="form-group mb-3">
+                    <label for="{{ form.password.id_for_label }}">Password</label>
                     {{ form.password }}
                 </div>
-                <div class="form-group text-center mt-3">
-                    <input type="submit" value="Submit" class="btn btn-primary">
+                <div class="form-group mt-2 d-grid">
+                    <input type="submit" value="로그인" class="btn btn-primary">
                 </div>
             </form>
-            <div class="text-center mt-3">
-                <button onclick="location.href='/account/signup'" class="btn btn-secondary">Go to Sign Up</button>
+            <div class="align-self-center my-2">
+                <i class="bi bi-arrow-right text-primary"></i>
+                <a class="icon-link" href="/account/signup">Go to Sign up</a>
             </div>
         </div>
     </div>
