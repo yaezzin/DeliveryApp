@@ -1,31 +1,29 @@
 {% extends "customer_base.html" %}
 {% load humanize %}
 {% block content %}
-    {{ block.super }}
-    <div><a class="btn btn-secondary" href="{% url 'customer:customer_orders' %}">돌아가기</a></div>
-    <div class="my-4"><h1>주문 상세</h1></div>
-    <div class="container-fluid my-4">
-        <div><h4>{{ order.store_id.name }}</h4></div>
-        <div class="border">
-            {% for cart in carts %}
-            
-                <div class="border my-2 ms-1 me-1">
-                    <div>
-                        <h5>{{ cart.menu_id.name }}</h5>
-                    </div>
-                    <div>
-                        단품 가격 : {{ cart.menu_id.unit_price|intcomma }}원
-                    </div>
-                    <div>
-                        수량 : {{ cart.quantity }}
-                    </div>
-                    <div>
-                        주문 가격 : {{ cart.get_total_price|intcomma }}원
-                    </div>
-                </div>    
-            {% endfor %}
-            <div> 총 결제 금액 : {{ order.total_price|intcomma }}원</div>
-        </div>
+    <div class="mb-3">
+        <a href="{% url 'customer:customer_orders' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
-
+    <h3 class="mb-3">Order detail</h3>
+    <div class="border p-3">
+        <h5>{{ order.store_id.name }}</h5>
+        {% for cart in carts %}
+        
+            <div class="border rounded my-2 p-2">
+                <div>
+                    <h5>{{ cart.menu_id.name }}</h5>
+                </div>
+                <div>
+                    단품 가격 : {{ cart.menu_id.unit_price|intcomma }}원
+                </div>
+                <div>
+                    수량 : {{ cart.quantity }}
+                </div>
+                <div>
+                    주문 가격 : {{ cart.get_total_price|intcomma }}원
+                </div>
+            </div>    
+        {% endfor %}
+        <div> 총 결제 금액 : {{ order.total_price|intcomma }}원</div>
+    </div>
 {% endblock content %}
