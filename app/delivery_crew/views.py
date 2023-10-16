@@ -48,6 +48,15 @@ class DeliveryCrewDeliveryHistory(DeliveryCrewRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
+class DeliveryHistoryDetailView(DeliveryCrewRequiredMixin, TemplateView):
+    template_name = "/app/delivery_crew/templates/history_detail.html"
+
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        context = {"order": order}
+        return render(request, self.template_name, context)
+
+
 class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView):
     def post(self, request, order_id):
         delivery = get_object_or_404(Order, id=order_id)

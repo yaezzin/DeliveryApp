@@ -1,9 +1,12 @@
+import csv
+
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
 
 from account.models import Address
 from customer.models import Cart
-from delivery_crew.models import DeliveryLocation
+
+# from delivery_crew.models import DeliveryLocation
 from sajjang.models import Category, Stores, Menus, Order
 
 from random import randint, choice, random, sample
@@ -14,11 +17,22 @@ from django.core.management import BaseCommand
 
 class Command(BaseCommand):
     help = "Creating dummy data"
+    fake = Faker("ko_KR")
 
     def handle(self, *args, **options):
         print("더미 데이터 생성을 시작합니다.")
+        addresses = []
+        with open("./account/management/store_data.csv", "r") as csvfile:
+            csvreader = csv.reader(csvfile)
+            for row in csvreader:
+                addresses.append(row[2])
 
-        fake = Faker("ko_KR")
+        def get_random_address(addresses):
+            from_selected_address = choice(addresses)
+            addresses.remove(from_selected_address)
+            return from_selected_address
+
+        fake = self.fake
         group_names = ["customer", "sajjang", "delivery_crew"]
 
         # Group 생성
@@ -48,11 +62,10 @@ class Command(BaseCommand):
                 )
                 user.groups.add(group)
 
-        # 그룹 별 랜덤 유저 10개씩 생성
+        # 그룹 별 랜덤 유저 30개씩 생성
         for group in groups:
-            create_users(group, 10)
+            create_users(group, 30)
 
-        all_users = User.objects.all()
         customer_users = User.objects.filter(groups__name="customer")
         sajjang_users = User.objects.filter(groups__name="sajjang")
         delivery_crew_users = User.objects.filter(groups__name="delivery_crew")
@@ -61,19 +74,22 @@ class Command(BaseCommand):
         for user in customer_users:
             # default = False
             for _ in range(2):
+                from_selected_address = get_random_address(addresses)
+
                 Address.objects.create(
                     customer_id=user,
                     address_name=fake.user_name(),
-                    address=fake.address(),
+                    address=from_selected_address,
                     is_default=False,
                     created_at=timezone.now(),
                 )
 
             # default = True
+            from_selected_address = get_random_address(addresses)
             Address.objects.create(
                 customer_id=user,
                 address_name=fake.user_name(),
-                address=fake.address(),
+                address=from_selected_address,
                 is_default=True,
                 created_at=timezone.now(),
             )
@@ -86,13 +102,14 @@ class Command(BaseCommand):
 
         category_objects = Category.objects.all()
 
-        # 사장 유저 스토어 2개씩 생성
+        # 사장 유저 스토어 3개씩 생성
         for user in sajjang_users:
             for _ in range(2):
+                from_selected_address = get_random_address(addresses)
                 Stores.objects.create(
                     user_id=user,
                     name=fake.company(),
-                    address=fake.address(),
+                    address=from_selected_address,
                     store_pic=fake.image_url(),
                     category_id=choice(category_objects),
                     status=choice([True, False]),
