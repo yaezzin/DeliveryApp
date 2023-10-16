@@ -59,13 +59,8 @@ class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView)
 class DeliveryCrewDeliveryHistoryComplete(DeliveryCrewRequiredMixin, TemplateView):
     def post(self, request, order_id):
         delivery = get_object_or_404(Order, id=order_id)
-        delivery_crew = get_object_or_404(User, id=request.user.id)
-        complete_order_history = DeliveryHistory.objects.filter(
-            delivery_crew_id=delivery_crew, order_id=delivery
-        )
         delivery.order_status = "delivered"
         delivery.save()
-        complete_order_history.delete()
         return redirect("delivery_crew:delivery_crew_history")
 
 

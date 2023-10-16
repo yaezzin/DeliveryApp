@@ -222,8 +222,16 @@ class SajjangOrdersView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/stores/orders/list.html"
 
     def get(self, request, store_id):
+        selected_order_status = [
+            "sajjang_accepted",
+            "crew_accepted",
+            "delivery_in_progress",
+            "delivered",
+        ]
         store = Stores.objects.get(id=store_id)
-        orders = Order.objects.filter(store_id=store_id)
+        orders = Order.objects.filter(
+            store_id=store_id, order_status__in=selected_order_status
+        )
         context = {"store": store, "orders": orders}
         return render(request, self.template_name, context)
 
