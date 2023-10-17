@@ -100,6 +100,28 @@
                     }	
                 }
 
+                			// 6. 경로탐색 결과 반경만큼 지도 레벨 조정
+			    var newData = geoData[0];
+			    PTbounds = new Tmapv3.LatLngBounds();
+					for (var i = 0; i < newData.length; i++) {
+						var mData = newData[i];
+						var type = mData.geometry.type;
+						var pointType = mData.properties.pointType;
+						if(type == "Point"){
+							var linePt = new Tmapv3.LatLng(mData.geometry.coordinates[1],mData.geometry.coordinates[0]);
+							console.log(linePt);
+							PTbounds.extend(linePt);
+						}
+						else{
+							var startPt,endPt;
+							for (var j = 0; j < mData.geometry.coordinates.length; j++) {
+								var linePt = new Tmapv3.LatLng(mData.geometry.coordinates[j][1],mData.geometry.coordinates[j][0]);
+								PTbounds.extend(linePt);
+							}
+					}
+				}
+				map.fitBounds(PTbounds);
+
                 
             }
 
@@ -157,6 +179,9 @@
             .catch(error => {
                 console.error('Error:', error);
             });
+
+
+
             
         })
     </script>
