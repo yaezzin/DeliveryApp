@@ -24,6 +24,6 @@
                 </div>
             </div>    
         {% endfor %}
-        <div> 총 결제 금액 : {{ order.total_price|intcomma }}원</div>
+        <p class="d-flex justify-content-end">총 결제 금액 : {{ order.total_price|intcomma }}원</p>
     </div>
 {% endblock content %}
