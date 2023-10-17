@@ -2,53 +2,41 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-    {{ block.super }}
-    <h1>장바구니</h1>
+    <div class="mb-3">
+        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <h3><i class="bi bi-bag fs-2"></i>&nbsp;Cart</h3>
     <div>
         {% for store in carts %}
             <div class="mt-4">
                 <h3>{{ store.store_name.name }}</h3>
-                <div>
+                <div class="list-group">
                     {% for cart_in_store in store.carts %}
-                        <div class="border" id="cart_{{ cart_in_store.id }}">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <img src={% static 'images/img_onerror.jpeg' %}>
-                                    <h4>{{ cart_in_store.menu_id.name }}</h4>
+                        <div id="cart_{{ cart_in_store.id }}" class="list-group-item">
+                            <div class="d-flex flex-row position-relative">
+                                <div class="m-2">
+                                    <img src="{{ cart_in_store.menu_id.menu_pic }}" alt="..." class="rounded" style="width: 100px; height: 100px;">
                                 </div>
-                                <div class="d-flex justify-content-end">
-                                    <div class="border">
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-secondary mt-2 me-2" onclick="delete_button_click({{ cart_in_store.id }})">X</button>
-                                        </div>
-                                        <div class="row d-flex justify-content-center">
-                                            <div class="col text-center">
-                                                <text>수량</text>
-                                            </div>
-                                            <div class="col text-center">
-                                                <text id="quantity_{{ cart_in_store.id }}">{{ cart_in_store.quantity }}<p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <button class="btn btn-secondary" onclick="quantity_up_click({{ cart_in_store.id }})">+</button>
-                                            </div>
-                                            <div class="col">
-                                                <button class="btn btn-secondary" onclick="quantity_down_click({{ cart_in_store.id }})">-</button>
-                                            </div>
-                                        </div>
-                                        <div class="mt-2 text-center">
-                                            <text id="total_price_{{ cart_in_store.id }}">{{ cart_in_store.get_total_price|intcomma }}원</text>
-                                        </div>
+                                <div class="m-3">
+                                    <h4>{{ cart_in_store.menu_id.name }}</h4>
+                                    <p class="mb-0">가격: {{ cart_in_store.menu_id.unit_price}}</p>
+                                    <div class="d-flex flex-row align-items-center">
+                                        <span>수량</span>    
+                                        <button class="btn" onclick="quantity_up_click({{ cart_in_store.id }})"><i class="bi bi-plus-circle"></i></button>
+                                        <span id="quantity_{{ cart_in_store.id }}">{{ cart_in_store.quantity }}</span>
+                                        <button class="btn" onclick="quantity_down_click({{ cart_in_store.id }})"><i class="bi bi-dash-circle"></i></button>
                                     </div>
                                 </div>
+                                <button onclick="delete_button_click({{ cart_in_store.id }})" class="position-absolute top-0 end-0" style="background: none; border: none;"><i class="bi bi-trash fs-5"></i></button>
+                                <span id="total_price_{{ cart_in_store.id }}" class="position-absolute bottom-0 end-0">{{ cart_in_store.get_total_price|intcomma }}원</span>
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="d-flex flex-row justify-content-end mt-2">
+                        <a class="btn btn-primary" href="{% url 'customer:customer_order_create' store_id=store.store_name.pk %}">주문하기</a>
+                    </div>
                 </div>
-                <a class="btn btn-primary" href="{% url 'customer:customer_order_create' store_id=store.store_name.pk %}">주문하기</a>
             </div>
-            
         {% endfor %}
     </div>
     <script>
