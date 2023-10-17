@@ -344,8 +344,9 @@ class CustomerMenuDetailView(CustomerRequiredMixin, TemplateView):
     template_name = "/app/customer/templates/store/menu/detail.html"
 
     def get(self, request, store_id, menu_id):
+        store = get_object_or_404(Stores, id=store_id)
         menu = get_object_or_404(Menus, id=menu_id)
-        context = {"menus": menu}
+        context = {"store": store, "menu": menu}
         return render(request, self.template_name, context)
 
     def post(self, request, store_id, menu_id):
