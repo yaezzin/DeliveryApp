@@ -8,6 +8,7 @@ from customer.models import Cart
 
 # from delivery_crew.models import DeliveryLocation
 from sajjang.models import Category, Stores, Menus, Order
+from delivery_crew.models import DeliveryLocation
 
 from random import randint, choice, random, sample
 from faker import Faker
@@ -269,3 +270,20 @@ class Command(BaseCommand):
                 order.order_status = "sajjang_rejected"
 
             order.save()
+
+        del_crews = User.objects.filter(groups__name="delivery_crew")
+        active_area_list = ["서울시 서초구", "서울시 종로구"]
+        for del_crew in del_crews:
+            with open("./account/management/store_data.csv", "r") as csvfile:
+                del_addresses = []
+                csvreader = csv.reader(csvfile)
+                for row in csvreader:
+                    del_addresses.append(row[2])
+
+            location = DeliveryLocation(
+                user_id=del_crew,
+                active_area=choice(active_area_list),
+                address=choice(del_addresses),
+            )
+            print(location)
+            location.save()

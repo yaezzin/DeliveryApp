@@ -7,7 +7,10 @@ from django.contrib.auth.models import Group, User
 
 from sajjang.models import DeliveryHistory, RejectedOrder
 from sajjang.models import Order, Stores
+from delivery_crew.models import DeliveryLocation
 from common.utils import DeliveryCrewRequiredMixin
+
+import requests
 
 
 class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
@@ -29,10 +32,16 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
         #         return redirect(f"/{users_group}/home")
         # else:
         #     return render(request, self.template_name)
+        crew_active_area = get_object_or_404(
+            DeliveryLocation, user_id=request.user.pk
+        ).active_area.split(" ")[1]
 
-        orders = Order.objects.filter(order_status="sajjang_accepted").exclude(
-            crew_rejected_order=request.user.id
+        orders = (
+            Order.objects.filter(order_status="sajjang_accepted")
+            .exclude(crew_rejected_order=request.user.id)
+            .filter(store_id__address__icontains=crew_active_area)
         )
+
         stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
         context = {"orders": orders, "stores": stores}
         return render(request, self.template_name, context)
@@ -52,9 +61,39 @@ class DeliveryHistoryDetailView(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/history_detail.html"
 
     def get(self, request, order_id):
+        def get_location_by_address(address):
+            url = "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result"
+            params = {
+                "appKey": "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4",
+                "searchKeyword": address,
+                "resCoordType": "WGS84GEO",
+                "reqCoordType": "WGS84GEO",
+                "count": 1,
+            }
+            resp = requests.get(url, params=params).json()
+            addrInfo = resp["searchPoiInfo"]["pois"]["poi"][0]["newAddressList"][
+                "newAddress"
+            ][0]
+            return (addrInfo["centerLon"], addrInfo["centerLat"])
+
         order = get_object_or_404(Order, id=order_id)
         context = {"order": order}
+        crew_address = get_object_or_404(
+            DeliveryLocation, user_id=request.user.pk
+        ).address
+        cus_address = order.address_id.address
+
+        context["crew_addrLon"], context["crew_addrLat"] = get_location_by_address(
+            crew_address
+        )
+        context["cus_addrLon"], context["cus_addrLat"] = get_location_by_address(
+            cus_address
+        )
+
         return render(request, self.template_name, context)
+
+    def post(self, request, order_id):
+        pass
 
 
 class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView):
