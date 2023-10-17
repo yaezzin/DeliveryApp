@@ -115,14 +115,14 @@
             //마커 그리기
                 //시작
             var marker1 = new Tmapv3.Marker({
-                position: new Tmapv3.LatLng(37.5665048,126.9837016),
+                position: new Tmapv3.LatLng({{ crew_addrLat }}, {{ crew_addrLon }}),
                 color: "#00ff00",
                 map: map
                 
             });	
                 //도착
             var marker2 = new Tmapv3.Marker({
-                position: new Tmapv3.LatLng({{ addrLat }}, {{ addrLon }}),
+                position: new Tmapv3.LatLng({{ cus_addrLat }}, {{ cus_addrLon }}),
                 color: "#ff0000",
                 map: map
             });	
@@ -135,10 +135,10 @@
                 method: "POST",
                 headers: headers,
                 body: new URLSearchParams({
-                    startX: startX,
-                    startY: startY,
-                    endX: {{ addrLon }},
-                    endY: {{ addrLat }},
+                    startX: {{ crew_addrLon }},
+                    startY: {{ crew_addrLat }},
+                    endX: {{ cus_addrLon }},
+                    endY: {{ cus_addrLat }},
                     reqCoordType: "WGS84GEO",
                     resCoordType: "WGS84GEO",
                     searchOption: "0",
