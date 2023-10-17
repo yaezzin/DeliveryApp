@@ -1,11 +1,11 @@
 {% extends 'sajjang_base.html' %}
 {% block content %}
-    {{ block.super }}
+    <div class="my-3">
+        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <h3>Order list</h3>
     <div class="d-flex flex-row justify-content-between my-4">
         <p class="mb-0 align-self-center">가게 이름: {{ store.name }}</p>
-        <div>
-            <a class="btn btn-primary" href="{% url 'sajjang:sajjang_store_detail' store.id %}">가게 상세페이지</a>
-        </div>
     </div>
     {% for order in orders %}
         <div class="border rounded my-2 p-3" onclick="location.href='{% url 'sajjang:sajjang_order_detail' store.id order.id %}'" style="cursor: pointer;">
