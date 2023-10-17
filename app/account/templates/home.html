@@ -17,7 +17,7 @@ Home Page
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid position-relative h-100">
+{% comment %} <div class="container-fluid position-relative h-100">
     <!-- Center for Image -->
     <img src="{% static 'images/menu_default.jpg' %}" alt="Representative Image" class="img-fluid position-absolute" style="object-fit: cover; height: 100%; width: 100%; z-index: -1;">
 
@@ -32,5 +32,15 @@ Home Page
           <button onclick="location.href='/account/signup'" class="btn btn-secondary">Sign Up</button>
         </div>
     </div>
+</div> {% endcomment %}
+<div class="position-absolute top-50 start-50 translate-middle">
+  <div class="text-center mb-4">
+    <h3 class="text-nowrap">Welcome to our delivery service</h3>
+    <h5>Select Actions</h5>
+  </div>
+  <div class="text-center">
+    <button onclick="location.href='/account/signin'" class="btn btn-primary">Sign In</button>
+    <button onclick="location.href='/account/signup'" class="btn btn-secondary">Sign Up</button>
+  </div>
 </div>
 {% endblock content %}
