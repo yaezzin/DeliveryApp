@@ -17,44 +17,23 @@ provider "ncloud" {
 
 locals {
   name = "k8s-del"
-}
-
-resource "ncloud_vpc" "vpc" {
-  name            = "vpc-del"
-  ipv4_cidr_block = "10.2.0.0/16"
-}
-
-resource "ncloud_subnet" "subnet" {
-  vpc_no         = ncloud_vpc.vpc.id
-  subnet         = cidrsubnet(ncloud_vpc.vpc.ipv4_cidr_block, 8, 2)
-  zone           = "KR-1"
-  network_acl_no = ncloud_vpc.vpc.default_network_acl_no
-  subnet_type    = "PUBLIC" // PUBLIC(Public) | PRIVATE(Private)
-  name           = "subnet-${local.name}"
-  usage_type     = "GEN" // GEN(General) | LOADB(For load balancer)
-}
-
-resource "ncloud_subnet" "subnet_lb" {
-  vpc_no         = ncloud_vpc.vpc.id
-  subnet         = cidrsubnet(ncloud_vpc.vpc.ipv4_cidr_block, 8, 3)
-  zone           = "KR-1"
-  network_acl_no = ncloud_vpc.vpc.default_network_acl_no
-  subnet_type    = "PRIVATE" // PUBLIC(Public) | PRIVATE(Private)
-  name           = "subnet-lb-${local.name}"
-  usage_type     = "LOADB" // GEN(General) | LOADB(For load balancer)
-}
-
-
-data "ncloud_nks_versions" "version" {
-  filter {
-    name   = "value"
-    values = ["1.25"]
-    regex  = true
-  }
+  env  = "local"
 }
 
 resource "ncloud_login_key" "loginkey" {
   key_name = "login-key-${local.name}"
+}
+
+module "network" {
+  source = "../modules/network"
+
+  local_name     = local.name
+  region         = var.region
+  site           = var.site
+  support_vpc    = var.support_vpc
+  NCP_ACCESS_KEY = var.NCP_ACCESS_KEY
+  NCP_SECRET_KEY = var.NCP_SECRET_KEY
+  env            = local.env
 }
 
 resource "ncloud_nks_cluster" "cluster" {
@@ -62,48 +41,18 @@ resource "ncloud_nks_cluster" "cluster" {
   k8s_version          = data.ncloud_nks_versions.version.versions.0.value
   login_key_name       = ncloud_login_key.loginkey.key_name
   name                 = "cluster-${local.name}"
-  lb_private_subnet_no = ncloud_subnet.subnet_lb.id
+  lb_private_subnet_no = module.network.subnet_lb_id
   kube_network_plugin  = "cilium"
-  subnet_no_list       = [ncloud_subnet.subnet.id]
+  subnet_no_list       = [module.network.subnet_id]
   public_network       = true
-  vpc_no               = ncloud_vpc.vpc.id
+  vpc_no               = module.network.vpc_id
   zone                 = "KR-1"
+
   log {
     audit = true
   }
 }
 
-data "ncloud_server_image" "image" {
-  filter {
-    name   = "product_name"
-    values = ["ubuntu-20.04"]
-  }
-}
-
-data "ncloud_server_product" "product" {
-  server_image_product_code = data.ncloud_server_image.image.product_code
-
-  filter {
-    name   = "product_type"
-    values = ["STAND"]
-  }
-
-  filter {
-    name   = "cpu_count"
-    values = [2]
-  }
-
-  filter {
-    name   = "memory_size"
-    values = ["8GB"]
-  }
-
-  filter {
-    name   = "product_code"
-    values = ["SSD"]
-    regex  = true
-  }
-}
 
 resource "ncloud_nks_node_pool" "node_pool" {
   cluster_uuid   = ncloud_nks_cluster.cluster.uuid
