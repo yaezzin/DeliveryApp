@@ -4,7 +4,7 @@
     <div class="mb-3">
         <a href="{% url 'customer:customer_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
-    <h3 class="mb-3">Order list</h3>
+    <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order list</h3>
     {% for order in orders %}
         <div class="border rounded p-3" onclick="location.href='{% url 'customer:customer_order_detail' order.id %}'" style="cursor:pointer">
             <div>

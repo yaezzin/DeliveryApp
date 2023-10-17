@@ -3,7 +3,7 @@
     <div class="mb-3">
         <a href="{% url 'customer:customer_address' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
-    <h3>Address Add Page</h3>
+    <h3><i class="bi bi-building fs-2"></i>&nbsp;Address Add Page</h3>
     <form method="post" action="{% url 'customer:customer_address_add' %}" class="my-3">
         {% csrf_token %}
         <div class="mb-3">

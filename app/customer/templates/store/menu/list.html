@@ -2,27 +2,39 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-    {{ block.super }}
-    <div class="container-fluid">
-        <div class="d-flex justify-content-center text-center">
-            <h3>{{ store.name }}</h3>
+    <div class="d-flex flex-row justify-content-between mb-3">
+        <div >
+            <a href="{% url 'customer:store_detail' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
         </div>
-        <div class="mt-4">
-            <ul class="list-group text-center">
-                {% for menu in menus %}
-                    <li class="list-group-item">
-                        <div class="d-flex row">
-                            <div class="d-flex justify-content-center">
-                                <img src="{% static 'img/img_onerror.jpeg' %}">
-                            </div>
-                            <div class="d-flex row justify-content-center">
-                                <p><a href="{% url 'customer:customer_menu_detail' store_id=store.id menu_id=menu.id %}">{{ menu.name }}</a></p>
-                                <p>{{ menu.unit_price|intcomma }}원</p>
-                            </div>
-                        </div>   
-                    </li>
-                {% endfor %}
-            </ul>
+        <div>
+            <a href="{% url 'customer:customer_cart' %}" class="text-dark" style="text-decoration: none;"><i class="bi bi-bag fs-4"></i>&nbsp;Cart</a>
+        </div>
+    </div>
+    <div>
+        <h3><i class="bi bi-list fs-3"></i>&nbsp;{{ store.name }} Menu list</h3>
+        <div class="list-group mt-4">
+            {% for menu in menus %}
+                <div class="list-group-item position-relative" onclick="location.href='{% url 'customer:customer_menu_detail' store_id=store.id menu_id=menu.id %}'" style="cursor: pointer;">
+                    <div class="d-flex align-items-center">
+                        <div class="m-2">
+                            <img src="{{ menu.menu_pic }}" alt="..." class="rounded" style="width: 100px; height: 100px;">
+                        </div>
+                        <div class="m-3">
+                            <p class="mb-0 py-1">메뉴 이름: {{ menu.name }}</p>
+                            <p class="mb-0 py-1">메뉴 가격: {{ menu.unit_price|intcomma }}원</p>
+                        </div>
+                        <span class="position-absolute top-0 end-0 p-2">
+                            {% if menu.is_available %}
+                                <i class="bi bi-check-circle fs-5"></i>
+                            {% else %}
+                                <i class="bi bi-ban fs-5"></i>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            {% empty %}
+                <p>등록된 메뉴가 없습니다.</p>
+            {% endfor %}
         </div>
     </div>
 {% endblock content %}

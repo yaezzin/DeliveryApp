@@ -4,7 +4,7 @@
     <div class="mb-3">
         <a href="{% url 'customer:customer_orders' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
-    <h3 class="mb-3">Order detail</h3>
+    <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order detail</h3>
     <div class="border p-3">
         <h5>{{ order.store_id.name }}</h5>
         {% for cart in carts %}
