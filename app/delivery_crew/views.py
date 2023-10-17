@@ -9,6 +9,8 @@ from sajjang.models import DeliveryHistory, RejectedOrder
 from sajjang.models import Order, Stores
 from common.utils import DeliveryCrewRequiredMixin
 
+import requests
+
 
 class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/home.html"
@@ -54,7 +56,28 @@ class DeliveryHistoryDetailView(DeliveryCrewRequiredMixin, TemplateView):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
         context = {"order": order}
+
+        address = order.address_id.address
+
+        url = "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result"
+        params = {
+            "appKey": "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4",
+            "searchKeyword": address,
+            "resCoordType": "WGS84GEO",
+            "reqCoordType": "WGS84GEO",
+            "count": 1,
+        }
+        resp = requests.get(url, params=params).json()
+        addrInfo = resp["searchPoiInfo"]["pois"]["poi"][0]["newAddressList"][
+            "newAddress"
+        ][0]
+        context["addrLon"] = addrInfo["centerLon"]
+        context["addrLat"] = addrInfo["centerLat"]
+
         return render(request, self.template_name, context)
+
+    def pose(self, request, order_id):
+        pass
 
 
 class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView):
