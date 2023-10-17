@@ -230,7 +230,7 @@ class CustomerOrderView(CustomerRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
-# /customer/order_create/<int:store_id>
+# /customer/order/create/<int:store_id>
 @method_decorator(csrf_exempt, "dispatch")
 class CustomerOrderCreateView(CustomerRequiredMixin, TemplateView):
     template_name = "/app/customer/templates/orders/create.html"
@@ -430,7 +430,7 @@ class CustomerPaymentView(CustomerRequiredMixin, TemplateView):
         stripe.api_version = STRIPE_API_VERSION
 
         success_url = request.build_absolute_uri("/customer/pay_complete")
-        cancel_url = request.build_absolute_uri("/customer/pay_cancle")
+        cancel_url = request.build_absolute_uri("/customer/pay_cancel")
 
         session_data = {
             "mode": "payment",
@@ -496,8 +496,8 @@ class CustomerPayCompletedView(CustomerRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
-class CustomerPayCancledView(CustomerRequiredMixin, TemplateView):
-    template_name = "/app/customer/templates/payment/cancle.html"
+class CustomerPayCancelView(CustomerRequiredMixin, TemplateView):
+    template_name = "/app/customer/templates/payment/cancel.html"
 
     def get(self, request):
         store_id_session = request.session.get("store_id", None)
