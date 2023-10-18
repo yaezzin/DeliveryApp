@@ -9,8 +9,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("account.urls"), name="account"),
     path("", HomeView.as_view(), name="home"),
-    # path("signin/", SigninView.as_view(), name="signin"),
-    # path("signup/", SignupView.as_view(), name="signup"),
     path("customer/", include("customer.urls"), name="customer"),
     path("sajjang/", include("sajjang.urls"), name="sajjang"),
     path("delivery_crew/", include("delivery_crew.urls"), name="delivery_crew"),

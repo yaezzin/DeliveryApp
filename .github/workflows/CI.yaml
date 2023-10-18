@@ -33,7 +33,6 @@ jobs:
 
   build_push_to_ncp:
     needs: lint
-
     name: Build Image
     runs-on: ubuntu-latest
 
