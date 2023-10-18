@@ -4,7 +4,7 @@
         <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
     <div class="d-flex flex-row justify-content-between">
-        <h3>Menu Edit Page</h3>
+        <h3><i class="bi bi-list"></i>&nbsp;Menu Edit Page</h3>
     </div>
     <form method="post" action="" class="my-3">
         {% csrf_token %}
@@ -17,11 +17,11 @@
             <input class="form-control" type="text" name="unit_price" id="unit_price" placeholder="메뉴 가격을 입력해주세요." required value={{ menu.unit_price }}>
         </div>
         <div class="mb-3">
-            <label class="input-group-text" for="menu_pic">Picture</label>
+            <label class="form-label" for="menu_pic">Picture</label>
             <input type="file" class="form-control" name="menu_pic" id="menu_pic" value={{ menu.menu_pic }}>
         </div>
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="category">Category</label>
+        <div class="mb-3">
+            <label class="form-label" for="category">Category</label>
             <select class="form-select" name="category" id="category" required>
             <option selected disabled value="">Choose...</option>
                 {% for category in categories %}

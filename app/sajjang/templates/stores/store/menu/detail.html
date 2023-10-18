@@ -1,8 +1,9 @@
 {% extends 'sajjang_base.html' %}
 {% block content %}
     <div class="my-3">
-        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+        <a href="{% url 'sajjang:sajjang_store_menu' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
     </div>
+    <h3 class="mb-4"><i class="bi bi-list"></i>&nbsp;Menu Detail Page</h3>
     <div class="my-2" style="width:100px; height:100px;">
         {% if menu.store_pic %}
             <img src="..." class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
