@@ -2,13 +2,12 @@
 
 {% load static %}
 
-{% block title %}
-{% endblock title %}
+{% block back %}
+    <a href="{% url 'sajjang:sajjang_store_detail' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
 
 {% block content %}
-    <div class="my-3">
-        <a href="{% url 'sajjang:sajjang_store_detail' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3 class="mb-4"><i class="bi bi-list"></i>&nbsp;Menu List Page</h3>
     <div class="d-flex flex-row align-items-center justify-content-between">
         <p class="mb-0">가게 이름: {{ store.name }}</p>

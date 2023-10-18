@@ -1,8 +1,11 @@
 {% extends 'sajjang_base.html' %}
+
+{% block back %}
+    <a href="{% url 'sajjang:sajjang_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
 {% block content %}
-    <div class="my-3">
-        <a href="{% url 'sajjang:sajjang_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3 class="mb-4"><i class="bi bi-shop"></i>&nbsp;Store Detail Page</h3>
     <div class="my-2" style="width:100px; height:100px;">
         {% if store.store_pic %}
