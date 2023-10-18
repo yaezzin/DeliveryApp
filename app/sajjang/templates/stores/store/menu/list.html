@@ -21,8 +21,7 @@
             <div class="d-flex flex-row border rounded my-2 py-2" onclick="location.href='{% url 'sajjang:sajjang_store_menu_detail' store.id menu.id %}'" style="cursor: pointer;">
                 <div>
                     {% if menu.menu_pic %}
-                        {% comment %} <img src={{  menu.menu_pic }} class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;"> {% endcomment %}
-                        <img src="{% static '/images/menu_default.png' %}" class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
+                        <img src="{{ menu.menu_pic }}" class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
                     {% else %}
                         <img src="{% static '/images/menu_default.png' %}" class="rounded float-start mx-3 bg-secondary" alt="No img" style="width: 50px; height:50px;">
                     {% endif %}
