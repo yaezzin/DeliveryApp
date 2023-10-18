@@ -1,0 +1,37 @@
+{% extends "customer_base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <div class="mb-3">
+        <a href="{% url 'customer:store_menu' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <h3>Menu detail</h3>
+    <div>
+        <div class="d-flex align-items-center">
+            <div class="m-2">
+                <img src="{{ menu.menu_pic }}" alt="..." class="rounded" style="width: 100px; height: 100px;">
+            </div>
+            <div class="m-3">
+                <p class="mb-0 py-1">메뉴 이름: {{ menu.name }}</p>
+                <p class="mb-0 py-1">카테고리: {{ menu.category_id.name }}</p>
+                <p class="mb-0 py-1">메뉴 가격: {{ menu.unit_price|intcomma }}원</p>
+            </div>
+        </div>
+        <div>
+            {% if menu.is_available %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex flex-row justify-content-end">
+                        <div class="d-flex flex-row align-items-center">
+                            <label class="text-nowrap fs-5">수량:&nbsp;</label>
+                            <input class="mx-1 form-control" type="number" name="quantity" min="1" value="1">
+                        </div>
+                        <input type="submit" value="Add to cart" class="btn btn-primary">
+                    </div>
+                </form>            
+            {% else %}
+                <p>이용불가능</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends "customer_base.html" %}
+
+{% block additional_styles %}
+    <style>
+        .category:hover, .store:hover {
+            background: linear-gradient(to bottom, hsl(252, 100%, 67%), hsl(241, 81%, 54%));
+            color: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <form class="d-flex" action="" role="search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div>
+        <div class="my-4">
+            <h5 class="mb-2"><i class="bi bi-collection"></i>&nbsp;카테고리</h5>
+            <div class="list-group text-center">
+                {% for category in categories %}
+                    <div onclick="location.href='{% url 'customer:customer_home' %}?category={{ category.id }}'" class="list-group-item category" style="cursor: pointer;">
+                        {{ category.name }}
+                    </div>
+                {% empty %}
+                    <p class="mb-0">등록된 카테고리가 없습니다.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mt-4">
+            <h5 class="mb-2"><i class="bi bi-shop"></i>&nbsp;식당</h5>
+            <div class="list-group text-center">
+                {% for store in stores %}
+                    <div onclick="location.href='{% url 'customer:store_detail' store_id=store.id %}'" class="list-group-item store" style="cursor: pointer;">
+                        {{ store.name }}
+                    </div>
+                {% empty %}
+                    <p class="mb-0">등록된 식당이 없습니다.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

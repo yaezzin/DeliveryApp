@@ -1,0 +1,22 @@
+{% extends 'customer_base.html' %}
+{% block content %}
+    <div class="mb-3">
+        <a href="{% url 'customer:customer_address' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+        <h3><i class="bi bi-building fs-2"></i>&nbsp;Address Detail Page</h3>
+    </div>
+    <div>
+        <ul class="list-group my-4">
+            <li class="list-group-item">{{ address.address_name }}</li>
+            <li class="list-group-item">{{ address.address }}</li>
+        </ul>
+        <div class="d-grid gap-2 d-flex justify-content-end">
+            <a class="btn btn-warning" href="{% url 'customer:customer_address_edit' address.id %}">Edit</a>
+            <form method="post" action="{% url 'customer:customer_address_delete' address.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+{% endblock %}

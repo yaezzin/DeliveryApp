@@ -1,0 +1,25 @@
+{% extends 'customer_base.html' %}
+{% block content %}
+    <div class="mb-3">
+        <a href="{% url 'customer:customer_address' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <h3><i class="bi bi-building fs-2"></i>&nbsp;Address Add Page</h3>
+    <form method="post" action="{% url 'customer:customer_address_add' %}" class="my-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="address_name">Address Name:</label>
+            <input class="form-control" type="text" name="address_name" id="address_name">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="address">Address:</label>
+            <input class="form-control" type="text" name="address" id="address">
+        </div>
+        <div class="mb-3">
+            <label class="form-check-label" for="is_default">Is Default:</label>
+            <input class="form-check-input" type="checkbox" name="is_default" id="is_default" checked>
+        </div>
+        <div class="d-grid justify-content-end">
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+{% endblock %}

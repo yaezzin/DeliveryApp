@@ -1,0 +1,46 @@
+{% extends "account_base.html" %}
+{% load static %}
+
+{% block title %}
+Home Page
+{% endblock title %}
+
+{% block additional_styles %}
+<style>
+  body, html {
+    overflow: hidden; /* Disable Scroll */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% comment %} <div class="container-fluid position-relative h-100">
+    <!-- Center for Image -->
+    <img src="{% static 'images/menu_default.jpg' %}" alt="Representative Image" class="img-fluid position-absolute" style="object-fit: cover; height: 100%; width: 100%; z-index: -1;">
+
+    <!-- Overlay Content -->
+    <div class="position-absolute w-100 h-100 d-flex flex-column justify-content-center align-items-center" style="z-index: 1; margin-top: 20%; margin-right: 8%;">
+        <div class="text-center mb-4">
+          <h1>Welcome to our delivery service</h1>
+          <h3>Select Actions</h3>
+        </div>
+        <div class="ml-5">
+          <button onclick="location.href='/account/signin'" class="btn btn-primary mr-2">Sign In</button>
+          <button onclick="location.href='/account/signup'" class="btn btn-secondary">Sign Up</button>
+        </div>
+    </div>
+</div> {% endcomment %}
+<div class="position-absolute top-50 start-50 translate-middle">
+  <div class="text-center mb-4">
+    <h3 class="text-nowrap">Welcome to our delivery service</h3>
+    <h5>Select Actions</h5>
+  </div>
+  <div class="text-center">
+    <button onclick="location.href='/account/signin'" class="btn btn-primary">Sign In</button>
+    <button onclick="location.href='/account/signup'" class="btn btn-secondary">Sign Up</button>
+  </div>
+</div>
+{% endblock content %}

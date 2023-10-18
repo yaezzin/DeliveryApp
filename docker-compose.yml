@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  delivery_app:
+    container_name: del-app
+    depends_on:
+      - db
+    build:
+      context: app
+      dockerfile: Dockerfile
+    command:
+      - "/start"
+    env_file:
+      - ./.envs/local/.db
+      - ./.envs/local/.django
+      - ./.envs/prod/.payment
+      - ./.envs/prod/.ncp
+    ports:
+      - "8001:8000"
+
+  db:
+    container_name: del-db
+    image: postgres:15
+    ports:
+      - "54321:5432"
+    env_file:
+      - .envs/local/.db
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+
+  prom:
+    container_name: del-prome
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./mornitoring:/etc/prometheus
+    command:
+      - "--web.console.templates=/etc/prometheus/consoles/"
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  grafana:
+    container_name: del-grafana
+    image: grafana/grafana-oss
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.envs/local/.grafana
+
+volumes:
+  postgres_db:

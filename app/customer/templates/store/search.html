@@ -1,0 +1,14 @@
+{% extends "customer_base.html" %}
+{% load static %}
+{% block content %}
+    {{ block.super }}
+    <div class="border p-3 text-center">
+        {% for store in stores %}
+            <div>
+                <img src="{% static 'img/img_onerror.jpeg' %}">
+                <a href="{% url 'customer:store_detail' store_id=store.id %}">{{ store.name }}</a>
+            <div>
+        {% endfor %}
+    <div>
+{% endblock content %}
+

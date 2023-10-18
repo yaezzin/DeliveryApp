@@ -1,0 +1,24 @@
+{% extends "sajjang_base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Sajjang Home
+{% endblock title %}
+
+{% block content %}
+    {{ block.super }}
+    <h4 class="mb-3"><i class="bi bi-shop"></i>&nbsp;가게 리스트</h4>
+    {% for store in stores %}
+        <div class="d-flex flex-row border rounded my-2 py-2" onclick="location.href='{% url 'sajjang:sajjang_store_detail' store.id %}'" style="cursor: pointer;">
+            <div>
+                {% if store.store_pic %}
+                    <img src="{{ store.store_pic }}" class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
+                {% else %}
+                    <img src="..." class="rounded float-start mx-3 bg-secondary" alt="No img" style="width: 50px; height:50px;">
+                {% endif %}
+            </div>
+            <p class="mb-0 align-self-center">{{ store.name }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
