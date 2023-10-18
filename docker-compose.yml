@@ -14,6 +14,7 @@ services:
       - ./.envs/local/.db
       - ./.envs/local/.django
       - ./.envs/prod/.payment
+      - ./.envs/prod/.ncp
     ports:
       - "8001:8000"
 

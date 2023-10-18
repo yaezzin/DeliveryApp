@@ -13,8 +13,12 @@ class Category(models.Model):
 class Stores(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     name = models.CharField(max_length=128)
-    address = models.CharField(max_length=128)
-    store_pic = models.ImageField(blank=True)
+    address = models.CharField(max_length=255)
+    postcode = models.CharField(max_length=20)
+    base_address = models.CharField(max_length=100)
+    detail_address = models.CharField(max_length=50)
+    extra_address = models.CharField(max_length=100)
+    store_pic = models.URLField(null=True, blank=True)
     category_id = models.ForeignKey(
         Category, on_delete=models.CASCADE, db_column="category_id"
     )
@@ -40,7 +44,7 @@ class Menus(models.Model):
     )
     name = models.CharField(max_length=128)
     unit_price = models.IntegerField()
-    menu_pic = models.ImageField(blank=True)
+    menu_pic = models.URLField(null=True, blank=True)
     is_available = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)

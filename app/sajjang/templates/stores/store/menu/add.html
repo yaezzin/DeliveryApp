@@ -9,7 +9,7 @@
 {% block content %}
     {{ block.super }}
     <h3><i class="bi bi-list"></i>&nbsp;Menu Add Page</h3>
-    <form method="post" action="{% url 'sajjang:sajjang_add_menu' store.id %}" class="my-3">
+    <form method="post" action="{% url 'sajjang:sajjang_add_menu' store.id %}" enctype="multipart/form-data" class="my-3">
         {% csrf_token %}
         <div class="mb-3">
             <label class="form-label" for="menu_name">Menu Name</label>

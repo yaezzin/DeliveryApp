@@ -12,8 +12,8 @@ on:
   #    - published
 
 env:
-  IMAGE: ${{ vars.NCR_REGISTRY }}/del-app
-  IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/del-app:latest
+  IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
+  IMAGE_TAG: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app:latest
 
 jobs:
   deploy:

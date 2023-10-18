@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import JsonResponse
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
+
 from .models import Stores, Menus, Category, Order
 from customer.models import Cart
-from common.utils import SajjangRequiredMixin
+from common.utils import SajjangRequiredMixin, image_handler
 
 
 def is_sajjang(user):
@@ -16,18 +17,6 @@ class SajjangHomeView(SajjangRequiredMixin, TemplateView):
     template_name = "/app/sajjang/templates/home.html"
 
     def get(self, request):
-        # if request.user.is_authenticated:
-        #     users_group = Group.objects.get(user=request.user).name
-
-        #     if users_group == "sajjang":
-        #         stores = Stores.objects.filter(user_id=request.user.id)
-        #         context = {"stores": stores}
-        #         return render(request, self.template_name, context)
-        #     else:
-        #         return redirect(f"/{users_group}/home")
-        # else:
-        #     return redirect(f"/")
-
         stores = Stores.objects.filter(user_id=request.user.id)
         context = {"stores": stores}
         return render(request, self.template_name, context)
@@ -46,10 +35,16 @@ class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request):
+        image_url = image_handler(request)
+
         try:
             name = request.POST["store_name"]
-            address = request.POST["store_address"]
-            store_pic = request.POST["store_pic"]
+            address = f"{request.POST['address']}, {request.POST['detailAddress']} {request.POST['extraAddress']}"
+            postcode = request.POST["postcode"]
+            base_address = request.POST["address"]
+            detail_address = request.POST["detailAddress"]
+            extra_address = request.POST["extraAddress"]
+            store_pic = image_url if request.FILES.get("store_pic") else None
             status = request.POST.get("status", False)
 
             user = get_object_or_404(User, id=request.user.pk)
@@ -59,6 +54,10 @@ class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
                 user_id=user,
                 name=name,
                 address=address,
+                postcode=postcode,
+                base_address=base_address,
+                detail_address=detail_address,
+                extra_address=extra_address,
                 store_pic=store_pic,
                 category_id=category,
                 status=status,
@@ -98,9 +97,18 @@ class SajjangStoreEditView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id):
         try:
             store = get_object_or_404(Stores, id=store_id)
+            exsiting_post = store.store_pic
+            image_url = image_handler(request, exsiting_post)
+
             store.name = request.POST.get("name", store.name)
-            store.address = request.POST.get("address", store.address)
-            store.store_pic = request.POST.get("store_pic", store.store_pic)
+            store.store_pic = image_url
+
+            store.address = f"{request.POST['address']}, {request.POST['detailAddress']} {request.POST['extraAddress']}"
+            store.postcode = request.POST["postcode"]
+            store.base_address = request.POST["address"]
+            store.detail_address = request.POST["detailAddress"]
+            store.extra_address = request.POST["extraAddress"]
+
             store.status = request.POST.get("status", False)
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
@@ -142,12 +150,15 @@ class SajjangAddMenuView(SajjangRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, store_id):
+        print(request.FILES.get("menu_pic"))
+        image_url = image_handler(request)
+
         try:
             store = Stores.objects.get(id=store_id)
             category = Category.objects.get(id=request.POST["category"])
             name = request.POST.get("name")
             unit_price = request.POST.get("unit_price")
-            menu_pic = request.POST.get("menu_pic")
+            menu_pic = image_url if request.FILES.get("menu_pic") else None
             is_available = request.POST.get("is_available", False)
 
             new_menu = Menus(
@@ -158,6 +169,7 @@ class SajjangAddMenuView(SajjangRequiredMixin, TemplateView):
                 menu_pic=menu_pic,
                 is_available=is_available,
             )
+
             new_menu.save()
             return redirect("sajjang:sajjang_store_menu", store_id=store.pk)
         except Exception as e:
@@ -193,10 +205,13 @@ class SajjangMenuEditView(SajjangRequiredMixin, TemplateView):
     def post(self, request, store_id, menu_id):
         try:
             menu = get_object_or_404(Menus, id=menu_id)
+            exsiting_post = menu.menu_pic
+            image_url = image_handler(request, exsiting_post)
+
             menu.category_id = Category.objects.get(id=request.POST["category"])
             menu.name = request.POST["name"]
             menu.unit_price = request.POST["unit_price"]
-            menu.menu_pic = request.POST["menu_pic"]
+            menu.menu_pic = image_url
             menu.is_available = request.POST.get("is_available", False)
             menu.save()
             return redirect(
