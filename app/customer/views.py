@@ -20,32 +20,6 @@ class CustomerHomeView(CustomerRequiredMixin, TemplateView):
     template_name = "/app/customer/templates/home.html"
 
     def get(self, request):
-        # if request.user.is_authenticated:
-        #     users_group = Group.objects.get(user=request.user).name
-
-        #     if users_group == "customer":
-        #         category_query = request.GET.get("category", None)
-        #         categories = Category.objects.all()
-
-        #         if category_query:
-        #             stores = Stores.objects.filter(category_id=category_query)
-        #         else:
-        #             stores = Stores.objects.all()
-
-        #         search_query = request.GET.get("search", None)
-        #         if search_query:
-        #             stores = Stores.objects.filter(name__contains=search_query)
-
-        #         return render(
-        #             request,
-        #             self.template_name,
-        #             context={"categories": categories, "stores": stores},
-        #         )
-        #     else:
-        #         return redirect(f"/{users_group}/home")
-        # else:
-        #     return render(request, self.template_name)
-
         category_query = request.GET.get("category", None)
         categories = Category.objects.all()
         if category_query:
