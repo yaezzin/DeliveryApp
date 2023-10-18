@@ -148,7 +148,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 NCP_ACCESS_KEY = os.getenv("NCP_ACCESS_KEY", "")
 NCP_SECRET_KEY = os.getenv("NCP_SECRET_KEY", "")
-
+IMAGE_BUCKET_ENDPOINT = os.getenv("IMAGE_BUCKET_ENDPOINT", "")
 
 LOGOUT_REDIRECT_URL = "/"
 
