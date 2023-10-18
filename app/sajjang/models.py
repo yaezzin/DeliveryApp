@@ -100,6 +100,7 @@ class Order(models.Model):
     # delivery_status = models.BooleanField(
     #     null=True, default=None, verbose_name="delivery_status"
     # )
+    eta = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
