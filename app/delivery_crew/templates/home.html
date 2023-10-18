@@ -30,6 +30,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Order ID: {{ order.id }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Store: {{ order.store_id.name }}</h6>
+                            <p class="cart-text">Store Address: {{ order.store_id.address }}</p>
+                            <p class="cart-text">Customer Address: {{ order.address_id.address }}</p>
                             <p class="card-text price">Total Price: {{ order.total_price }}</p>
                             <p class="card-text">{{ order.created_at | timesince }} ago</p>
                             <div class="d-flex justify-content-between">

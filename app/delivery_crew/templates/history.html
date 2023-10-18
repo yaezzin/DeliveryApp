@@ -15,9 +15,18 @@
                         <div class="card-body">
                             <h5 class="card-title">Order ID: {{ order.order_id.id }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Store: {{ order.order_id.store_id.name }}</h6>
-                            <p class="card-text price">Total Price: {{ order.order_id.total_price|intcomma }}원</p>
                             <p class="card-text">Store Address: {{ order.order_id.store_id.address }}</p>
                             <p class="card-text">Customer Address: {{ order.order_id.address_id.address }}</p>
+                            <p class="card-text">Status: 
+                                {% if order.order_id.order_status == 'crew_accepted' %}
+                                    배정 완료
+                                {% elif order.order_id.order_status == 'delivery_in_progress' %}
+                                    배달 중
+                                {% elif order.order_id.order_status == 'delivered' %}
+                                    배달 완료
+                                {% endif %}
+                            </p>
+                            <p class="card-text price">Total Price: {{ order.order_id.total_price }}</p>
                             <p class="card-text type24" data-time="{{ order.created_at }}">{{ order.created_at }}</p>
                             <div class="d-flex flex-row justify-content-between">
                                 {% if order.order_id.order_status == 'crew_accepted' %}
@@ -25,7 +34,7 @@
                                         <form action="{% url 'delivery_crew:delivery_crew_pickup' order.order_id.id %}" method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="order_id" value="{{ order.order_id.id }}">
-                                            <button type="submit" class="btn btn-success">배정 완료</button>
+                                            <button type="submit" class="btn btn-success">픽업 완료</button>
                                         </form>
                                     </div>
                                     <div>
@@ -36,16 +45,16 @@
                                     <form action="{% url 'delivery_crew:delivery_crew_complete' order.order_id.id %}" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="order_id" value="{{ order.order_id.id }}">
-                                        <button type="submit" class="btn btn-primary">배달 중</button>
+                                        <button type="submit" class="btn btn-primary">배달 완료</button>
                                     </form>
                                     <div>
                                         <a href="{% url 'delivery_crew:delivery_history_detail' order.order_id.id %}" class="btn btn-secondary">경로 보기</a>
                                     </div>
                                 
                                 {% elif order.order_id.order_status == 'delivered' %}
-                                <div>
-                                    <button type="button" class="btn btn-secondary" disabled>배달 완료</button>
-                                </div>
+                                    <div>
+                                        <button type="button" class="btn btn-secondary" disabled>배달 완료</button>
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>

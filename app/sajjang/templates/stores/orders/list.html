@@ -12,7 +12,17 @@
             <p>Order ID: {{ order.id }}</p>
             <p>Customer Address: {{ order.address_id.address }}</p>
             <p>Total Price: {{ order.total_price }}</p>
-            <p class="mb-0">Order Status: 주문 수락 {{order.order_status}} </p>
+            <p class="mb-0">Order Status:
+                {% if order.order_status == 'sajjang_accepted' %}
+                    조리 중
+                {% elif order.order_status == "crew_accepted" %}
+                    기사님 배정 됨
+                {% elif order.order_status == "delivery_in_progress" %}
+                    배달 중
+                {% elif order.order_status == "delivered" %}
+                    배달 완료
+                {% endif %}
+            </p>
         </div>
     {% endfor %}
 {% endblock%}
