@@ -58,5 +58,5 @@ urlpatterns = [
         CustomerPayCompletedView.as_view(),
         name="customer_pay_complete",
     ),
-    path("pay_cancle/", CustomerPayCancledView.as_view(), name="customer_pay_cancle"),
+    path("pay_cancel/", CustomerPayCancelView.as_view(), name="customer_pay_cancel"),
 ]

@@ -5,22 +5,33 @@
 {% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row justify-content-between my-3">
         <div>
             {% if request.user.username %}
-                <p class="mb-0 align-self-center">{{ request.user.username }}</p>
+                <h3 class="mb-0 align-self-center">{{ request.user.username }}</h3>
             {% else %}
                 <p class="mb-0 align-self-center">username을 불러올 수 없습니다.</p>
             {% endif %}
         </div>
-        <div>
-            <a class="btn btn-success" href="{% url 'customer:customer_home' %}">Home</a>
-        </div>
-        <div>
-            <form action="{% url 'logout' %}" method="POST">
-                {% csrf_token %}
-                <input class="btn btn-primary" type="submit" value="로그아웃">
-            </form>
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-list"></i>&nbsp;Menu
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="{% url 'sajjang:sajjang_home' %}"><i class="bi bi-house"></i>&nbsp;Home</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'sajjang:sajjang_store_add' %}"><i class="bi bi-shop"></i>&nbsp;Store</a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <input class="dropdown-item" type="submit" value="Logout">
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
 {% endblock content %}

@@ -6,23 +6,13 @@
     </div>
     <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order list</h3>
     {% for order in orders %}
-        <div class="border rounded p-3" onclick="location.href='{% url 'customer:customer_order_detail' order.id %}'" style="cursor:pointer">
-            <div>
-                주문번호 : #{{ order.id }}
-            </div>
-            <div>
-                가게 이름 : {{ order.store_id.name}}
-            </div>
-            <div>
-                주소 : {{ order.address_id.address}}
-            </div>
-            <div>
-                주문 날짜 : {{ order.created_at }}
-            </div>
-            <div>
-                총 가격 : {{ order.total_price|intcomma }}원
-            </div>
-            <div>
+        <div class="border rounded my-2 p-3" onclick="location.href='{% url 'customer:customer_order_detail' order.id %}'" style="cursor:pointer">
+            <p class="mb-0">주문번호 : #{{ order.id }}</p>
+            <p class="mb-0">가게 이름 : {{ order.store_id.name}}</p>
+            <p class="mb-0">주소 : {{ order.address_id.address}}</p>
+            <p class="mb-0">주문 날짜 : {{ order.created_at }}</p>
+            <p class="mb-0">총 가격 : {{ order.total_price|intcomma }}원</p>
+            <p class="mb-0">
                 {% if order.order_status == "paid" %}
                     결제 완료
                 {% elif order.order_status == "created" %}
@@ -38,7 +28,7 @@
                 {% elif order.order_status == "delivered" %}
                     배달 완료
                 {% endif %}
-            </div>
+            </p>
         </div>
     {% endfor %}
 {% endblock content %}

@@ -2,74 +2,48 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-    {{ block.super }}
-    <h1>주문 작성</h1>
-    <div>
-        <div class="mt-4">
-            <h3>{{ store.name }}</h3>
-            <div>
-                {% for cart in carts %}
-                    <div class="border" id="cart_{{ cart.id }}">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img src={% static 'images/img_onerror.jpeg' %}>
-                                <h4>{{ cart.menu_id.name }}</h4>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <div class="border">
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-secondary mt-2 me-2" onclick="delete_button_click({{ cart.id }})">X</button>
-                                    </div>
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col text-center">
-                                            <text>수량</text>
-                                        </div>
-                                        <div class="col text-center">
-                                            <text id="quantity_{{ cart.id }}">{{ cart.quantity }}<p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn btn-secondary" onclick="quantity_up_click({{ cart.id }})">+</button>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-secondary" onclick="quantity_down_click({{ cart.id }})">-</button>
-                                        </div>
-                                    </div>
-                                    <div class="mt-2 text-center">
-                                        <text id="total_price_{{ cart.id }}">{{ cart.get_total_price|intcomma }}원</text>
-                                    </div>
-                                </div>
+    <div class="mb-3">
+        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
+    <h3><i class="bi bi-receipt fs-2"></i>&nbsp;주문 작성</h3>
+    <div class="mt-4">
+        <h3>{{ store.name }}</h3>
+        <div class="list-group">
+            {% for cart in carts %}
+                <div id="cart_{{ cart.id }}" class="list-group-item">
+                    <div class="d-flex flex-row position-relative">
+                        <div class="m-2">
+                            <img src="{{ cart.menu_id.menu_pic }}" alt="..." class="rounded" style="width: 100px; height: 100px;">
+                        </div>
+                        <div class="m-3">
+                            <h4>{{ cart.menu_id.name }}</h4>
+                            <p class="mb-0">가격: {{ cart.menu_id.unit_price}}</p>
+                            <div class="d-flex flex-row align-items-center">
+                                <span>수량</span>    
+                                <button class="btn" onclick="quantity_up_click({{ cart.id }})"><i class="bi bi-plus-circle"></i></button>
+                                <span id="quantity_{{ cart.id }}">{{ cart.quantity }}</span>
+                                <button class="btn" onclick="quantity_down_click({{ cart.id }})"><i class="bi bi-dash-circle"></i></button>
                             </div>
                         </div>
+                        <button onclick="delete_button_click({{ cart.id }})"class="position-absolute top-0 end-0" style="background: none; border: none;"><i class="bi bi-trash fs-5"></i></button>
+                        <span id="total_price_{{ cart.id }}" class="position-absolute bottom-0 end-0">{{ cart.get_total_price|intcomma }}원</span>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
-            
-        
-        <form action="{% url 'customer:customer_payment' %}" method="POST">
-        <div class="row">
-            <div>
-                <p>결제 가격 : </p>
-            </div>
-            <div>
-                <p id="pay_price">{{ pay_price|intcomma }}원</p>
-            </div>
-        </div>
-        <div>
-            <label>
-            <select name='address_id'>
-                {% for address in addresses %}
-                    <option value="{{ address.id }}">{{ address.address }}</option>
-                {% endfor %}
-            </select>
-        </div>
-            {% csrf_token %}
-            <input type="submit" value="결제하기">
-        </form>
-    
     </div>
+    <form action="{% url 'customer:customer_payment' %}" method="POST" class="mt-3">
+        {% csrf_token %}
+        <select class="form-select" name='address_id'>
+            {% for address in addresses %}
+                <option value="{{ address.id }}">{{ address.address }}</option>
+            {% endfor %}
+        </select>
+        <div class="d-flex flex-row align-items-center justify-content-between mt-2">
+            <p id="pay_price" class="mb-0 fs-5">결제 가격: {{ pay_price|intcomma }}원</p>
+            <input type="submit" value="결제하기" class="btn btn-primary">
+        </div>
+    </form>
     <script>
 
         function numberWithCommas(number) {

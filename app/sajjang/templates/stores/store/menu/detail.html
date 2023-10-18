@@ -1,6 +1,8 @@
 {% extends 'sajjang_base.html' %}
 {% block content %}
-    {{ block.super }}
+    <div class="my-3">
+        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    </div>
     <div class="my-2" style="width:100px; height:100px;">
         {% if menu.store_pic %}
             <img src="..." class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
@@ -21,6 +23,5 @@
             <input type="hidden" name="menu_id" value="{{ menu.id }}">
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
-        <a class="btn btn-primary" href="{% url 'sajjang:sajjang_store_menu' store.id %}">Menu</a>
     </div>
 {% endblock %}

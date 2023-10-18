@@ -6,7 +6,7 @@ Sign Up
 {% endblock title %}
 
 {% block content %}
-<div class="container p-5">
+{% comment %} <div class="container p-5">
     <div class="row justify-content-center p-5">
         <div class="col-md-6">
             <h2 class="text-center mb-3">Sign Up</h2>
@@ -44,6 +44,42 @@ Sign Up
                 <a class="icon-link" href="/account/signin">Go to Login</a>
             </div>
         </div>
+    </div>
+</div> {% endcomment %}
+<div class="position-absolute top-50 start-50 translate-middle">
+    <h2 class="text-center mb-3">Sign Up</h2>
+    <form action="" method="POST" class="mt-4">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div class="mb-2">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+        </div>
+
+        <!-- Password Fields -->
+        <div class="mb-2">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <!-- Group Field -->
+        <div class="mb-3">
+            <label for="{{ form.group.id_for_label }}">Group</label>
+            {{ form.group }}
+        </div>
+
+        <div class="d-grid">
+            <input type="submit" value="회원가입" class="btn btn-primary">
+        </div>
+    </form>
+    <div class="align-self-center my-2">
+        <i class="bi bi-arrow-right text-primary"></i>
+        <a class="icon-link" href="/account/signin">Go to Login</a>
     </div>
 </div>
 {% endblock content %}
