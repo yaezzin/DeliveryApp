@@ -61,7 +61,10 @@ class CustomerAddressAddView(CustomerRequiredMixin, TemplateView):
         try:
             user = User.objects.get(id=request.user.pk)
             address_name = request.POST["address_name"]
-            address = request.POST["address"]
+            postcode = request.POST["postcode"]
+            base_address = request.POST["address"]
+            detail_address = request.POST["detailAddress"]
+            extra_address = request.POST["extraAddress"]
             is_default = request.POST.get("is_default", None)
 
             if is_default:
@@ -72,7 +75,11 @@ class CustomerAddressAddView(CustomerRequiredMixin, TemplateView):
             new_address = Address(
                 customer_id=user,
                 address_name=address_name,
-                address=address,
+                address=f"{base_address}, {detail_address} {extra_address}",
+                postcode=postcode,
+                base_address=base_address,
+                detail_address=detail_address,
+                extra_address=extra_address,
                 is_default=is_default,
             )
             new_address.save()
@@ -108,7 +115,11 @@ class CustomerAddressEditView(CustomerRequiredMixin, TemplateView):
         try:
             address = get_object_or_404(Address, id=address_id)
             address.address_name = request.POST["address_name"]
-            address.address = request.POST["address"]
+            address.address = f"{request.POST['address']}, {request.POST['detailAddress']} {request.POST['extraAddress']}"
+            address.postcode = request.POST["postcode"]
+            address.base_address = request.POST["address"]
+            address.detail_address = request.POST["detailAddress"]
+            address.extra_address = request.POST["extraAddress"]
             try:
                 is_default = request.POST["is_default"]
                 if is_default == "on":

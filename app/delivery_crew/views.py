@@ -120,15 +120,13 @@ class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView)
 
         delivery = get_object_or_404(Order, id=order_id)
 
-        crew_address = get_object_or_404(
-            DeliveryLocation, user_id=request.user.pk
-        ).address
-        crew_location = get_location_by_address(crew_address)
+        store_address = delivery.store_id.address
+        store_location = get_location_by_address(store_address)
 
         cus_address = delivery.address_id.address
         cus_location = get_location_by_address(cus_address)
 
-        eta = get_eta(crew_location, cus_location)
+        eta = get_eta(store_location, cus_location)
         delivery.eta = eta
         delivery.order_status = "delivery_in_progress"
         delivery.save()
