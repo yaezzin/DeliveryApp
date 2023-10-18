@@ -24,7 +24,7 @@
                 {% elif order.order_status == "crew_accepted" %}
                     기사님 배정 됨
                 {% elif order.order_status == "delivery_in_progress" %}
-                    배달 중
+                    배달 중&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소요시간 : {{ order.eta }}분
                 {% elif order.order_status == "delivered" %}
                     배달 완료
                 {% endif %}

@@ -109,7 +109,6 @@
 						var pointType = mData.properties.pointType;
 						if(type == "Point"){
 							var linePt = new Tmapv3.LatLng(mData.geometry.coordinates[1],mData.geometry.coordinates[0]);
-							console.log(linePt);
 							PTbounds.extend(linePt);
 						}
 						else{
@@ -149,8 +148,6 @@
                 map: map
             });	
 
-            const startX = 126.9837016;
-            const startY = 37.5665048;
             const headers = new Headers();
             headers.append("appKey", "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4");
             fetch("https://apis.openapi.sk.com/tmap/routes?version=3&format=json", {
@@ -167,8 +164,6 @@
                     trafficInfo: "Y",
                     carType: 7,
                 }),
-                mode: "cors",
-                cache: "no-cache"
             })
             .then(response => response.json())
             .then(data => {

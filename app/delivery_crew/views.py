@@ -98,9 +98,56 @@ class DeliveryHistoryDetailView(DeliveryCrewRequiredMixin, TemplateView):
 
 class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView):
     def post(self, request, order_id):
+        def get_location_by_address(address):
+            url = "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result"
+            params = {
+                "appKey": "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4",
+                "searchKeyword": address,
+                "resCoordType": "WGS84GEO",
+                "reqCoordType": "WGS84GEO",
+                "count": 1,
+            }
+            resp = requests.get(url, params=params).json()
+            addrInfo = resp["searchPoiInfo"]["pois"]["poi"][0]["newAddressList"][
+                "newAddress"
+            ][0]
+            return (addrInfo["centerLon"], addrInfo["centerLat"])
+
+        def get_eta(crew_loaction, cus_location):
+            url = "https://apis.openapi.sk.com/tmap/routes?version=3&format=json"
+            headers = {"appKey": "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4"}
+            data = {
+                "startX": crew_loaction[0],
+                "startY": crew_loaction[1],
+                "endX": crew_loaction[0],
+                "endY": cus_location[1],
+                "reqCoordType": "WGS84GEO",
+                "resCoordType": "WGS84GEO",
+                "searchOption": "0",
+                "trafficInfo": "Y",
+                "carType": 7,
+                "totalValue": 2,
+            }
+            resp = requests.post(url, headers=headers, data=data).json()
+            eta = resp["features"][0]["properties"]["totalTime"] // 60
+
+            return (10 * (eta // 10)) + 10  # 배달원의 여유시간을 주기 위해 1의 자리 숫자를 없앤 후 10분 추가
+
         delivery = get_object_or_404(Order, id=order_id)
+
+        crew_address = get_object_or_404(
+            DeliveryLocation, user_id=request.user.pk
+        ).address
+        crew_location = get_location_by_address(crew_address)
+
+        cus_address = delivery.address_id.address
+        cus_location = get_location_by_address(cus_address)
+
+        eta = get_eta(crew_location, cus_location)
+        delivery.eta = eta
         delivery.order_status = "delivery_in_progress"
         delivery.save()
+
         return redirect("delivery_crew:delivery_crew_history")
 
 
