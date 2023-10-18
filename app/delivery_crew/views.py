@@ -17,21 +17,6 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request):
-        # if request.user.is_authenticated:
-        #     users_group = Group.objects.get(user=request.user).name
-
-        #     if users_group == "delivery_crew":
-        #         orders = Order.objects.filter(
-        #             order_status="sajjang_accepted").exclude(crew_rejected_order=request.user.id)
-        #         stores = Stores.objects.filter(
-        #             id__in=Subquery(orders.values("store_id"))
-        #         )
-        #         context = {"orders": orders, "stores": stores}
-        #         return render(request, self.template_name, context)
-        #     else:
-        #         return redirect(f"/{users_group}/home")
-        # else:
-        #     return render(request, self.template_name)
         crew_active_area = get_object_or_404(
             DeliveryLocation, user_id=request.user.pk
         ).active_area.split(" ")[1]
