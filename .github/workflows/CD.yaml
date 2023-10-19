@@ -27,7 +27,7 @@ jobs:
       - name: Get version
         id: version
         run: | 
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
 
       - name: Update appVersion in Chart.yaml
         if: ${{ steps.version.outputs.VERSION != ''}}
