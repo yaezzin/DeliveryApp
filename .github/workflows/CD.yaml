@@ -27,15 +27,15 @@ jobs:
       - name: Get version
         id: version
         run: | 
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Update appVersion in Chart.yaml
-        if: ${{ env.VERSION != ''}}
+        if: ${{ steps.version.outputs.VERSION != ''}}
         run: |
-          sed -ie 's/appVersion: ".*"/appVersion: "'${{ env.VERSION }}'"/g' helm-chart/Chart.yaml
+          sed -ie 's/appVersion: ".*"/appVersion: "'${{ steps.version.outputs.VERSION }}'"/g' helm-chart/Chart.yaml
 
       - name: Commit files
-        if: ${{ env.VERSION != ''}}
+        if: ${{ steps.version.outputs.VERSION  != ''}}
         run: |
           git add .
           git config --local user.email "yaezzin@gmail.com"
@@ -43,7 +43,7 @@ jobs:
           git commit -a -m "update chart tag"
 
       - name: Push changes
-        if: ${{ env.VERSION != ''}}
+        if: ${{ steps.version.outputs.VERSION != ''}}
         uses: ad-m/github-push-action@master
         with:
           branch: main
