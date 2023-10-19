@@ -139,7 +139,7 @@
             //마커 그리기
                 //시작
             var marker1 = new Tmapv3.Marker({
-                position: new Tmapv3.LatLng({{ crew_addrLat }}, {{ crew_addrLon }}),
+                position: new Tmapv3.LatLng({{ store_addrLat }}, {{ store_addrLon }}),
                 color: "#00ff00",
                 map: map
                 
@@ -157,8 +157,8 @@
                 method: "POST",
                 headers: headers,
                 body: new URLSearchParams({
-                    startX: {{ crew_addrLon }},
-                    startY: {{ crew_addrLat }},
+                    startX: {{ store_addrLon }},
+                    startY: {{ store_addrLat }},
                     endX: {{ cus_addrLon }},
                     endY: {{ cus_addrLat }},
                     reqCoordType: "WGS84GEO",

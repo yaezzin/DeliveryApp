@@ -285,5 +285,4 @@ class Command(BaseCommand):
                 active_area=choice(active_area_list),
                 address=choice(del_addresses),
             )
-            print(location)
             location.save()

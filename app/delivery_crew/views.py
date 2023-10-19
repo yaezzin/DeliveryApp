@@ -32,8 +32,8 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
             orders = Order.objects.filter(order_status="sajjang_accepted").exclude(
                 crew_rejected_order=request.user.id
             )
-            stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
-            context = {"orders": orders, "stores": stores}
+        stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
+        context = {"orders": orders, "stores": stores}
         return render(request, self.template_name, context)
 
 
@@ -68,13 +68,11 @@ class DeliveryHistoryDetailView(DeliveryCrewRequiredMixin, TemplateView):
 
         order = get_object_or_404(Order, id=order_id)
         context = {"order": order}
-        crew_address = get_object_or_404(
-            DeliveryLocation, user_id=request.user.pk
-        ).address
+        store_address = order.store_id.address
         cus_address = order.address_id.address
 
-        context["crew_addrLon"], context["crew_addrLat"] = get_location_by_address(
-            crew_address
+        context["store_addrLon"], context["store_addrLat"] = get_location_by_address(
+            store_address
         )
         context["cus_addrLon"], context["cus_addrLat"] = get_location_by_address(
             cus_address
@@ -103,13 +101,13 @@ class DeliveryCrewDeliveryHistoryPickUp(DeliveryCrewRequiredMixin, TemplateView)
             ][0]
             return (addrInfo["centerLon"], addrInfo["centerLat"])
 
-        def get_eta(crew_loaction, cus_location):
+        def get_eta(store_loaction, cus_location):
             url = "https://apis.openapi.sk.com/tmap/routes?version=3&format=json"
             headers = {"appKey": "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4"}
             data = {
-                "startX": crew_loaction[0],
-                "startY": crew_loaction[1],
-                "endX": crew_loaction[0],
+                "startX": store_loaction[0],
+                "startY": store_loaction[1],
+                "endX": cus_location[0],
                 "endY": cus_location[1],
                 "reqCoordType": "WGS84GEO",
                 "resCoordType": "WGS84GEO",
