@@ -2,11 +2,9 @@ name: CI
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - "release"
-    types:
-      - closed
 
 env:
   IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
@@ -67,8 +65,7 @@ jobs:
       - name: Check if new_tag exists
         id: check_tag
         run: |
-          TAG=$(echo ${{ steps.tag_version.outputs.new_tag }} | sed 's/-.*//')
-          echo "NEW_TAG=${TAG}" >> $GITHUB_ENV
+          echo "NEW_TAG=${{ steps.tag_version.outputs.new_tag }}" >> $GITHUB_ENV
 
       - name: Create a GitHub release
         if: ${{ env.NEW_TAG != '' }}
