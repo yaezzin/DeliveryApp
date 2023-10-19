@@ -2,12 +2,12 @@ name: CI
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - "release"
     types:
       - closed
-    
+      
 env:
   IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
   IMAGE_TAG: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app:latest
@@ -37,9 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       NEW_TAG: ${{ steps.check_tag.outputs.NEW_TAG }}
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout code
