@@ -17,18 +17,23 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
     template_name = "/app/delivery_crew/templates/home.html"
 
     def get(self, request):
-        crew_active_area = get_object_or_404(
-            DeliveryLocation, user_id=request.user.pk
-        ).active_area.split(" ")[1]
+        try:
+            crew_active_area = get_object_or_404(
+                DeliveryLocation, user_id=request.user.pk
+            ).active_area.split(" ")[1]
 
-        orders = (
-            Order.objects.filter(order_status="sajjang_accepted")
-            .exclude(crew_rejected_order=request.user.id)
-            .filter(store_id__address__icontains=crew_active_area)
-        )
-
-        stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
-        context = {"orders": orders, "stores": stores}
+            orders = (
+                Order.objects.filter(order_status="sajjang_accepted")
+                .exclude(crew_rejected_order=request.user.id)
+                .filter(store_id__address__icontains=crew_active_area)
+            )
+        except Exception as e:
+            print(e)
+            orders = Order.objects.filter(order_status="sajjang_accepted").exclude(
+                crew_rejected_order=request.user.id
+            )
+            stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
+            context = {"orders": orders, "stores": stores}
         return render(request, self.template_name, context)
 
 
