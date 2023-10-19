@@ -61,6 +61,7 @@ jobs:
         with:
           github_token: ${{ secrets.DEL_APP }}
           default_bump: false
+          append_to_pre_release_tag: false
           # fix: - patch, feat: - minor, BREAKING CHANGE: - major
       
       - name: Check if new_tag exists
