@@ -32,8 +32,7 @@ jobs:
       - name: Update appVersion in Chart.yaml
         if: ${{ env.VERSION != ''}}
         run: |
-          cd helm-chart
-          sed -ie 's/appVersion: ".*"/appVersion: "${{ env.VERSION }}"/g' Chart.yaml
+          sed -ie 's/appVersion: ".*"/appVersion: "'${{ env.VERSION }}'"/g' helm-chart/Chart.yaml
 
       - name: Commit files
         if: ${{ env.VERSION != ''}}
