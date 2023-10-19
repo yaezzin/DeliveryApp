@@ -4,11 +4,10 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - "main"
+      - "release"
     types:
       - closed
     
-
 env:
   IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
   IMAGE_TAG: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app:latest
