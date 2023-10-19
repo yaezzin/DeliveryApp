@@ -1,0 +1,30 @@
+{% extends "customer_base.html" %}
+{% load humanize %}
+{% block back %}
+    <a href="{% url 'customer:customer_orders' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order detail</h3>
+    <div class="border p-3">
+        <h5>{{ order.store_id.name }}</h5>
+        {% for cart in carts %}
+        
+            <div class="border rounded my-2 p-2">
+                <div>
+                    <h5>{{ cart.menu_id.name }}</h5>
+                </div>
+                <div>
+                    단품 가격 : {{ cart.menu_id.unit_price|intcomma }}원
+                </div>
+                <div>
+                    수량 : {{ cart.quantity }}
+                </div>
+                <div>
+                    주문 가격 : {{ cart.get_total_price|intcomma }}원
+                </div>
+            </div>    
+        {% endfor %}
+        <p class="d-flex justify-content-end">총 결제 금액 : {{ order.total_price|intcomma }}원</p>
+    </div>
+{% endblock content %}

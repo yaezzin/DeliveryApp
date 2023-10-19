@@ -1,0 +1,186 @@
+{% extends "del_crew_base.html" %}
+{% load humanize %}
+
+{% block back %}
+    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3>Delivery Route</h3>
+    <div class="row">
+        <ul class="list-group my-4">
+            <li class="list-group-item">Order ID: {{ order.id }}</li>
+            <li class="list-group-item">Store: {{ order.store_id.name }}</li>
+            <li class="list-group-item">Total Price: {{ order.total_price|intcomma }}원</li>
+            <li class="list-group-item">Store Address: {{ order.store_id.address }}</li>
+            <li class="list-group-item">Customer Address: {{ order.address_id.address }}</li>
+            <li class="list-group-item" data-time="{{ order.created_at }}">{{ order.created_at }}</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div id="del_map">
+        </div>
+        <div>
+            <div>
+                <label>ETA : About&nbsp;</label><label id="totaltime"></label><label>&nbsp;min</label>
+            </div>
+            <div>
+                <label>Distance : About&nbsp;</label><label id="totaldistance"></label><label>&nbsp;km</label>
+            <div>
+    </div>
+
+
+    
+{% endblock content %}
+
+{% block additional_scripts %}
+    <script src="https://apis.openapi.sk.com/tmap/vectorjs?version=1&appKey=kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            function drawData(data){
+                // 지도위에 선은 다 지우기
+                routeData = data;
+                var resultStr = "";
+                var distance = 0;
+                var idx = 1;
+                var newData = [];
+                var equalData = [];
+                var pointId1 = "-1234567";
+                var ar_line = [];
+                var pointArray = [];
+                var new_polyLine = [];
+                
+                
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
+                    //배열에 경로 좌표 저잘
+                    if(feature.geometry.type == "LineString"){
+                        ar_line = [];
+                        for (var j = 0; j < feature.geometry.coordinates.length; j++) {
+                            var startPt = new Tmapv3.LatLng(feature.geometry.coordinates[j][1],feature.geometry.coordinates[j][0]);
+                            ar_line.push(startPt);
+                            pointArray.push(feature.geometry.coordinates[j]);
+                        }
+                        var polyline = new Tmapv3.Polyline({
+                            path: ar_line,
+                            strokeColor: "#ff0000", 
+                            strokeWeight: 5,
+                            map: map
+                        });
+                        new_polyLine.push(polyline);
+                    }
+                    var pointId2 = feature.properties.viaPointId;
+                    if (pointId1 != pointId2) {
+                        equalData = [];
+                        equalData.push(feature);
+                        newData.push(equalData);
+                        pointId1 = pointId2;
+                    }
+                    else {
+                        equalData.push(feature);
+                    }
+                }
+                geoData = newData;
+                var markerCnt = 1;
+                for (var i = 0; i < newData.length; i++) {
+                    var mData = newData[i];
+                    var type = mData[0].geometry.type;
+                    var pointType = mData[0].properties.pointType;
+                    var pointTypeCheck = false; // 경유지 일때만 true
+                    if (mData[0].properties.pointType == "S") {
+                        var lon = mData[0].geometry.coordinates[0];
+                        var lat = mData[0].geometry.coordinates[1];
+                    }
+                    else if (mData[0].properties.pointType == "E") {
+                        var lon = mData[0].geometry.coordinates[0];
+                        var lat = mData[0].geometry.coordinates[1];
+                    }
+                    else {
+                        markerCnt=i;
+                        var lon = mData[0].geometry.coordinates[0];
+                        var lat = mData[0].geometry.coordinates[1];
+                    }	
+                }
+
+                			// 6. 경로탐색 결과 반경만큼 지도 레벨 조정
+			    var newData = geoData[0];
+			    PTbounds = new Tmapv3.LatLngBounds();
+					for (var i = 0; i < newData.length; i++) {
+						var mData = newData[i];
+						var type = mData.geometry.type;
+						var pointType = mData.properties.pointType;
+						if(type == "Point"){
+							var linePt = new Tmapv3.LatLng(mData.geometry.coordinates[1],mData.geometry.coordinates[0]);
+							PTbounds.extend(linePt);
+						}
+						else{
+							var startPt,endPt;
+							for (var j = 0; j < mData.geometry.coordinates.length; j++) {
+								var linePt = new Tmapv3.LatLng(mData.geometry.coordinates[j][1],mData.geometry.coordinates[j][0]);
+								PTbounds.extend(linePt);
+							}
+					}
+				}
+				map.fitBounds(PTbounds);
+
+                
+            }
+
+            //지도 객체 생성
+            var map = new Tmapv3.Map("del_map",
+            {
+                center: new Tmapv3.LatLng(37.566481622437934,126.98502302169841), // 지도 초기 좌표
+                width: "500px", 
+                height: "700px",
+                zoom: 16
+            });
+
+            //마커 그리기
+                //시작
+            var marker1 = new Tmapv3.Marker({
+                position: new Tmapv3.LatLng({{ store_addrLat }}, {{ store_addrLon }}),
+                color: "#00ff00",
+                map: map
+                
+            });	
+                //도착
+            var marker2 = new Tmapv3.Marker({
+                position: new Tmapv3.LatLng({{ cus_addrLat }}, {{ cus_addrLon }}),
+                color: "#ff0000",
+                map: map
+            });	
+
+            const headers = new Headers();
+            headers.append("appKey", "kyUPwz0Ly2aplTsQ72YKp2EjfDwbI0EJ9KFRwUA4");
+            fetch("https://apis.openapi.sk.com/tmap/routes?version=3&format=json", {
+                method: "POST",
+                headers: headers,
+                body: new URLSearchParams({
+                    startX: {{ store_addrLon }},
+                    startY: {{ store_addrLat }},
+                    endX: {{ cus_addrLon }},
+                    endY: {{ cus_addrLat }},
+                    reqCoordType: "WGS84GEO",
+                    resCoordType: "WGS84GEO",
+                    searchOption: "0",
+                    trafficInfo: "Y",
+                    carType: 7,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                drawData(data);
+                document.getElementById("totaltime").innerHTML = Math.ceil(data.features[0].properties.totalTime / 60);
+                document.getElementById("totaldistance").innerHTML = Math.round(data.features[0].properties.totalDistance * 100 / 1000) / 100;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+
+
+            
+        })
+    </script>
+{% endblock additional_scripts %}

@@ -1,0 +1,47 @@
+{% extends 'sajjang_base.html' %}
+
+{% block back %}
+    <a href="{% url 'sajjang:sajjang_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3 class="mb-4"><i class="bi bi-shop"></i>&nbsp;Store Detail Page</h3>
+    <div class="my-2" style="width:100px; height:100px;">
+        {% if store.store_pic %}
+            <img src="{{ store.store_pic }}" class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
+        {% else %}
+            <img src="..." class="rounded float-start bg-secondary" alt="No img" style="width:100px; height:100px;">
+        {% endif %}
+    </div>
+    {% comment %}  {% endcomment %}
+    <div>
+        <p>가게 이름: {{ store.name }}</p>
+        <p>가게 주소: {{ store.address }}</p>
+        <p>{% if store.status == False %} 영업 준비중 {% else %} 영업 중 {% endif %}</p>
+    </div>
+    <div class="d-grid gap-2 d-flex justify-content-end">
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Store menu
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="{% url 'sajjang:sajjang_store_menu' store.id %}"><i class="bi bi-list"></i>&nbsp;Menu list</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'sajjang:sajjang_store_order' store.id %}"><i class="bi bi-ui-checks"></i>&nbsp;Order list</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'sajjang:sajjang_order_confirm' store.id %}"><i class="bi bi-receipt"></i>&nbsp;Unaccepted Order</a>
+                </li>
+            </ul>
+        </div>
+        <a class="btn btn-warning" href="{% url 'sajjang:sajjang_store_edit' store.id %}">Edit</a>
+        <form action="{% url 'sajjang:sajjang_store_delete' store.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="menu_id" value="{{ store.id }}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+{% endblock%}

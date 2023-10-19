@@ -1,0 +1,42 @@
+{% extends 'sajjang_base.html' %}
+
+{% block back %}
+    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3><i class="bi bi-receipt"></i>&nbsp;Unaccepted Order Detail Page</h3>
+    <div class="d-flex flex-row justify-content-between my-4">
+        <p class="mb-0 align-self-center">order_id: {{ order.id }}</p>
+    </div>
+    <table class="table border text-center">
+        <thead>
+            <tr>
+                <th scope="col">메뉴 이름</th>
+                <th scope="col">가격</th>
+                <th scope="col">주문 수량</th>
+                <th scope="col">개별 총합</th>
+            </tr>
+        </thead>
+        {% for cart in cart_in_order %}
+            <tbody>
+                <td>{{ cart.menu_id.name }}</td>
+                <td>{{ cart.menu_id.unit_price }}</td>
+                <td>{{ cart.quantity }}</td>
+                <td>{% widthratio cart.menu_id.unit_price 1 cart.quantity %}</td>
+            </tbody>
+        {% endfor %}
+    </table>
+    <p>전체 총합: {{ order.total_price }}</p>
+    <div class="d-grid gap-2 d-flex justify-content-end">
+        <form action="{% url 'sajjang:sajjang_order_accept' store.id order.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">수락</button>
+        </form>
+        <form action="{% url 'sajjang:sajjang_order_reject' store.id  order.id%}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">거절</button>
+        </form>
+    </div>
+{% endblock %}

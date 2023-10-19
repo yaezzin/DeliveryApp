@@ -1,3 +1,8 @@
+stripe-completion.zsh
+stripe-completion.bash
+.idea
+
+prod/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,6 +10,12 @@ __pycache__/
 
 # C extensions
 *.so
+.vscode
+.gitmessage.txt
+
+# .envs/prod/
+*/*/migrations/*.py
+!*/*/migrations/__init__.py
 
 # Distribution / packaging
 .Python
@@ -50,7 +61,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+.DS_Store
 # Translations
 *.mo
 *.pot
@@ -336,6 +347,7 @@ cython_debug/
 ### Helm ###
 # Chart dependencies
 **/charts/*.tgz
+*-secret.yaml
 
 ### Terraform ###
 # Local .terraform directories
@@ -344,6 +356,7 @@ cython_debug/
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.lock.hcl
 
 # Crash log files
 crash.log

@@ -1,0 +1,34 @@
+{% extends 'sajjang_base.html' %}
+
+{% load static %}
+
+{% block back %}
+    <a href="{% url 'sajjang:sajjang_store_detail' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3 class="mb-4"><i class="bi bi-list"></i>&nbsp;Menu List Page</h3>
+    <div class="d-flex flex-row align-items-center justify-content-between">
+        <p class="mb-0">가게 이름: {{ store.name }}</p>
+        <div>
+            <a class="btn btn-primary" href="{% url 'sajjang:sajjang_add_menu' store.id %}">메뉴 추가</a>
+        </div>
+    </div>
+    <div>
+        {% for menu in menus %}
+            <div class="d-flex flex-row border rounded my-2 py-2" onclick="location.href='{% url 'sajjang:sajjang_store_menu_detail' store.id menu.id %}'" style="cursor: pointer;">
+                <div>
+                    {% if menu.menu_pic %}
+                        <img src="{{ menu.menu_pic }}" class="rounded float-start mx-3 bg-secondary" alt="" style="width: 50px; height:50px;">
+                    {% else %}
+                        <img src="{% static '/images/menu_default.png' %}" class="rounded float-start mx-3 bg-secondary" alt="No img" style="width: 50px; height:50px;">
+                    {% endif %}
+                </div>
+                <p class="mb-0 align-self-center">{{ menu.name }}</p>
+            </div>
+        {% empty %}
+            <p>등록된 메뉴가 없습니다!</p>
+        {% endfor %}
+    </div>
+{% endblock%}

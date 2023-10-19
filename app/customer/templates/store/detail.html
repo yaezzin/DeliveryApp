@@ -1,0 +1,28 @@
+{% extends "customer_base.html" %}
+
+{% block back %}
+    <a href="{% url 'customer:customer_home' %}" class="navbar-brand text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3><i class="bi bi-shop fs-2"></i>&nbsp;Store detail</h3>
+    <div class="d-flex align-items-center mt-4">
+        <div class="flex-shrink-0">
+            <img src="{{ store.store_pic }}" alt="..." style="width: 100px; height: 100px;">
+        </div>
+        <div class="flex-grow-1 ms-3">
+            <h4>{{ store.name }}</h4>
+            <p>{{ store.address }}</p>
+        </div>
+    </div>
+    <div>
+        <div class="d-grid justify-content-end">
+            {% if store.status %}
+                    <a href="{% url 'customer:store_menu' store_id=store.id %}" class="btn btn-primary" style="text-decoration: none;">메뉴 전체 보기</a>
+            {% else %}
+                <button type="button" class="btn btn-secondary" disabled>준비 중</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

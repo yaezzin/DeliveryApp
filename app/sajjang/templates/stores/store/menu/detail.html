@@ -1,0 +1,31 @@
+{% extends 'sajjang_base.html' %}
+
+{% block back %}
+    <a href="{% url 'sajjang:sajjang_store_menu' store.id %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3 class="mb-4"><i class="bi bi-list"></i>&nbsp;Menu Detail Page</h3>
+    <div class="my-2" style="width:100px; height:100px;">
+        {% if menu.menu_pic %}
+            <img src="{{ menu.menu_pic }}" class="rounded float-start bg-secondary" alt="" style="width:100px; height:100px;">
+        {% else %}
+            <img src="..." class="rounded float-start bg-secondary" alt="No img" style="width:100px; height:100px;">
+        {% endif %}
+    </div>
+    <div>
+        <p>메뉴 이름: {{ menu.name }}</p>
+        <p>메뉴 가격: {{ menu.unit_price }}</p>
+        <p>{% if menu.is_available == False %} 주문 불가능 {% else %} 주문 가능 {% endif %}</p>
+    </div>
+    <div class="d-grid gap-2 d-flex justify-content-end">
+        <a class="btn btn-warning" href="{% url 'sajjang:sajjang_store_menu_edit' store.id menu.id %}">Edit</a>
+        {% comment %} <a class="btn btn-warning" href="{% url 'sajjang:sajjang_store_menu_delete' store.id menu.id %}">Delete</a> {% endcomment %}
+        <form action="{% url 'sajjang:sajjang_store_menu_delete' store.id menu.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="menu_id" value="{{ menu.id }}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+{% endblock %}

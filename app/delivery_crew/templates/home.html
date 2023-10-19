@@ -1,0 +1,62 @@
+{% extends "del_crew_base.html" %}
+{% load static %}
+
+{% block title %}
+    Delivery Home
+{% endblock title %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="d-flex flex-row justify-content-between mb-3">
+        <h3 class="mb-0 align-self-center">Pending Delivery Orders</h3>
+        <div id="current-time" class="align-self-center"></div>
+    </div>
+    <div class="row">
+        {% if orders %}
+            {% for order in orders %}
+                <div class="col-md-4">
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <h5 class="card-title">Order ID: {{ order.id }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Store: {{ order.store_id.name }}</h6>
+                            <p class="cart-text">Store Address: {{ order.store_id.address }}</p>
+                            <p class="cart-text">Customer Address: {{ order.address_id.address }}</p>
+                            <p class="card-text price">Total Price: {{ order.total_price }}</p>
+                            <p class="card-text">{{ order.created_at | timesince }} ago</p>
+                            <div class="d-flex justify-content-between">
+                                <form action="{% url 'delivery_crew:delivery_crew_accept' order.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <button type="submit" class="btn btn-success">Accept</button>
+                                </form>
+                                <form action="{% url 'delivery_crew:delivery_crew_deny' order.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <button type="submit" class="btn btn-danger">Deny</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="mt-3">There is no delivery order</p>
+        {% endif%}
+    </div>
+
+    <script>
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById("current-time").innerText = "Current Time: " + timeString;
+        }
+
+
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+
+        
+    </script>
+
+{% endblock content %}
