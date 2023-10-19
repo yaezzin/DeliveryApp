@@ -2,10 +2,12 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - "release"
-
+    types:
+      - closed
+    
 env:
   IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
   IMAGE_TAG: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app:latest
@@ -107,3 +109,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
+        # CI Test
