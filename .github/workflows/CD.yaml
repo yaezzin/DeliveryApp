@@ -24,20 +24,21 @@ jobs:
           ref: main
           token: ${{ secrets.DEL_APP }}
       
-      - name: Get version
-        id: version
-        run: | 
-          echo "Tag : ${{ github.ref }}"
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
-      
-      - name: Update appVersion in Chart.yaml
-        if: ${{ steps.version.outputs.VERSION != ''}}
+      - name: Get Latest Tag
+        id: get-latest-tag
         run: |
-          echo "Using version tag: ${{ steps.version.outputs.VERSION }}"
-          sed -ie 's/appVersion: ".*"/appVersion: "'${{ steps.version.outputs.VERSION }}'"/g' helm-chart/Chart.yaml
+          LATEST_TAG=$(curl -s -H "Authorization: token ${{ secrets.DEL_APP }}" https://api.github.com/repos/likelion-backend-6th/delivery_app/tags | jq -r '.[0].name')
+          echo "Latest Tag is $LATEST_TAG"
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+        
+      - name: Update appVersion in Chart.yaml
+        if: ${{ env.LATEST_TAG != ''}}
+        run: |
+          echo "Using version tag: ${{ env.LATEST_TAG }}"
+          sed -ie 's/appVersion: ".*"/appVersion: "'${{ env.LATEST_TAG }}'"/g' helm-chart/Chart.yaml
 
       - name: Commit files
-        if: ${{ steps.version.outputs.VERSION  != ''}}
+        if: ${{ env.LATEST_TAG != ''}}
         run: |
           git add .
           git config --local user.email "yaezzin@gmail.com"
@@ -45,7 +46,7 @@ jobs:
           git commit -a -m "update chart tag"
 
       - name: Push changes
-        if: ${{ steps.version.outputs.VERSION != ''}}
+        if: ${{ env.LATEST_TAG != ''}}
         uses: ad-m/github-push-action@master
         with:
           branch: main
