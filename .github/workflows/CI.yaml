@@ -16,6 +16,8 @@ jobs:
   lint:
     name: Check lint (black)
     runs-on: ubuntu-latest
+    outputs:
+      NEW_TAG: ${{ steps.check_tag.outputs.NEW_TAG }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
