@@ -35,9 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       NEW_TAG: ${{ steps.check_tag.outputs.NEW_TAG }}
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout code
