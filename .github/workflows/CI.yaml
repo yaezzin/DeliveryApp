@@ -59,7 +59,7 @@ jobs:
         with:
           github_token: ${{ secrets.DEL_APP }}
           default_bump: false
-          release_branches: release
+          #release_branches: release
           # fix: - patch, feat: - minor, BREAKING CHANGE: - major
       
       - name: Check if new_tag exists
@@ -89,6 +89,7 @@ jobs:
           fi
       
       - name: Build and Push
+        if: ${{ env.NEW_TAG != '' }}
         uses: docker/build-push-action@v4
         with:
           context: app
