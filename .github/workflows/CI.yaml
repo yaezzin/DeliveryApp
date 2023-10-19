@@ -91,6 +91,7 @@ jobs:
           fi
       
       - name: Build and Push
+        if: ${{ env.NEW_TAG != '' }}
         uses: docker/build-push-action@v4
         with:
           context: app
