@@ -53,31 +53,48 @@ jobs:
           username: ${{ secrets.NCP_ACCESS_KEY }}
           password: ${{ secrets.NCP_SECRET_KEY }}
 
-      - name: Get current timestamp
-        id: timestamp
-        run: echo "timestamp=$(date '+%s')" >> "$GITHUB_OUTPUT"
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.IVAN_SNS }}
+          default_bump: false
+          # fix: - patch, feat: - minor, BREAKING CHANGE: - major
+      
+      - name: Check if new_tag exists
+        id: check_tag
+        run: |
+          echo "NEW_TAG=${{ steps.tag_version.outputs.new_tag }}" >> $GITHUB_ENV
 
-      - name: Get version
-        if: startsWith(github.ref, 'refs/tags')
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+      - name: Create a GitHub release
+        if: ${{ env.NEW_TAG != '' }}
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.DEL_APP }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
 
-      - name: bulid and push refs/heads
-        if: startsWith(github.ref, 'refs/heads')
+      - name: create TAG
+        id: created_tag
+        run: |
+          if [[ "${{ env.NEW_TAG }}" != "" ]]; then
+              echo "Using version tag: ${{ env.NEW_TAG }}"
+              echo "TAG=${{ env.NEW_TAG }}" >> $GITHUB_ENV
+          else
+              TIMESTAMP=$(date '+%s')
+              echo "Using timestamp tag: $TIMESTAMP"
+              echo "TAG=$TIMESTAMP" >> $GITHUB_ENV
+          fi
+      
+      - name: Build and Push
         uses: docker/build-push-action@v4
         with:
           context: app
-          tags: "${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}"
           push: true
-
-      - name: bulid and push refs/tags
-        if: startsWith(github.ref, 'refs/tags')
-        uses: docker/build-push-action@v4
-        with:
-          context: app
-          tags: "${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
-          push: true
-
+          tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ env.TAG }}"
+          platforms: linux/amd64,linux/arm64
+      
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
