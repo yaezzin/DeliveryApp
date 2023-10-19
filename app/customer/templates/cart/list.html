@@ -1,10 +1,11 @@
 {% extends "customer_base.html" %}
 {% load static %}
 {% load humanize %}
+{% block back %}
+    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
 {% block content %}
-    <div class="mb-3">
-        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3><i class="bi bi-bag fs-2"></i>&nbsp;Cart</h3>
     <div>
         {% for store in carts %}

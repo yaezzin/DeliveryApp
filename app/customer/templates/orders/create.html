@@ -1,10 +1,11 @@
 {% extends "customer_base.html" %}
 {% load static %}
 {% load humanize %}
+{% block back %}
+    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
 {% block content %}
-    <div class="mb-3">
-        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3><i class="bi bi-receipt fs-2"></i>&nbsp;주문 작성</h3>
     <div class="mt-4">
         <h3>{{ store.name }}</h3>

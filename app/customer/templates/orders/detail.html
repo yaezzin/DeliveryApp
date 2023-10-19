@@ -1,9 +1,10 @@
 {% extends "customer_base.html" %}
 {% load humanize %}
+{% block back %}
+    <a href="{% url 'customer:customer_orders' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
 {% block content %}
-    <div class="mb-3">
-        <a href="{% url 'customer:customer_orders' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order detail</h3>
     <div class="border p-3">
         <h5>{{ order.store_id.name }}</h5>
