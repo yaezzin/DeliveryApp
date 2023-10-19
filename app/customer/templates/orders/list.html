@@ -1,9 +1,10 @@
 {% extends "customer_base.html" %}
 {% load humanize %}
+{% block back %}
+    <a href="{% url 'customer:customer_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
 {% block content %}
-    <div class="mb-3">
-        <a href="{% url 'customer:customer_home' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3 class="mb-3"><i class="bi bi-receipt fs-2"></i>&nbsp;Order list</h3>
     {% for order in orders %}
         <div class="border rounded my-2 p-3" onclick="location.href='{% url 'customer:customer_order_detail' order.id %}'" style="cursor:pointer">

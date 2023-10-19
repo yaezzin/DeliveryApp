@@ -1,8 +1,11 @@
 {% extends 'sajjang_base.html' %}
+
+{% block back %}
+    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+{% endblock %}
+
 {% block content %}
-    <div class="my-3">
-        <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
-    </div>
+    {{ block.super }}
     <h3><i class="bi bi-receipt"></i>&nbsp;Unaccepted Order Detail Page</h3>
     <div class="d-flex flex-row justify-content-between my-4">
         <p class="mb-0 align-self-center">order_id: {{ order.id }}</p>

@@ -10,14 +10,10 @@
 {% endblock %}
 {% block content %}
     {{ block.super }}
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <form class="d-flex" action="" role="search" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
+    <form class="d-flex" action="" role="search" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <div>
         <div class="my-4">
             <h5 class="mb-2"><i class="bi bi-collection"></i>&nbsp;카테고리</h5>
@@ -35,8 +31,15 @@
             <h5 class="mb-2"><i class="bi bi-shop"></i>&nbsp;식당</h5>
             <div class="list-group text-center">
                 {% for store in stores %}
-                    <div onclick="location.href='{% url 'customer:store_detail' store_id=store.id %}'" class="list-group-item store" style="cursor: pointer;">
-                        {{ store.name }}
+                    <div onclick="location.href='{% url 'customer:store_detail' store_id=store.id %}'" class="list-group-item store position-relative" style="cursor: pointer;">
+                        <span>
+                            {{ store.name }}
+                            {% if store.status %}
+                                <i class="bi bi-check-circle position-absolute end-0 me-3"></i>
+                            {% else %}
+                                <i class="bi bi-ban position-absolute end-0 me-3"></i>
+                            {% endif %}
+                        </span>
                     </div>
                 {% empty %}
                     <p class="mb-0">등록된 식당이 없습니다.</p>

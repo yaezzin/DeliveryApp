@@ -39,7 +39,11 @@ class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
 
         try:
             name = request.POST["store_name"]
-            address = request.POST["store_address"]
+            address = f"{request.POST['address']}, {request.POST['detailAddress']} {request.POST['extraAddress']}"
+            postcode = request.POST["postcode"]
+            base_address = request.POST["address"]
+            detail_address = request.POST["detailAddress"]
+            extra_address = request.POST["extraAddress"]
             store_pic = image_url if request.FILES.get("store_pic") else None
             status = request.POST.get("status", False)
 
@@ -50,6 +54,10 @@ class SajjangStoreAddView(SajjangRequiredMixin, TemplateView):
                 user_id=user,
                 name=name,
                 address=address,
+                postcode=postcode,
+                base_address=base_address,
+                detail_address=detail_address,
+                extra_address=extra_address,
                 store_pic=store_pic,
                 category_id=category,
                 status=status,
@@ -93,8 +101,14 @@ class SajjangStoreEditView(SajjangRequiredMixin, TemplateView):
             image_url = image_handler(request, exsiting_post)
 
             store.name = request.POST.get("name", store.name)
-            store.address = request.POST.get("address", store.address)
             store.store_pic = image_url
+
+            store.address = f"{request.POST['address']}, {request.POST['detailAddress']} {request.POST['extraAddress']}"
+            store.postcode = request.POST["postcode"]
+            store.base_address = request.POST["address"]
+            store.detail_address = request.POST["detailAddress"]
+            store.extra_address = request.POST["extraAddress"]
+
             store.status = request.POST.get("status", False)
             store.category_id = Category.objects.get(id=request.POST["category"])
             store.save()
