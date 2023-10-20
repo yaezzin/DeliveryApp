@@ -22,6 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("더미 데이터 생성을 시작합니다.")
+
         addresses = []
         with open("./account/management/store_data.csv", "r") as csvfile:
             csvreader = csv.reader(csvfile)
@@ -32,6 +33,24 @@ class Command(BaseCommand):
             from_selected_address = choice(addresses)
             addresses.remove(from_selected_address)
             return from_selected_address
+
+        def get_two_location_address(addresses):
+            two_locaton_address = []
+
+            for address in addresses:
+                if "서울특별시 서초구" in address:
+                    addresses.remove(address)
+                    two_locaton_address.append(address)
+                    break
+
+            for address in addresses:
+                if "서울특별시 종로구" in address:
+                    addresses.remove(address)
+                    two_locaton_address.append(address)
+                    break
+
+            print("two_locaton_address", two_locaton_address)
+            return two_locaton_address
 
         fake = self.fake
         group_names = ["customer", "sajjang", "delivery_crew"]
@@ -93,6 +112,20 @@ class Command(BaseCommand):
                 address=from_selected_address,
                 is_default=True,
                 created_at=timezone.now(),
+            )
+
+        for user in delivery_crew_users:
+            from_selected_address = get_two_location_address(addresses)
+            active_area_list = ["서울특별시 서초구", "서울특별시 종로구"]
+            DeliveryLocation.objects.create(
+                user_id=user,
+                active_area=active_area_list[0],
+                address=from_selected_address[0],
+            )
+            DeliveryLocation.objects.create(
+                user_id=user,
+                active_area=active_area_list[1],
+                address=from_selected_address[1],
             )
 
         categories = ["Pizza", "Burger", "Chicken", "Korean", "Japanese", "Indian"]
@@ -270,19 +303,3 @@ class Command(BaseCommand):
                 order.order_status = "sajjang_rejected"
 
             order.save()
-
-        del_crews = User.objects.filter(groups__name="delivery_crew")
-        active_area_list = ["서울시 서초구", "서울시 종로구"]
-        for del_crew in del_crews:
-            with open("./account/management/store_data.csv", "r") as csvfile:
-                del_addresses = []
-                csvreader = csv.reader(csvfile)
-                for row in csvreader:
-                    del_addresses.append(row[2])
-
-            location = DeliveryLocation(
-                user_id=del_crew,
-                active_area=choice(active_area_list),
-                address=choice(del_addresses),
-            )
-            location.save()
