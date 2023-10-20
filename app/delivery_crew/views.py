@@ -18,9 +18,14 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
 
     def get(self, request):
         try:
-            crew_active_area = get_object_or_404(
-                DeliveryLocation, user_id=request.user.pk
-            ).active_area.split(" ")[1]
+            crew_locations = DeliveryLocation.objects.filter(user_id=request.user.pk)
+            crew_active_area = (
+                crew_locations.filter(active_area=True).last().address.split(" ")[1]
+            )
+            crew_deactivate_are = (
+                crew_locations.filter(active_area=False).last().address.split(" ")[1]
+            )
+            print("crew_active_area", crew_active_area)
 
             orders = (
                 Order.objects.filter(order_status="sajjang_accepted")
@@ -33,7 +38,13 @@ class DeliveryCrewHomeView(DeliveryCrewRequiredMixin, TemplateView):
                 crew_rejected_order=request.user.id
             )
         stores = Stores.objects.filter(id__in=Subquery(orders.values("store_id")))
-        context = {"orders": orders, "stores": stores}
+        context = {
+            "orders": orders,
+            "stores": stores,
+            "my_locations": crew_locations,
+            "active_lo": crew_active_area,
+            "deactive_lo": crew_deactivate_are,
+        }
         return render(request, self.template_name, context)
 
 

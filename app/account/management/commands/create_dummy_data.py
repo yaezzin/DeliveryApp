@@ -49,7 +49,6 @@ class Command(BaseCommand):
                     two_locaton_address.append(address)
                     break
 
-            print("two_locaton_address", two_locaton_address)
             return two_locaton_address
 
         fake = self.fake
@@ -117,14 +116,17 @@ class Command(BaseCommand):
         for user in delivery_crew_users:
             from_selected_address = get_two_location_address(addresses)
             active_area_list = ["서울특별시 서초구", "서울특별시 종로구"]
+            active_area_list = choice([True, False])
+
             DeliveryLocation.objects.create(
                 user_id=user,
-                active_area=active_area_list[0],
+                active_area=active_area_list,
                 address=from_selected_address[0],
             )
+
             DeliveryLocation.objects.create(
                 user_id=user,
-                active_area=active_area_list[1],
+                active_area=not active_area_list,
                 address=from_selected_address[1],
             )
 
