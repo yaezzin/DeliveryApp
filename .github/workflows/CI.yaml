@@ -7,7 +7,7 @@ on:
       - "release"
     types:
       - closed
-      
+
 env:
   IMAGE: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app
   IMAGE_TAG: ${{ secrets.NCP_CONTAINER_REGISTRY }}/del-app:latest
@@ -60,7 +60,7 @@ jobs:
           default_bump: false
           release_branches: release
           # fix: - patch, feat: - minor, BREAKING CHANGE: - major
-      
+
       - name: Check if new_tag exists
         id: check_tag
         run: |
@@ -86,7 +86,7 @@ jobs:
               echo "Using timestamp tag: $TIMESTAMP"
               echo "TAG=$TIMESTAMP" >> $GITHUB_ENV
           fi
-      
+
       - name: Build and Push
         if: ${{ env.NEW_TAG != '' }}
         uses: docker/build-push-action@v4
@@ -95,7 +95,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ env.TAG }}"
           platforms: linux/amd64,linux/arm64
-      
+
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:

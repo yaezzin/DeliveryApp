@@ -40,15 +40,15 @@
 - [x] Develop: bring up all store address
 - [x] Develop: additional Grafana function
 - [x] Develop: apply chocie Order status
-- [ ] Develop: Map API
+- [x] Develop: Map API
 - [x] Develop: limit dummy data (서울 특별시)
 - [x] Develop: Bootstrap task
-- [ ] Develop: Image handling logic
+- [x] Develop: Image handling logic
 - [ ] Develop: TEST code
-- [ ] Develop: CI/CD release
+- [x] Develop: CI/CD release
 - [ ] Document
-- [ ] wrap up: 1st process cross check
-- [ ] wrap up: 2nd process cross check
+- [x] wrap up: 1st process cross check & fix bugs
+- [ ] wrap up: 2nd process cross check & fix bugs
 - [ ] wrap up: 3rd process cross check
 
 # Discussion
