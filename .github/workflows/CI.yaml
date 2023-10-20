@@ -2,7 +2,7 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - "release"
     types:
@@ -107,4 +107,3 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
-        # CI Test
