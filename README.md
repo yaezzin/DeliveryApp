@@ -16,10 +16,16 @@
 
 ## Team
 
-#### 김민혁
+#### 김민혁 - [민혁's task list](https://fire-apartment-b43.notion.site/8657cd5eb06247d9b3d30b6e5f233d77?v=3cdeb751b90d4de0affbf249d3ffd771&pvs=4)
 
-- NCP 인프라 ...
-- 테라폼 ...
+- Terraform - IaC NCP kubernetest cluster
+- Helm - helpers, Deployment, SVC, PVC, Configmap, Secret
+- Helm - Seal Secret, Horizontal Pod Autoscaler
+- Argo CD - CD (Automate sync, ref github repo)
+- Backend - sajjang function(urls, views, templates)
+- Backend - delivery_crew function(urls, views, templates)
+- Dev env - Dummy data creation command
+- Dev env - Mixin (permission check for each Group)
 
 #### 전예진
 
@@ -29,9 +35,11 @@
 
 #### 정해민
 
-#### 한승훈
+#### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
 
-- 모델링 ...
+- Order 기능 모델링
+- Cart, Menu 모델 구현
+- customer basic template & cancel function 구현
 
 ## Tech Stack
 
