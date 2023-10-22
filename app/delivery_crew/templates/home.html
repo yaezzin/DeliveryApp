@@ -1,4 +1,4 @@
-{% extends "del_crew_base.html" %}
+{% extends "delivery_crew_base.html" %}
 {% load static %}
 
 {% block title %}
@@ -10,6 +10,13 @@
     <div class="d-flex flex-row justify-content-between mb-3">
         <h3 class="mb-0 align-self-center">Pending Delivery Orders</h3>
         <div id="current-time" class="align-self-center"></div>
+    </div>
+    <div>
+        <div class="card my-2">
+            <div class="card-body">
+                Current Active Location : {{ address_a }}
+            </div>
+        </div>
     </div>
     <div class="row">
         {% if orders %}

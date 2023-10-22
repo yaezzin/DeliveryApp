@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delivery Crew
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary my-3 rounded">
+        <div class="container-fluid">
+            {% block back %}
+                <span class="navbar-brand">{{ request.user.username }}</span>
+            {% endblock %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'delivery_crew:delivery_crew_home' %}"><i class="bi bi-house"></i>&nbsp;Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'delivery_crew:delivery_crew_address' %}"><i class="bi bi-building"></i>&nbsp;Location</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'delivery_crew:delivery_crew_history' %}"><i class="bi bi-person-check"></i>&nbsp;View My Accepted Deliveries</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex d-row align-items-center">
+                                <i class="bi bi-box-arrow-left"></i>&nbsp;
+                                <input class="nav-link active" type="submit" value="Logout">
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock content %}
+
+
+{% block additional_scripts %}
+    <script>
+        // 금액 포맷팅
+        document.addEventListener("DOMContentLoaded", function(){
+            const priceElements = document.querySelectorAll(".price");
+            priceElements.forEach(function(e) {
+                const price = parseInt(e.innerText.replace("Total Price: ", ""), 10);
+                e.innerText = "Total Price: " + price.toLocaleString("ko-KR");
+            });
+        });
+
+
+        // 시간 포맷팅
+        function parseAndFormatTime(dateString) {
+            // "Oct. 11, 2023, 2:30 a.m." 형태를 전환해보자 + 분이 00 분인 경우 5 a.m. 이런 식으로 나오니 이부분도 해결해야 함
+            console.log(dateString)
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let [month, day, year, time, period] = dateString.replace('.', '').split(/[\s,]+/);
+        
+            // 월을 숫자로 변환
+            month = months.indexOf(month) + 1;
+            
+            // 시간을 24시간 형태로 변환
+            // let minute = '00'
+            let [hour, minute = "00"] = time.split(':');
+            hour = parseInt(hour, 10);
+            
+            if (period.toLowerCase() === 'p.m.' && hour < 12) hour += 12;
+            if (period.toLowerCase() === 'a.m.' && hour === 12) hour = 0;
+            
+            const formattedDate = `${String(year)}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}     ${String(hour).padStart(2, '0')}:${minute}`;
+        
+            return formattedDate;
+        }
+            
+        document.addEventListener("DOMContentLoaded", function(){
+            const type24Elements = document.querySelectorAll(".type24");
+
+            type24Elements.forEach(function(e) {
+                const rowTime = e.getAttribute("data-time");
+                const formattedTime = parseAndFormatTime(rowTime);
+                e.innerText = "Date: " + formattedTime;
+            })
+        })
+
+    </script>
+{% endblock additional_scripts %}
+
