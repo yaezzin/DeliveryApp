@@ -1,7 +1,9 @@
 {% extends 'customer_base.html' %}
+
 {% block back %}
     <a href="{% url 'customer:customer_address' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
 {% endblock %}
+
 {% block content %}
     {{ block.super }}
     <h3><i class="bi bi-building fs-2"></i>&nbsp;Address Add Page</h3>
@@ -33,7 +35,7 @@
 
 {% endblock %}
 
-{% block additinoal_scripts %}
+{% block additional_scripts %}
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function execDaumPostcode() {
@@ -84,4 +86,4 @@
             }).open();
         }
     </script>
-{% endblock additinoal_scripts %}
+{% endblock additional_scripts %}
