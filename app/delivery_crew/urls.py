@@ -5,6 +5,27 @@ app_name = "delivery_crew"
 
 urlpatterns = [
     path("home/", DeliveryCrewHomeView.as_view(), name="delivery_crew_home"),
+    path("address/", DeliveryCrewAddressView.as_view(), name="delivery_crew_address"),
+    path(
+        "address/add/",
+        DeliveryCrewAddressAddView.as_view(),
+        name="delivery_crew_address_add",
+    ),
+    path(
+        "address/<int:address_id>/",
+        DeliveryCrewAddressDetailView.as_view(),
+        name="delivery_crew_address_detail",
+    ),
+    path(
+        "address/<int:address_id>/edit/",
+        DeliveryCrewAddressEditView.as_view(),
+        name="delivery_crew_address_edit",
+    ),
+    path(
+        "address/<int:address_id>/delete/",
+        DeliveryCrewAddressDeleteView.as_view(),
+        name="delivery_crew_address_delete",
+    ),
     path(
         "delivery_history/",
         DeliveryCrewDeliveryHistory.as_view(),

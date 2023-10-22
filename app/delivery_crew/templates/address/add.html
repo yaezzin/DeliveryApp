@@ -1,52 +1,38 @@
-{% extends "sajjang_base.html" %}
-
-{% load static %}
+{% extends 'delivery_crew_base.html' %}
 
 {% block back %}
-    <a href="javascript:history.back();" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
+    <a href="{% url 'delivery_crew:delivery_crew_address' %}" class="text-dark"><i class="bi bi-arrow-left-circle fs-3"></i></a>
 {% endblock %}
 
 {% block content %}
     {{ block.super }}
-    <h3><i class="bi bi-shop"></i>&nbsp;Store Add Page</h3>
-    <form method="post" action="{% url 'sajjang:sajjang_store_add' %}" enctype="multipart/form-data" class="my-3">
+    <h3><i class="bi bi-building fs-2"></i>&nbsp;Location Add Page</h3>
+    <form method="post" action="{% url 'delivery_crew:delivery_crew_address_add' %}" class="my-3">
         {% csrf_token %}
         <div class="mb-3">
-            <label class="form-label" for="Store Name">Store Name</label>
-            <input class="form-control" type="text" name="store_name" id="Store Name" placeholder="가게 이름을 입력해주세요." required>
+            <label class="form-label" for="address_name">Location Name</label>
+            <input class="form-control" type="text" name="address_name" id="address_name">
         </div>
         <div class="mb-3">
-            <label class="form-label" for="address">Address</label>
+            <label class="form-label" for="address">Location</label>
             <input class="btn btn-primary btn-sm" type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-            <input class="form-control my-3" type="text" name="postcode" id="postcode" placeholder="우편번호" value="{{ address.postcode }}" readonly required>
-            <input class="form-control my-3" type="text" name="address" id="address" placeholder="주소" value="{{ address.base_address}}" readonly required>
+            <input class="form-control my-3" type="text" name="postcode" id="postcode" placeholder="우편번호" readonly>
+            <input class="form-control my-3" type="text" name="address" id="address" placeholder="주소" readonly>
             <div class="d-flex flex-row my-3">
-                <input class="form-control" type="text" name="detailAddress" id="detailAddress" placeholder="상세주소" value="{{ address.detail_address }}">
+                <input class="form-control" type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
                 <div class="ps-3 pe-3"></div>
-                <input class="form-control" type="text" name="extraAddress" id="extraAddress" placeholder="참고항목" value="{{ address.extra_address }}" readonly>
+                <input class="form-control" type="text" name="extraAddress" id="extraAddress" placeholder="참고항목" readonly>
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label" for="store_pic">Picture</label>
-            <input type="file" class="form-control" name="store_pic" id="store_pic">
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="category">Category</label>
-            <select class="form-select" name= "category" id="category" required>
-                <option selected disabled value="">Choose...</option>
-                {% for category in categories %}
-                <option value="{{ category.id }}" {% if category == category %}{% endif %} >{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-check-label" for="status">Is Available:</label>
-            <input class="form-check-input" type="checkbox" name="status" id="is_available" value=True>
+            <label class="form-check-label" for="active_area">Active Area:</label>
+            <input class="form-check-input" type="checkbox" name="active_area" id="active_area" checked>
         </div>
         <div class="d-grid justify-content-end">
             <button class="btn btn-primary" type="submit">Add</button>
         </div>
     </form>
+
 {% endblock %}
 
 {% block additional_scripts %}
