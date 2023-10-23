@@ -333,12 +333,8 @@
 - 배달이 완료된 경우, 해당 주문에 대한 주문 수락/거절 버튼은 비활성화된다.
 - 배달 주문 수락/거절 기능
 - 경로 보기 기능 (Navigatet from store to customer)
-
-  <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
-
 - 배달 완료
 
-  <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
 
 ### Infra
