@@ -2,10 +2,12 @@
 
 <img src="static/images/logo.png">
 
+<div align="left">
+  
 ![Badge](https://img.shields.io/badge/version-1.1.1-orange.svg)
-
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Flikelion-backend-6th%2Fdelivery_app&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
+</div>
 ## Project Detail
 
 주문, 오더를 중심으로 고객, 사장, 배달크루 이렇게 3개의 주체가 같은 정보를 바라보며 움직여야 합니다. 고객의 요구사항을 정확히 파악해서 전달하고 각 파트에서 담당한 일들이 처리되는 과정들의 진행상황을 공유하여 발생한 이벤트에 대한 같은 정보를 인지할 수 있게 합니다.
@@ -74,28 +76,44 @@
 
 #### Frontend 
 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566995514/noticon/jufppyr8htislboas4ve.png" height="60" alt="html logo"/><img width="12" />
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912109/noticon/puksfce6wca36hes1vom.png" height="60" alt="css logo"/><img width="12" />
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="57" alt="javascript logo"/><img width="60" /><img width="12" />
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1689829148/noticon/p6i1pk3rruvrdl5fxhf0.png" height="60" alt="boot logo"/><img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566995514/noticon/jufppyr8htislboas4ve.png" height="60" alt="html logo"/>
+<img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912109/noticon/puksfce6wca36hes1vom.png" height="60" alt="css logo"/>
+<img width="12" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="57" alt="javascript logo"/><img width="60" />
+<img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1689829148/noticon/p6i1pk3rruvrdl5fxhf0.png" height="60" alt="boot logo"/>
+<img width="12" />
 
 #### Backend
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="60" alt="python logo"/><img width="12" />
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" height="55" alt="django logo"/><img width="12" />
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913379/noticon/uiite75rxvkvcki3mr4u.png" height="55" alt="postgresql logo"/><img width="12" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="60" alt="python logo"/>
+<img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566919539/noticon/j2h9ud10ssbihscfqlwy.png" height="40" alt="django logo"  />
+<img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913379/noticon/uiite75rxvkvcki3mr4u.png" height="55" alt="postgresql logo"/>
+<img width="12" />
 
 #### Infra
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="65" alt="docker logo" />  <img width="12" /> 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1643226154/noticon/wdbbwmhayat3eptf80zb.png" height="60" alt="kubernetes logo"/> <img width="12" />
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1673248072/noticon/uj1sljza7nnsj0lpilwk.png" height="60" alt="github actions logo"/> <img width="12" /> 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1687004031/noticon/zepmlkjtdv81gu275myl.png" height="60" alt="NCP"/> <img width="12" /> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" height="60" alt="terraform logo" /> <img width="12" /> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/argocd/argocd-original.svg" height="60" alt="argocd logo"/> <img width="12" /> 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616661279/noticon/aw5na8k2acxybsshcatp.png" height="60" alt="Prom"/> <img width="12" /> 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616658979/noticon/lcugxam6owivokgw1psc.png" height="60" alt="Grafana"/> <img width="12" /> 
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1629972087/noticon/uhlx0ddln1ygz7kxhkjw.png" height="60" alt="Prom"/> <img width="12" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="65" alt="docker logo" />
+<img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1643226154/noticon/wdbbwmhayat3eptf80zb.png" height="60" alt="kubernetes logo"/>
+<img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1673248072/noticon/uj1sljza7nnsj0lpilwk.png" height="60" alt="github actions logo"/>
+<img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1687004031/noticon/zepmlkjtdv81gu275myl.png" height="60" alt="NCP"/>
+<img width="12" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" height="60" alt="terraform logo" />
+<img width="12" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/argocd/argocd-original.svg" height="60" alt="argocd logo"/>
+<img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616661279/noticon/aw5na8k2acxybsshcatp.png" height="60" alt="Prom"/>
+<img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616658979/noticon/lcugxam6owivokgw1psc.png" height="60" alt="Grafana"/>
+<img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1629972087/noticon/uhlx0ddln1ygz7kxhkjw.png" height="60" alt="Prom"/>
+<img width="12" /> 
 
 ## Requirements
 
@@ -228,7 +246,8 @@
 
 #### account
 
-- Sign-in, Sign-out, Sign-up 
+- Sign-in, Sign-out, Sign-up
+  
   <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
 
 #### customer
@@ -242,6 +261,7 @@
 - 장바구니 상품 개수 수정 기능
 - 결제 기능
 - 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
+  
   <img src="static/images/page_work_flow/customer/payment.png" width=60%>
 
 #### sajjang
@@ -256,9 +276,11 @@
 
 - 배달 주문 수락/거절 기능
 - 경로 보기 기능 (Navigatet from store to customer)
+  
   <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
 
 - 배달 완료
+  
   <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
 ### Infra
@@ -277,8 +299,6 @@
 ## Architecture - 민혁
 
 (아키텍쳐: 백엔드와 프론트엔드가 어떻게 소통하는지)
-
-## Installation & Run - 민혁
 
 ---
 
