@@ -33,7 +33,13 @@
 
 #### 이한솔
 
-#### 정해민
+#### 정해민 - [해민's task list](https://www.notion.so/7845ddd52ef74cdda467b4a1ebfafb2a?v=9960c551d69944e58671cfe491287647&pvs=4)
+
+- DataBase - design ERD
+- BackEnd - account function (urls, views, templates)
+- BackEnd - customer function (urls, views, templates)
+- BackEnd - payment (using Stripe)
+- BackEnd - delivery Crew (T Map API navigation)
 
 #### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
 
@@ -66,6 +72,27 @@
 #### Frontend
 
 #### Backend
+
+- Account
+
+  - Sign-in, Sign-out, Sign-up
+
+- Customer
+
+  - Add or Edit address
+  - Search stores by categories or string
+  - Add to Cart
+  - Payment
+
+- Sajjang
+
+  - Add or Edit own store, menu
+  - Accept or Deny orders
+
+- Delivery Crew
+  - Accept or Deny delivery_orders
+  - Navigate from store to customer
+  - Set delivery complete
 
 #### Infra
 
