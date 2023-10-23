@@ -139,9 +139,10 @@
 | `pytest-django`     | 4.5.2   |
 | `django-prometheus` | 2.3.1   |
 
+
 ## 💠 ERD
 
-<img src="static/images/delivery_app_ERD.png">
+<img src="static/images/delivery_app_ERD.png" width=70%>
 
 ## ⚡ API statements
 
@@ -244,12 +245,24 @@
 </div>
 </details>
 
+
 ## 🌊 Page Work Flow
 
-<img src="static/images/page_work_flow/accounts/account_work_flow.png">
-<img src="static/images/page_work_flow/customer/customer_work_flow.png">
-<img src="static/images/page_work_flow/sajjang/sajjang_work_flow.png">
-<img stc="static/images/page_work_flow/delivery_crew/delivery_crew_work_flow.png">
+#### 1) Account
+
+<img src="static/images/page_work_flow/accounts/account_work_flow.png" width='70%'>
+
+#### 2) customer
+
+<img src="static/images/page_work_flow/customer/customer_work_flow.png" width='70%'>
+
+#### 3) Sajjang
+
+<img src="static/images/page_work_flow/sajjang/sajjang_work_flow.png" width='70%'>
+
+#### 4) Delivery crew
+
+<img src="static/images/page_work_flow/delivery_crew/delivery_crew_work_flow.png" width='70%'>
 
 ## 📃 Main Functionality
 
