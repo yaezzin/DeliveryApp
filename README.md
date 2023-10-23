@@ -75,7 +75,7 @@
 
 ## Tech Stack
 
-#### Frontend 
+#### Frontend
 
 <div align="left">
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566995514/noticon/jufppyr8htislboas4ve.png" height="60" alt="html logo"/>
@@ -89,7 +89,6 @@
 </div>
 
 #### Backend
-
 
 <div align="left">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="60" alt="python logo"/>
@@ -139,6 +138,8 @@
 - django-prometheus==2.3.1
 
 ## ERD - 해민
+
+<img src="static/images/delivery_app_ERD.png">
 
 ## API statements
 
@@ -243,6 +244,11 @@
 
 ## Page Work Flow - 해민
 
+<img src="static/images/page_work_flow/accounts/account_work_flow.png">
+<img src="static/images/page_work_flow/customer/customer_work_flow.png">
+<img src="static/images/page_work_flow/sajjang/sajjang_work_flow.png">
+<img stc="static/images/page_work_flow/delivery_crew/delivery_crew_work_flow.png">
+
 ## Main Functionality
 
 ### Frontend
@@ -255,7 +261,7 @@
 #### account
 
 - Sign-in, Sign-out, Sign-up
-  
+
   <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
 
 #### customer
@@ -269,7 +275,7 @@
 - 장바구니 상품 개수 수정 기능
 - 결제 기능
 - 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
-  
+
   <img src="static/images/page_work_flow/customer/payment.png" width=60%>
 
 #### sajjang
@@ -284,21 +290,21 @@
 
 - 배달 주문 수락/거절 기능
 - 경로 보기 기능 (Navigatet from store to customer)
-  
+
   <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
 
 - 배달 완료
-  
+
   <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
 ### Infra
 
-* ```Docker```, ```Kubernetes```를 통해 애플리케이션을 컨테이너화 하여 배포하고 관리합니다.
-* ```Terraform```을 통해 인프라의 프로비저닝 및 관리를 수행합니다.
-* ```Helm Chart```를 통해 애플리케이션 구성을 관리하고 업데이트합니다.
-* ```GitHub Actions```를 통해 CI/CD 파이프라인을 구축하여 코드 변경 사항을 자동으로 빌드, 테스트, 및 배포합니다.
-* ```ArgoCD```를 통해 Kubernetes 클러스터 배포를 자동화하고 Git 저장소와 실제 클러스터 상태를 동기화합니다.
-* ```Grafana```와 ```Prometheus```를 통해 애플리케이션 및 인프라의 모니터링을 구축하고 지표를 시각화합니다.
+- `Docker`, `Kubernetes`를 통해 애플리케이션을 컨테이너화 하여 배포하고 관리합니다.
+- `Terraform`을 통해 인프라의 프로비저닝 및 관리를 수행합니다.
+- `Helm Chart`를 통해 애플리케이션 구성을 관리하고 업데이트합니다.
+- `GitHub Actions`를 통해 CI/CD 파이프라인을 구축하여 코드 변경 사항을 자동으로 빌드, 테스트, 및 배포합니다.
+- `ArgoCD`를 통해 Kubernetes 클러스터 배포를 자동화하고 Git 저장소와 실제 클러스터 상태를 동기화합니다.
+- `Grafana`와 `Prometheus`를 통해 애플리케이션 및 인프라의 모니터링을 구축하고 지표를 시각화합니다.
 
 #### Monitoring
 
