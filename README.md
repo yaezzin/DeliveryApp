@@ -77,6 +77,8 @@
 
   - Sign-in, Sign-out, Sign-up
 
+    <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
+
 - Customer
 
   - Add or Edit address
@@ -84,15 +86,23 @@
   - Add to Cart
   - Payment
 
+    <img src="static/images/page_work_flow/customer/payment.png" width=60%>
+
 - Sajjang
 
   - Add or Edit own store, menu
   - Accept or Deny orders
 
 - Delivery Crew
+
   - Accept or Deny delivery_orders
   - Navigate from store to customer
+
+    <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
+
   - Set delivery complete
+
+    <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
 #### Infra
 
