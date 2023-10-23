@@ -51,7 +51,13 @@
 - sajjang template 작성
 - 발표 자료 제작
 
-#### 정해민
+#### 정해민 - [해민's task list](https://www.notion.so/7845ddd52ef74cdda467b4a1ebfafb2a?v=9960c551d69944e58671cfe491287647&pvs=4)
+
+- DataBase - design ERD
+- BackEnd - account function (urls, views, templates)
+- BackEnd - customer function (urls, views, templates)
+- BackEnd - payment (using Stripe)
+- BackEnd - delivery Crew (T Map API navigation)
 
 #### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
 
@@ -113,6 +119,11 @@
 
 ### Backend
 
+#### account
+
+- Sign-in, Sign-out, Sign-up 
+  <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
+
 #### customer
 
 - 주소 추가 기능
@@ -122,7 +133,9 @@
 - 장바구니 기능
 - 장바구니 가게별 주문 기능
 - 장바구니 상품 개수 수정 기능
+- 결제 기능
 - 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
+  <img src="static/images/page_work_flow/customer/payment.png" width=60%>
 
 #### sajjang
 
@@ -135,7 +148,11 @@
 #### delivery_crew
 
 - 배달 주문 수락/거절 기능
-- 경로 보기 기능
+- 경로 보기 기능 (Navigatet from store to customer)
+  <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
+
+- 배달 완료
+  <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
 ### Infra
 
