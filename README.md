@@ -258,26 +258,6 @@
 
 ### Backend
 
-#### account
-
-- Sign-in, Sign-out, Sign-up
-
-  <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
-
-#### customer
-
-- 주소 추가 기능
-- 기본 주소 설정 기능
-- 카테고리별 가게 검색 기능
-- 가게 이름 검색 기능
-- 장바구니 기능
-- 장바구니 가게별 주문 기능
-- 장바구니 상품 개수 수정 기능
-- 결제 기능
-- 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
-
-  <img src="static/images/page_work_flow/customer/payment.png" width=60%>
-
 #### 1) Account
 
 <img src="static/images/page_work_flow/accounts/accounts.png" width='70%'>
@@ -316,13 +296,15 @@
 
 ```Payment```
 - 사용자는 자신의 카드 정보를 입력하여 결제할 수 있다.
-  
+
+
 #### 3) sajjang
 <img src="static/images/page_work_flow/sajjang/sajjang.png" width='70%'>
 
 - 사장은 자신의 가게를 추가, 수정할 수 있다
 - 사장의 자신의 가게에 대한 메뉴를 추가하고 수정할 수 있다.
 - 사장은 주문 실시간으로 가게에 대한 주문을 조회/수락/거절할 수 있다.
+
 
 #### 4) delivery_crew
 
@@ -334,7 +316,6 @@
 - 배달 주문 수락/거절 기능
 - 경로 보기 기능 (Navigatet from store to customer)
 - 배달 완료
-
 
 
 ### Infra
