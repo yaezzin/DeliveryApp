@@ -350,9 +350,7 @@
 
 ## Architecture - 민혁
 
-(아키텍쳐: 백엔드와 프론트엔드가 어떻게 소통하는지)
-
----
+<img src="static/images/Infra_architecture.png" >
 
 # If we need to use image file, please use the below method
 
