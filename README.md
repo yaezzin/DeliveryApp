@@ -1,6 +1,6 @@
 # 3-way Communication
 
-(대표 이미지 or 로고) - 한솔님
+<img src="static/images/logo.png">
 
 ![Badge](https://img.shields.io/badge/version-1.1.1-orange.svg)
 
@@ -12,7 +12,7 @@
 
 #### 기간 : 2023.09.24 - 2023.10.24
 
-#### 배포 주소 : - 예진
+#### 배포 주소 : default-del-4f995-20158617-bc493112b475.kr.lb.naverncp.com
 
 ## Team
 
@@ -27,11 +27,29 @@
 - Dev env - Dummy data creation command
 - Dev env - Mixin (permission check for each Group)
 
-#### 전예진
+#### 전예진 - [예진's task list](https://www.notion.so/a11c39f4269d49b2a2ade0d3db1ed754?v=3ce19a01b62245f7a080659c5a5f4cf0&pvs=4)
+
+- GitHub Actions - CI/CD (tag release)
+- Prometheus - system monitoring, metric collection
+- Grafana - visualize data, create custom dashboards
+- Backend - customer function(view, templates)
+- Backend - sajjang function(view, templates)
 
 #### 문건우
 
-#### 이한솔
+#### 이한솔 - [한솔's task list](https://fire-apartment-b43.notion.site/d04f0351d61d484ba636c550ecdb5278?v=852e57dcff794e20994793884f407bc2)
+
+- API 명세서 작성
+- DB modeling
+- ERD 작성
+- store app 작성
+- customer home 제작
+- endpoint 별 template 생성
+- delivery_crew url, view 뼈대 작성
+- 로그인 템플릿 작성
+- customer view 구현
+- sajjang template 작성
+- 발표 자료 제작
 
 #### 정해민 - [해민's task list](https://www.notion.so/7845ddd52ef74cdda467b4a1ebfafb2a?v=9960c551d69944e58671cfe491287647&pvs=4)
 
@@ -49,17 +67,45 @@
 
 ## Tech Stack
 
-#### Frontend - 건우
+#### Frontend 
 
-#### Backend - 해민
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566995514/noticon/jufppyr8htislboas4ve.png" height="60" alt="html logo"/><img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912109/noticon/puksfce6wca36hes1vom.png" height="60" alt="css logo"/><img width="12" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="57" alt="javascript logo"/><img width="60" /><img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1689829148/noticon/p6i1pk3rruvrdl5fxhf0.png" height="60" alt="boot logo"/><img width="12" />
 
-#### Infra - 예진
+#### Backend
 
-## Requirements - 한솔
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="60" alt="python logo"/><img width="12" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" height="55" alt="django logo"/><img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913379/noticon/uiite75rxvkvcki3mr4u.png" height="55" alt="postgresql logo"/><img width="12" />
 
-- aa
-- bb
-- cc
+#### Infra
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="65" alt="docker logo" />  <img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1643226154/noticon/wdbbwmhayat3eptf80zb.png" height="60" alt="kubernetes logo"/> <img width="12" />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1673248072/noticon/uj1sljza7nnsj0lpilwk.png" height="60" alt="github actions logo"/> <img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1687004031/noticon/zepmlkjtdv81gu275myl.png" height="60" alt="NCP"/> <img width="12" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" height="60" alt="terraform logo" /> <img width="12" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/argocd/argocd-original.svg" height="60" alt="argocd logo"/> <img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616661279/noticon/aw5na8k2acxybsshcatp.png" height="60" alt="Prom"/> <img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1616658979/noticon/lcugxam6owivokgw1psc.png" height="60" alt="Grafana"/> <img width="12" /> 
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1629972087/noticon/uhlx0ddln1ygz7kxhkjw.png" height="60" alt="Prom"/> <img width="12" /> 
+
+## Requirements
+
+- Django==4.2.5
+- gunicorn==21.2.0
+- psycopg2-binary==2.9.7
+- django-seed==0.3.1
+- Faker==19.6.2
+- boto3==1.28.54
+- botocore==1.31.54
+- Pillow==10.0.1
+- stripe==6.7.0
+- pytest-django==4.5.2
+- Faker==19.6.2
+- django-prometheus==2.3.1
 
 ## ERD - 해민
 
@@ -67,44 +113,59 @@
 
 ## Page Work Flow - 해민
 
-## Main Functionality - 해민, 건우, 한솔, 예진
+## Main Functionality
 
-#### Frontend
+### Frontend
 
-#### Backend
+### Backend
 
-- Account
+#### account
 
-  - Sign-in, Sign-out, Sign-up
+- Sign-in, Sign-out, Sign-up 
+  <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
 
-    <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
+#### customer
 
-- Customer
+- 주소 추가 기능
+- 기본 주소 설정 기능
+- 카테고리별 가게 검색 기능
+- 가게 이름 검색 기능
+- 장바구니 기능
+- 장바구니 가게별 주문 기능
+- 장바구니 상품 개수 수정 기능
+- 결제 기능
+- 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
+  <img src="static/images/page_work_flow/customer/payment.png" width=60%>
 
-  - Add or Edit address
-  - Search stores by categories or string
-  - Add to Cart
-  - Payment
+#### sajjang
 
-    <img src="static/images/page_work_flow/customer/payment.png" width=60%>
+- 가게 추가 기능
+- 가게 수정 기능
+- 메뉴 추가 기능
+- 메뉴 수정 기능
+- 주문 수락/거절 기능
 
-- Sajjang
+#### delivery_crew
 
-  - Add or Edit own store, menu
-  - Accept or Deny orders
+- 배달 주문 수락/거절 기능
+- 경로 보기 기능 (Navigatet from store to customer)
+  <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
 
-- Delivery Crew
+- 배달 완료
+  <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
 
-  - Accept or Deny delivery_orders
-  - Navigate from store to customer
+### Infra
 
-    <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
+* ```Docker```, ```Kubernetes```를 통해 애플리케이션을 컨테이너화 하여 배포하고 관리합니다.
+* ```Terraform```을 통해 인프라의 프로비저닝 및 관리를 수행합니다.
+* ```Helm Chart```를 통해 애플리케이션 구성을 관리하고 업데이트합니다.
+* ```GitHub Actions```를 통해 CI/CD 파이프라인을 구축하여 코드 변경 사항을 자동으로 빌드, 테스트, 및 배포합니다.
+* ```ArgoCD```를 통해 Kubernetes 클러스터 배포를 자동화하고 Git 저장소와 실제 클러스터 상태를 동기화합니다.
+* ```Grafana```와 ```Prometheus```를 통해 애플리케이션 및 인프라의 모니터링을 구축하고 지표를 시각화합니다.
 
-  - Set delivery complete
+#### Monitoring
 
-    <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
-
-#### Infra
+<img src="static/images/grafana.png">
 
 ## Architecture - 민혁
 
