@@ -139,7 +139,7 @@
 | `pytest-django`     | 4.5.2   |
 | `django-prometheus` | 2.3.1   |
 
-## 💠 ERD - 해민
+## 💠 ERD
 
 <img src="static/images/delivery_app_ERD.png">
 
@@ -244,14 +244,14 @@
 </div>
 </details>
 
-## 🌊 Page Work Flow - 해민
-
-## 📃 Main Functionality
+## 🌊 Page Work Flow
 
 <img src="static/images/page_work_flow/accounts/account_work_flow.png">
 <img src="static/images/page_work_flow/customer/customer_work_flow.png">
 <img src="static/images/page_work_flow/sajjang/sajjang_work_flow.png">
 <img stc="static/images/page_work_flow/delivery_crew/delivery_crew_work_flow.png">
+
+## 📃 Main Functionality
 
 ### Frontend
 
