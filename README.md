@@ -1,6 +1,6 @@
-# 3-wa Communication
+# 3-way Communication
 
-(대표 이미지 or 로고)
+(대표 이미지 or 로고) - 한솔님
 
 ![Badge](https://img.shields.io/badge/version-1.1.1-orange.svg)
 
@@ -12,7 +12,7 @@
 
 #### 기간 : 2023.09.24 - 2023.10.24
 
-#### 배포 주소 :
+#### 배포 주소 : - 예진
 
 ## Team
 
@@ -43,25 +43,25 @@
 
 ## Tech Stack
 
-#### Frontend
+#### Frontend - 건우
 
-#### Backend
+#### Backend - 해민
 
-#### Infra
+#### Infra - 예진
 
-## Requirements
+## Requirements - 한솔
 
 - aa
 - bb
 - cc
 
-## ERD
+## ERD - 해민
 
-## API statements
+## API statements - 건우
 
-## Page Work Flow
+## Page Work Flow - 해민
 
-## Main Functionality
+## Main Functionality - 해민, 건우, 한솔, 예진
 
 #### Frontend
 
@@ -69,11 +69,11 @@
 
 #### Infra
 
-## Architecture
+## Architecture - 민혁
 
 (아키텍쳐: 백엔드와 프론트엔드가 어떻게 소통하는지)
 
-## Installation & Run
+## Installation & Run - 민혁
 
 ---
 
