@@ -254,42 +254,60 @@
 
 #### account
 
-- Sign-in, Sign-out, Sign-up
+### Backend
+
+#### 1) Account
+
+<img src="static/images/page_work_flow/accounts/accounts.png" width='70%'>
+
+```회원가입/로그인/로그아웃``` 
+- 사용자는 중복되지 않는 이름과 비밀번호를 이용하여 계정을 생성할 수 있다.
+- 사용자는 고객/사장/라이더의 권한을 설정하여 회원가입할 수 있다.
+- 사용자는 로그인, 로그아웃을 수행할 수 있다.
+
+#### 2) customer
+
+<img src="static/images/page_work_flow/customer/search.png" width='70%'>
+
+```Search```
+- 사용자는 Home 화면에서 가게를 검색할 수 있다.
+- 사용자는 Home 화면에서 카테고리 별로 가게를 조회할 수 있다.
+
+<img src="static/images/page_work_flow/customer/address.png" width='70%'>
+
+```Address```
+- 사용자는 자신이 배달받을 주소를 여러개 생성할 수 있다. 
+- 사용자는 기본(default)주소를 설정할 수 있으며, 이는 최상단에서 확인할 수 있다. 
+- 사용자는 우편번호 찾기를 통해 주소를 검색하고, 설정할 수 있다.
+
+<img src="static/images/page_work_flow/customer/cart.png" width='70%'>
+
+```Cart/Order```
+- 사용자는 가게별로 주문하고자 하는 메뉴를 장바구니에 담을 수 있다.
+- 사용자는 장바구니에서 상품 개수를 설정할 수 있다.
+- 사용자는 가게별로 주문하고자 하는 메뉴를 결제할 수 있다.
+- 사용자는 주문 페이지에서 상품 개수 및 주소를 설정할 수 있다.
+- 사용자는 자신의 주문 목록을 조회할 수 있으며, 배달중/배달완료/조리중 등의 상태를 확인할 수 있다.
+
+<img src="static/images/page_work_flow/customer/pay.png" width='70%'>
+
+```Payment```
+- 사용자는 자신의 카드 정보를 입력하여 결제할 수 있다.
   
-  <img src="static/images/page_work_flow/accounts/signin, signup.png" width=60%>
+#### 3) sajjang
+<img src="static/images/page_work_flow/sajjang/sajjang.png" width='70%'>
 
-#### customer
+- 사장은 자신의 가게를 추가, 수정할 수 있다
+- 사장의 자신의 가게에 대한 메뉴를 추가하고 수정할 수 있다.
+- 사장은 주문 실시간으로 가게에 대한 주문을 조회/수락/거절할 수 있다.
 
-- 주소 추가 기능
-- 기본 주소 설정 기능
-- 카테고리별 가게 검색 기능
-- 가게 이름 검색 기능
-- 장바구니 기능
-- 장바구니 가게별 주문 기능
-- 장바구니 상품 개수 수정 기능
-- 결제 기능
-- 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
-  
-  <img src="static/images/page_work_flow/customer/payment.png" width=60%>
+#### 4) delivery_crew
 
-#### sajjang
+<img src="static/images/page_work_flow/delivery_crew/rider.png" width='70%'>
 
-- 가게 추가 기능
-- 가게 수정 기능
-- 메뉴 추가 기능
-- 메뉴 수정 기능
-- 주문 수락/거절 기능
-
-#### delivery_crew
-
-- 배달 주문 수락/거절 기능
-- 경로 보기 기능 (Navigatet from store to customer)
-  
-  <img src="static/images/page_work_flow/delivery_crew/delivery_home_and_navigate.png" width='70%'>
-
-- 배달 완료
-  
-  <img src="static/images/page_work_flow/delivery_crew/delivery_complete.png" width='50%'>
+- 라이더는 자신에게 요청된 배달 주문을 수락 또는 거절할 수 있다.
+- 라이더는 주문을 수락했다면, 해당 위치에 대한 경로를 제공받는다. 
+- 배달이 완료된 경우, 해당 주문에 대한 주문 수락/거절 버튼은 비활성화된다.
 
 ### Infra
 
