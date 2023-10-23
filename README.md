@@ -1,6 +1,6 @@
 # 3-way Communication
 
-(대표 이미지 or 로고) - 한솔님
+<img src="static/images/logo.png">
 
 ![Badge](https://img.shields.io/badge/version-1.1.1-orange.svg)
 
@@ -31,7 +31,19 @@
 
 #### 문건우
 
-#### 이한솔
+#### 이한솔 - [한솔's task list](https://fire-apartment-b43.notion.site/d04f0351d61d484ba636c550ecdb5278?v=852e57dcff794e20994793884f407bc2)
+
+- API 명세서 작성
+- DB modeling
+- ERD 작성
+- store app 작성
+- customer home 제작
+- endpoint 별 template 생성
+- delivery_crew url, view 뼈대 작성
+- 로그인 템플릿 작성
+- customer view 구현
+- sajjang template 작성
+- 발표 자료 제작
 
 #### 정해민
 
@@ -49,11 +61,20 @@
 
 #### Infra - 예진
 
-## Requirements - 한솔
+## Requirements
 
-- aa
-- bb
-- cc
+- Django==4.2.5
+- gunicorn==21.2.0
+- psycopg2-binary==2.9.7
+- django-seed==0.3.1
+- Faker==19.6.2
+- boto3==1.28.54
+- botocore==1.31.54
+- Pillow==10.0.1
+- stripe==6.7.0
+- pytest-django==4.5.2
+- Faker==19.6.2
+- django-prometheus==2.3.1
 
 ## ERD - 해민
 
@@ -61,13 +82,37 @@
 
 ## Page Work Flow - 해민
 
-## Main Functionality - 해민, 건우, 한솔, 예진
+## Main Functionality
 
-#### Frontend
+### Frontend
 
-#### Backend
+### Backend
 
-#### Infra
+#### customer
+
+- 주소 추가 기능
+- 기본 주소 설정 기능
+- 카테고리별 가게 검색 기능
+- 가게 이름 검색 기능
+- 장바구니 기능
+- 장바구니 가게별 주문 기능
+- 장바구니 상품 개수 수정 기능
+- 주문 상태 표시 기능 (결제완료/조리중/배달중/배달완료)
+
+#### sajjang
+
+- 가게 추가 기능
+- 가게 수정 기능
+- 메뉴 추가 기능
+- 메뉴 수정 기능
+- 주문 수락/거절 기능
+
+#### delivery_crew
+
+- 배달 주문 수락/거절 기능
+- 경로 보기 기능
+
+### Infra
 
 ## Architecture - 민혁
 
