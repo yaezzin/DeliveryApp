@@ -77,26 +77,32 @@
 
 #### Frontend 
 
+<div align="left">
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566995514/noticon/jufppyr8htislboas4ve.png" height="60" alt="html logo"/>
 <img width="12" />
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912109/noticon/puksfce6wca36hes1vom.png" height="60" alt="css logo"/>
 <img width="12" />
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="57" alt="javascript logo"/><img width="60" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="57" alt="javascript logo"/>
 <img width="12" />
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1689829148/noticon/p6i1pk3rruvrdl5fxhf0.png" height="60" alt="boot logo"/>
 <img width="12" />
+</div>
 
 #### Backend
 
+
+<div align="left">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="60" alt="python logo"/>
 <img width="12" />
-<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566919539/noticon/j2h9ud10ssbihscfqlwy.png" height="40" alt="django logo"  />
+<img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566919539/noticon/j2h9ud10ssbihscfqlwy.png" height="55" alt="django logo"  />
 <img width="12" />
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913379/noticon/uiite75rxvkvcki3mr4u.png" height="55" alt="postgresql logo"/>
 <img width="12" />
+</div>
 
 #### Infra
 
+<div align="left">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="65" alt="docker logo" />
 <img width="12" /> 
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1643226154/noticon/wdbbwmhayat3eptf80zb.png" height="60" alt="kubernetes logo"/>
@@ -115,6 +121,7 @@
 <img width="12" /> 
 <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1629972087/noticon/uhlx0ddln1ygz7kxhkjw.png" height="60" alt="Prom"/>
 <img width="12" /> 
+</div>
 
 ## Requirements
 
