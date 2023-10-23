@@ -1,4 +1,4 @@
-# 3-way Communication
+# ♻️ 3-way Communication
 
 <img src="static/images/logo.png">
 
@@ -9,41 +9,42 @@
 
 </div>
 
-## Project Detail
+## 📝 Project Detail
 
-주문, 오더를 중심으로 고객, 사장, 배달크루 이렇게 3개의 주체가 같은 정보를 바라보며 움직여야 합니다. 고객의 요구사항을 정확히 파악해서 전달하고 각 파트에서 담당한 일들이 처리되는 과정들의 진행상황을 공유하여 발생한 이벤트에 대한 같은 정보를 인지할 수 있게 합니다.
+`주문`을 중심으로 `고객`, `사장`, `배달크루` 이렇게 3개의 주체가 같은 정보를 바라보며 움직여야 합니다.
+고객의 요구사항을 정확히 파악해서 전달하고 각 파트에서 담당한 일들이 처리되는 과정들의 진행상황을 공유하여 발생한 이벤트에 대한 같은 정보를 인지할 수 있게 합니다.
 
-#### 기간 : 2023.09.24 - 2023.10.24
+#### 📅 기간 : 2023.09.24 - 2023.10.24
 
-#### 배포 주소 : default-del-4f995-20158617-bc493112b475.kr.lb.naverncp.com
+#### 🔗 배포 주소 : default-del-4f995-20158617-bc493112b475.kr.lb.naverncp.com
 
-## Team
+## 😎 Team
 
 #### 김민혁 - [민혁's task list](https://fire-apartment-b43.notion.site/8657cd5eb06247d9b3d30b6e5f233d77?v=3cdeb751b90d4de0affbf249d3ffd771&pvs=4)
 
-- Terraform - IaC NCP kubernetest cluster
-- Helm - helpers, Deployment, SVC, PVC, Configmap, Secret
-- Helm - Seal Secret, Horizontal Pod Autoscaler
-- Argo CD - CD (Automate sync, ref github repo)
-- Backend - sajjang function(urls, views, templates)
-- Backend - delivery_crew function(urls, views, templates)
-- Dev env - Dummy data creation command
-- Dev env - Mixin (permission check for each Group)
+- `Terraform` - IaC NCP kubernetest cluster
+- `Helm` - helpers, Deployment, SVC, PVC, Configmap, Secret
+- `Helm` - Seal Secret, Horizontal Pod Autoscaler
+- `Argo CD` - CD (Automate sync, ref github repo)
+- `Backend` - sajjang function(urls, views, templates)
+- `Backend` - delivery_crew function(urls, views, templates)
+- `Dev env` - Dummy data creation command
+- `Dev env` - Mixin (permission check for each Group)
 
 #### 전예진 - [예진's task list](https://www.notion.so/a11c39f4269d49b2a2ade0d3db1ed754?v=3ce19a01b62245f7a080659c5a5f4cf0&pvs=4)
 
-- GitHub Actions - CI/CD (tag release)
-- Prometheus - system monitoring, metric collection
-- Grafana - visualize data, create custom dashboards
-- Backend - customer function(view, templates)
-- Backend - sajjang function(view, templates)
+- `GitHub Actions` - CI/CD (tag release)
+- `Prometheus` - system monitoring, metric collection
+- `Grafana` - visualize data, create custom dashboards
+- `Backend` - customer function(view, templates)
+- `Backend` - sajjang function(view, templates)
 
 #### 문건우 - [건우's task list](https://www.notion.so/bc23e3c6244e4862aa0d123ccb10288b?v=566d2a8680ce471c9d3a32b56e815d9e)
 
-- Backend - customer function(views, templates)
-- Backend - sajjang function(views, templates)
-- Backend - delivery crew function(urls, views, templates)
-- Frontend - account, customer, sajjang, delivery crew(Bootstrap)
+- `Backend` - customer function(views, templates)
+- `Backend` - sajjang function(views, templates)
+- `Backend` - delivery crew function(urls, views, templates)
+- `Frontend` - account, customer, sajjang, delivery crew(Bootstrap)
 
 #### 이한솔 - [한솔's task list](https://fire-apartment-b43.notion.site/d04f0351d61d484ba636c550ecdb5278?v=852e57dcff794e20994793884f407bc2)
 
@@ -61,11 +62,11 @@
 
 #### 정해민 - [해민's task list](https://www.notion.so/7845ddd52ef74cdda467b4a1ebfafb2a?v=9960c551d69944e58671cfe491287647&pvs=4)
 
-- DataBase - design ERD
-- BackEnd - account function (urls, views, templates)
-- BackEnd - customer function (urls, views, templates)
-- BackEnd - payment (using Stripe)
-- BackEnd - delivery Crew (T Map API navigation)
+- `Database` - design ERD
+- `Backend` - account function (urls, views, templates)
+- `Backend` - customer function (urls, views, templates)
+- `Backend` - payment (using Stripe)
+- `Backend` - delivery Crew (T Map API navigation)
 
 #### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
 
@@ -73,7 +74,7 @@
 - Cart, Menu 모델 구현
 - customer basic template & cancel function 구현
 
-## Tech Stack
+## 📚 Tech Stack
 
 #### Frontend
 
@@ -122,26 +123,28 @@
 <img width="12" /> 
 </div>
 
-## Requirements
+## ✨ Requirements
 
-- Django==4.2.5
-- gunicorn==21.2.0
-- psycopg2-binary==2.9.7
-- django-seed==0.3.1
-- Faker==19.6.2
-- boto3==1.28.54
-- botocore==1.31.54
-- Pillow==10.0.1
-- stripe==6.7.0
-- pytest-django==4.5.2
-- Faker==19.6.2
-- django-prometheus==2.3.1
+| Package             | Version |
+| ------------------- | ------- |
+| `Django`            | 4.2.5   |
+| `gunicorn`          | 21.2.0  |
+| `psycopg2-binary`   | 2.9.7   |
+| `django-seed`       | 0.3.1   |
+| `Faker`             | 19.6.2  |
+| `boto3`             | 1.28.54 |
+| `botocore`          | 1.31.54 |
+| `Pillow`            | 10.0.1  |
+| `stripe`            | 6.7.0   |
+| `pytest-django`     | 4.5.2   |
+| `django-prometheus` | 2.3.1   |
 
-## ERD
+
+## 💠 ERD
 
 <img src="static/images/delivery_app_ERD.png" width=70%>
 
-## API statements
+## ⚡ API statements
 
 <details>
 <summary>Account</summary>
@@ -242,7 +245,8 @@
 </div>
 </details>
 
-## Page Work Flow
+
+## 🌊 Page Work Flow
 
 #### 1) Account
 
@@ -260,7 +264,7 @@
 
 <img src="static/images/page_work_flow/delivery_crew/delivery_crew_work_flow.png" width='70%'>
 
-## Main Functionality
+## 📃 Main Functionality
 
 ### Frontend
 
