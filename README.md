@@ -75,6 +75,8 @@
 
 ## Installation & Run - 민혁
 
+<img src="static/images/Infra_architecture.png" >
+
 ---
 
 # If we need to use image file, please use the below method
