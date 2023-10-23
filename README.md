@@ -348,7 +348,7 @@
 
 <img src="static/images/grafana.png">
 
-## Architecture - 민혁
+## Architecture
 
 <img src="static/images/Infra_architecture.png" >
 
