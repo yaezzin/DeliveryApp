@@ -331,9 +331,6 @@
 - 라이더는 자신에게 요청된 배달 주문을 수락 또는 거절할 수 있다.
 - 라이더는 주문을 수락했다면, 해당 위치에 대한 경로를 제공받는다.
 - 배달이 완료된 경우, 해당 주문에 대한 주문 수락/거절 버튼은 비활성화된다.
-- 배달 주문 수락/거절 기능
-- 경로 보기 기능 (Navigatet from store to customer)
-- 배달 완료
 
 ### Infra
 
@@ -348,7 +345,7 @@
 
 <img src="static/images/grafana.png">
 
-<img src="static/images/argocdmornitoring.png" >
+<img src="static/images/argoCD.png" >
 
 
 ## Architecture
