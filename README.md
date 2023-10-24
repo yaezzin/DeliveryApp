@@ -348,10 +348,12 @@
 
 <img src="static/images/grafana.png">
 
+<img src="static/images/argocdmornitoring.png" >
+
+
 ## Architecture
 
 <img src="static/images/Infra_architecture.png" >
 
-# If we need to use image file, please use the below method
 
-<img src="static/images/argocdmornitoring.png" >
+
