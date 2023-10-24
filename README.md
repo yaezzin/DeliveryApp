@@ -49,16 +49,16 @@
 #### 이한솔 - [한솔's task list](https://fire-apartment-b43.notion.site/d04f0351d61d484ba636c550ecdb5278?v=852e57dcff794e20994793884f407bc2)
 
 - API 명세서 작성
-- DB modeling
-- ERD 작성
-- store app 작성
-- customer home 제작
-- endpoint 별 template 생성
-- delivery_crew url, view 뼈대 작성
-- 로그인 템플릿 작성
-- customer view 구현
-- sajjang template 작성
-- 발표 자료 제작
+- `Backend` - DB modeling
+- `Backend` - ERD 작성
+- `Backend` - store app 작성
+- `Backend` - customer home 제작
+- `Frontend` - endpoint 별 template 생성
+- `Backend` - delivery_crew url, view 뼈대 작성
+- `Frontend` - 로그인 템플릿 작성
+- `Backend` - customer view 구현
+- `Frontend` - sajjang template 작성
+- `Docs` - 발표 자료 제작
 
 #### 정해민 - [해민's task list](https://www.notion.so/7845ddd52ef74cdda467b4a1ebfafb2a?v=9960c551d69944e58671cfe491287647&pvs=4)
 
@@ -70,9 +70,9 @@
 
 #### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
 
-- Order 기능 모델링
-- Cart, Menu 모델 구현
-- customer basic template & cancel function 구현
+- `Backend` - Order 기능 모델링
+- `Backend` - Cart, Menu 모델 구현
+- `Backend` - customer basic template & cancel function 구현
 
 ## 📚 Tech Stack
 
