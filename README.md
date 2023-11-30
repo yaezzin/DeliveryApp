@@ -1,22 +1,19 @@
-# ♻️ 3-way Communication
-
-<img src="static/images/logo.png">
+# Delivery App
 
 <div align="left">
   
 ![Badge](https://img.shields.io/badge/version-0.5.2-orange.svg)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Flikelion-backend-6th%2Fdelivery_app&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
+#### 📅 기간 : 2023.09.24 - 2023.10.24
+#### 🔗 배포 주소 : default-del-4f995-20158617-bc493112b475.kr.lb.naverncp.com
+
 </div>
 
 ## 📝 Project Detail
 
-`주문`을 중심으로 `고객`, `사장`, `배달크루` 이렇게 3개의 주체가 같은 정보를 바라보며 움직여야 합니다.
-고객의 요구사항을 정확히 파악해서 전달하고 각 파트에서 담당한 일들이 처리되는 과정들의 진행상황을 공유하여 발생한 이벤트에 대한 같은 정보를 인지할 수 있게 합니다.
-
-#### 📅 기간 : 2023.09.24 - 2023.10.24
-
-#### 🔗 배포 주소 : default-del-4f995-20158617-bc493112b475.kr.lb.naverncp.com
+* `고객`-`사장`-`배달원` 3자 중계 서비스를 구현해보는 프로젝트
+* 주문에 대한 정보 및 진행 상황을 고객, 사장, 배달원이 동일하게 볼 수 있도록 한다.
 
 ## 😎 Team
 
@@ -33,7 +30,7 @@
 
 #### 전예진 - [예진's task list](https://www.notion.so/a11c39f4269d49b2a2ade0d3db1ed754?v=3ce19a01b62245f7a080659c5a5f4cf0&pvs=4)
 
-- `GitHub Actions` - CI/CD (tag release)
+- `GitHub Actions` - CI/CD (tag release 이용)
 - `Prometheus` - system monitoring, metric collection
 - `Grafana` - visualize data, create custom dashboards
 - `Backend` - customer function(view, templates)
@@ -67,12 +64,6 @@
 - `Backend` - customer function (urls, views, templates)
 - `Backend` - payment (using Stripe)
 - `Backend` - delivery Crew (T Map API navigation)
-
-#### 한승훈 - [승훈's task list](https://fire-apartment-b43.notion.site/260896c24f46404da53f49b728bdaba0?v=04f0c5a217a14c1595b5598704d9b42c&pvs=4)
-
-- `Backend` - Order 기능 모델링
-- `Backend` - Cart, Menu 모델 구현
-- `Backend` - customer basic template & cancel function 구현
 
 ## 📚 Tech Stack
 
